@@ -1,7 +1,9 @@
 from django.db import models
 from .theme import Theme
+from apps.base.models import BaseModel
 
-class Workshop(models.Model):
+
+class Workshop(BaseModel):
     title = models.CharField(max_length=200)
     duration = models.CharField(max_length=50)
     theme = models.ManyToManyField(Theme)

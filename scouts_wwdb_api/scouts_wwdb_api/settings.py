@@ -34,11 +34,13 @@ INSTALLED_APPS = [
     "apps.workshops",
     "django.contrib.admin",
     "django.contrib.auth",
+    "mozilla_django_oidc",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -116,3 +118,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
+
+# Rest framework
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": ["mozilla_django_oidc.contrib.drf.OIDCAuthentication",],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
+}
+
+# OIDC
+
+AUTHENTICATION_BACKENDS = {
+    "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+}
+
+OIDC_RP_SIGN_ALGO = "RS256"
+
+OIDC_OP_JWKS_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/.well-known/openid-configuration"
+OIDC_OP_AUTHORIZATION_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth"
+OIDC_OP_TOKEN_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth"
+OIDC_OP_USER_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/userinfo"
+
+OIDC_RP_CLIENT_ID = "client_id"
+OIDC_RP_CLIENT_SECRET = "client_secret"
