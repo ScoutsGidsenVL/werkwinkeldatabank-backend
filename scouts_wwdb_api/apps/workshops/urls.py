@@ -1,11 +1,8 @@
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import ThemeDetailApi
+from rest_framework import routers
+from .api.views.theme_viewset import ThemeViewSet
 
-theme_patterns = [
-    path("<theme_id>/", ThemeDetailApi.as_view(), name="detail"),
-]
+router = routers.SimpleRouter()
+router.register(r"themes", ThemeViewSet, "Theme")
 
-urlpatterns = [
-    path("themes/", include((theme_patterns, "themes"))),
-]
+urlpatterns = router.urls
