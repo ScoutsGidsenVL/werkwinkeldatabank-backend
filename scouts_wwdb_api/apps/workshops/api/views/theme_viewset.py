@@ -31,10 +31,8 @@ class ThemeViewSet(viewsets.ViewSet):
 
         return Response(serializer.data)
 
-    def update(self, request, pk=None):
-        pass
+    def partial_update(self, request, pk=None):
+        theme = Theme.objects.get(pk=pk)
+        serializer = ThemeUpdateInputSerializer(theme)
 
-
-
-
-    ##update ##put
+        return Response(serializer.data)
