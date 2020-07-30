@@ -1,7 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from ..serializers.theme_serializers import ThemeCreateInputSerializer, ThemeDetailOutputSerializer
+from ..serializers.theme_serializers import ThemeCreateInputSerializer, ThemeDetailOutputSerializer, ThemeListOutputSerializer
 from ...services.theme_service import theme_create
 from ...models import Theme
 
@@ -24,3 +24,17 @@ class ThemeViewSet(viewsets.ViewSet):
         output_serializer = ThemeDetailOutputSerializer(created_theme)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
+
+    def list(self, request):
+        themes = Theme.objects.all()
+        serializer = ThemeListOutputSerializer(themes, many=True)
+
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        pass
+
+
+
+
+    ##update ##put
