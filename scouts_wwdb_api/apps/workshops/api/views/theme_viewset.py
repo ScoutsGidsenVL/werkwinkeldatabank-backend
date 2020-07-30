@@ -15,9 +15,7 @@ from ...models import Theme
 class ThemeViewSet(viewsets.ViewSet):
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        # theme = get_object_or_404(Theme.objects, pk=pk)
-        theme = Theme.objects.get(pk=pk)
-
+        theme = get_object_or_404(Theme.objects, pk=pk)
         serializer = ThemeDetailOutputSerializer(theme)
 
         return Response(serializer.data)
@@ -46,7 +44,7 @@ class ThemeViewSet(viewsets.ViewSet):
         request_body=ThemeUpdateInputSerializer, responses={status.HTTP_200_OK: ThemeDetailOutputSerializer}
     )
     def partial_update(self, request, pk=None):
-        theme = Theme.objects.get(pk=pk)
+        theme = get_object_or_404(Theme.objects, pk=pk)
         serializer = ThemeUpdateInputSerializer(theme)
 
         return Response(serializer.data)
