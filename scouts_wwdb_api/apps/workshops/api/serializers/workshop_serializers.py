@@ -8,7 +8,7 @@ from ...models import Workshop
 class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "theme", "description", "necessities")
+        fields = "__all__"
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):

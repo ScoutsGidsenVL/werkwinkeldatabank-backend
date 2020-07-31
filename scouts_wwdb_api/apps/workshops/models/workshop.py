@@ -1,12 +1,13 @@
 from django.db import models
 from .theme import Theme
 from apps.base.models import BaseModel
+from .theme import Theme
 
 
 class Workshop(BaseModel):
     title = models.CharField(max_length=200)
     duration = models.CharField(max_length=50)
-    theme = models.ManyToManyField(Theme)
+    theme = models.ForeignKey(Theme, on_delete=models.CASCADE)
     description = models.TextField()
     necessities = models.TextField()
 
