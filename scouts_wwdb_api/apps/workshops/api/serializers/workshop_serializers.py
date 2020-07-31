@@ -12,7 +12,6 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Workshop
         fields = ("id", "title")
@@ -33,6 +32,4 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
     duration = serializers.CharField(max_length=50)
     description = serializers.CharField()
     necessities = serializers.CharField()
-
-
 
