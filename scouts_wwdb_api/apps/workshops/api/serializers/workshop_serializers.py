@@ -23,6 +23,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 class WorkshopCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     duration = serializers.CharField(max_length=50)
+    theme = serializers.UUIDField()
     description = serializers.CharField()
     necessities = serializers.CharField()
 
