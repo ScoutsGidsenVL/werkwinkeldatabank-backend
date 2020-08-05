@@ -25,7 +25,7 @@ SECRET_KEY = "th6x-_1m2dr1wquv0jawkkhbx3oq2ab3&b)7k-&8n)#c0^jhpd"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 
 
 # Application definition
@@ -53,12 +53,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-]
-
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'http://localhost:8080',
 ]
 
 ROOT_URLCONF = "scouts_wwdb_api.urls"
@@ -133,6 +127,14 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ["mozilla_django_oidc.contrib.drf.OIDCAuthentication",],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny",],
 }
+
+# CORS
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8080",
+]
 
 # OIDC
 

@@ -1,14 +1,18 @@
 from rest_framework import serializers
 from ...models import Workshop
+from .theme_serializers import ThemeDetailOutputSerializer
 
 
 # Output
 
 
 class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
+    theme: ThemeDetailOutputSerializer(read_only=True)
+
     class Meta:
         model = Workshop
         fields = "__all__"
+        depth = 2
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
@@ -33,4 +37,3 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
     duration = serializers.CharField(max_length=50)
     description = serializers.CharField()
     necessities = serializers.CharField()
-

@@ -10,12 +10,14 @@ from ..serializers.workshop_serializers import (
 )
 from ...services.workshop_service import workshop_create
 from ...models import Workshop
+from pprint import pprint
 
 
 class WorkshopViewSet(viewsets.ViewSet):
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
+        pprint(workshop.theme)
         serializer = WorkshopDetailOutputSerializer(workshop)
 
         return Response(serializer.data)
