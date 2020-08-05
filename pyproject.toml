@@ -11,6 +11,7 @@ psycopg2 = "^2.8.5"
 djangorestframework = "^3.11.0"
 mozilla-django-oidc = "^1.2.3"
 drf-yasg = "^1.17.1"
+django-cors-headers = "^3.4.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.4"
