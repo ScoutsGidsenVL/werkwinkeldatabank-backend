@@ -12,7 +12,6 @@ class ThemeDetailOutputSerializer(serializers.ModelSerializer):
 
 
 class ThemeListOutputSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Theme
         fields = ("id", "title")
@@ -24,6 +23,7 @@ class ThemeListOutputSerializer(serializers.ModelSerializer):
 class ThemeCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
+
 
 class ThemeUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)

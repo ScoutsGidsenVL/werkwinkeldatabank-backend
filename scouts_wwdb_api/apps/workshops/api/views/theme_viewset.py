@@ -8,7 +8,7 @@ from ..serializers.theme_serializers import (
     ThemeListOutputSerializer,
     ThemeUpdateInputSerializer,
 )
-from ...services.theme_service import theme_create
+from ...services.theme_service import theme_create, theme_update
 from ...models import Theme
 
 
@@ -45,6 +45,13 @@ class ThemeViewSet(viewsets.ViewSet):
     )
     def partial_update(self, request, pk=None):
         theme = get_object_or_404(Theme.objects, pk=pk)
-        serializer = ThemeUpdateInputSerializer(theme)
 
-        return Response(serializer.data)
+        serializer = ThemeUpdateInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        updated_theme = theme_update(existing_theme=theme, **serializer.validated_data)
+        updated_theme.save()
+
+        output_serializer = ThemeDetailOutputSerializer(updated_theme)
+
+        return Response(output_serializer.data)
