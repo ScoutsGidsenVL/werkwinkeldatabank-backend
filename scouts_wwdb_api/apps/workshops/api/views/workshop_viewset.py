@@ -8,7 +8,7 @@ from ..serializers.workshop_serializers import (
     WorkshopCreateInputSerializer,
     WorkshopUpdateInputSerializer,
 )
-from ...services.workshop_service import workshop_create
+from ...services.workshop_service import workshop_create, workshop_update
 from ...models import Workshop
 from pprint import pprint
 
@@ -47,6 +47,13 @@ class WorkshopViewSet(viewsets.ViewSet):
     )
     def partial_update(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
-        serializer = WorkshopUpdateInputSerializer(workshop)
 
-        return Response(serializer.data)
+        serializer = WorkshopUpdateInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)
+        updated_workshop.save()
+
+        output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+
+        return Response(output_serializer.data)
