@@ -26,5 +26,5 @@ class ThemeCreateInputSerializer(serializers.Serializer):
 
 
 class ThemeUpdateInputSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
-    description = serializers.CharField()
+    title = serializers.CharField(max_length=200, required=False)
+    description = serializers.CharField(required=False)

@@ -33,8 +33,8 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
-    duration = serializers.CharField(max_length=50)
-    theme = serializers.UUIDField()
-    description = serializers.CharField()
-    necessities = serializers.CharField()
+    title = serializers.CharField(max_length=200, required=False)
+    duration = serializers.CharField(max_length=50, required=False)
+    theme = serializers.UUIDField(required=False)
+    description = serializers.CharField(required=False)
+    necessities = serializers.CharField(required=False)
