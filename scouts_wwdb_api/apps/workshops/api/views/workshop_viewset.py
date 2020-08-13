@@ -52,7 +52,6 @@ class WorkshopViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
 
         updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)
-        updated_workshop.save()
 
         output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
 
