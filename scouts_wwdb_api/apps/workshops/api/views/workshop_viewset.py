@@ -11,9 +11,13 @@ from ..serializers.workshop_serializers import (
 from ...services.workshop_service import workshop_create, workshop_update
 from ...models import Workshop
 from pprint import pprint
+from rest_framework.pagination import PageNumberPagination
 
 
-class WorkshopViewSet(viewsets.ViewSet):
+class WorkshopViewSet(viewsets.GenericViewSet):
+    def get_queryset(self):
+        return Workshop.objects.all()
+
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
@@ -37,10 +41,15 @@ class WorkshopViewSet(viewsets.ViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopListOutputSerializer})
     def list(self, request):
-        workshops = Workshop.objects.all()
-        serializer = WorkshopListOutputSerializer(workshops, many=True)
+        workshops = self.get_queryset()
+        page = self.paginate_queryset(workshops)
 
-        return Response(serializer.data)
+        if page is not None:
+            serializer = WorkshopListOutputSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        else:
+            serializer = WorkshopListOutputSerializer(workshops, many=True)
+            return Response(serializer.data)
 
     @swagger_auto_schema(
         request_body=WorkshopUpdateInputSerializer, responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer}

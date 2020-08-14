@@ -12,7 +12,10 @@ from ...services.theme_service import theme_create, theme_update
 from ...models import Theme
 
 
-class ThemeViewSet(viewsets.ViewSet):
+class ThemeViewSet(viewsets.GenericViewSet):
+    def get_queryset(self):
+        return Theme.objects.all()
+
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeDetailOutputSerializer})
     def retrieve(self, request, pk=None):
         theme = get_object_or_404(Theme.objects, pk=pk)
@@ -35,10 +38,15 @@ class ThemeViewSet(viewsets.ViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeListOutputSerializer})
     def list(self, request):
-        themes = Theme.objects.all()
-        serializer = ThemeListOutputSerializer(themes, many=True)
+        themes = self.get_queryset()
+        page = self.paginate_queryset(themes)
 
-        return Response(serializer.data)
+        if page is not None:
+            serializer = ThemeListOutputSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        else:
+            serializer = ThemeListOutputSerializer(themes, many=True)
+            return Response(serializer.data)
 
     @swagger_auto_schema(
         request_body=ThemeUpdateInputSerializer, responses={status.HTTP_200_OK: ThemeDetailOutputSerializer}
