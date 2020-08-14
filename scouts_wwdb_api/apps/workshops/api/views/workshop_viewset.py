@@ -12,10 +12,19 @@ from ...services.workshop_service import workshop_create, workshop_update
 from ...models import Workshop
 from pprint import pprint
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.filters import SearchFilter
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):
+    filter_backends = [SearchFilter]
+    search_fields = ["title", "workshop__title"]
+
     def get_queryset(self):
+        """ queryset = Workshop.objects.all()
+        workshop_title = self.request.query_params.get("title", None)
+        if workshop_title is not None:
+            queryset = queryset.filter(workshop__title=username)
+        return queryset """
         return Workshop.objects.all()
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
