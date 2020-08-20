@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
+from django_filters.rest_framework import DjangoFilterBackend
 from ..serializers.theme_serializers import (
     ThemeCreateInputSerializer,
     ThemeDetailOutputSerializer,
@@ -10,9 +11,13 @@ from ..serializers.theme_serializers import (
 )
 from ...services.theme_service import theme_create, theme_update
 from ...models import Theme
+from ..filters.theme_filter import ThemeFilter
 
 
 class ThemeViewSet(viewsets.GenericViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = ThemeFilter
+
     def get_queryset(self):
         return Theme.objects.all()
 
@@ -38,7 +43,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeListOutputSerializer})
     def list(self, request):
-        themes = self.get_queryset()
+        themes = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(themes)
 
         if page is not None:
