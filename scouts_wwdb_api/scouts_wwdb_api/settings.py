@@ -127,8 +127,7 @@ STATIC_URL = "/static/"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ["mozilla_django_oidc.contrib.drf.OIDCAuthentication",],
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny",],
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
-    "PAGE_SIZE": 10,
+    "DEFAULT_PAGINATION_CLASS": "scouts_wwdb_api.pagination.ScoutsPageNumberPagination",
 }
 
 # CORS
