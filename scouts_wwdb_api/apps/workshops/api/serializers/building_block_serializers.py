@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from datetime import timedelta
+from drf_yasg.utils import swagger_serializer_method
 from ...models import BuildingBlockTemplate, BuildingBlockInstance
 from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
@@ -17,6 +18,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
         model = BuildingBlockTemplate
         fields = ("id", "title", "description", "duration", "type")
 
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
 
@@ -28,6 +30,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
         model = BuildingBlockTemplate
         fields = ("id", "title", "description", "duration", "type")
 
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
 
