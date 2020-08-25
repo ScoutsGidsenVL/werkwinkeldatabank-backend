@@ -26,7 +26,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "description", "duration", "building_block_type")
+        fields = ("id", "title", "description", "duration", "type")
 
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
