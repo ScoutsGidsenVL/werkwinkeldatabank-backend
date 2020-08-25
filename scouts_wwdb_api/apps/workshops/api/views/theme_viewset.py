@@ -63,7 +63,6 @@ class ThemeViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
 
         updated_theme = theme_update(existing_theme=theme, **serializer.validated_data)
-        updated_theme.save()
 
         output_serializer = ThemeDetailOutputSerializer(updated_theme)
 

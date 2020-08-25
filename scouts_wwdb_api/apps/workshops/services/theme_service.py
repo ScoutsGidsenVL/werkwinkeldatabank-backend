@@ -10,8 +10,10 @@ def theme_create(*, title: str, description: str) -> Theme:
 
 
 def theme_update(*, existing_theme: Theme, **fields) -> Theme:
-    if fields:
-        existing_theme.title = fields.get("title", existing_theme.title)
-        existing_theme.description = fields.get("description", existing_theme.description)
+    existing_theme.title = fields.get("title", existing_theme.title)
+    existing_theme.description = fields.get("description", existing_theme.description)
 
-        return existing_theme
+    existing_theme.full_clean()
+    existing_theme.save()
+
+    return existing_theme
