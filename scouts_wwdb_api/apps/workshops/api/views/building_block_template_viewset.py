@@ -11,11 +11,13 @@ from ..serializers.building_block_serializers import (
 )
 from ...services.building_block_template_service import building_block_template_create, building_block_template_update
 from ...models import BuildingBlockTemplate
-
-# from ..filters.theme_filter import ThemeFilter
+from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BuildingBlockTemplateFilter
+
     def get_queryset(self):
         return BuildingBlockTemplate.objects.all()
 
@@ -42,8 +44,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateListOutputSerializer})
     def list(self, request):
-        # themes = self.filter_queryset(self.get_queryset())
-        results = self.get_queryset()
+        results = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(results)
 
         if page is not None:

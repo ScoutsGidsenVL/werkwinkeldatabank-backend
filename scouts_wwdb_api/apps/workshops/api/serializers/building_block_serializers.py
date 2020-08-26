@@ -5,6 +5,7 @@ from ...models import BuildingBlockTemplate, BuildingBlockInstance
 from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
+from apps.serializer_extensions.serializers import DurationField
 from pprint import pprint
 
 
@@ -13,6 +14,8 @@ from pprint import pprint
 
 class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
+    # Use own durationfield instead of existing one to get correct swagger documentation
+    duration = DurationField()
 
     class Meta:
         model = BuildingBlockTemplate
@@ -25,6 +28,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
 
 class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
+    duration = DurationField()
 
     class Meta:
         model = BuildingBlockTemplate
@@ -41,7 +45,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
-    duration = serializers.DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
+    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
 
 
 class BuildingBlockTemplateCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
@@ -51,7 +55,7 @@ class BuildingBlockTemplateCreateInputSerializer(BaseBuildingBlockCreateInputSer
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
-    duration = serializers.DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
+    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
 
 
 class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
