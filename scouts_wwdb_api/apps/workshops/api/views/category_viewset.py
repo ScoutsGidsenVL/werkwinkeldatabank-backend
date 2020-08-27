@@ -11,9 +11,13 @@ from ..serializers.category_serializers import (
 )
 from ...services.category_service import category_create, category_update
 from ...models import Category
+from ..filters.category_filter import CategoryFilter
 
 
 class CategoryViewSet(viewsets.GenericViewSet):
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CategoryFilter
+
     def get_queryset(self):
         return Category.objects.all()
 
