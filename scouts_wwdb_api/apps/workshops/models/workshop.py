@@ -15,5 +15,10 @@ class Workshop(BaseModel):
     description = models.TextField()
     necessities = models.TextField()
 
+    # Related Many field
+    # These are the related many fields that are opposites of ForeignKey or ManyToMany fields. We add them here in comment for documentation purposes
+    #
+    # building_blocks (BuildingBlockInstances)
+
     def __str__(self):
         return self.title

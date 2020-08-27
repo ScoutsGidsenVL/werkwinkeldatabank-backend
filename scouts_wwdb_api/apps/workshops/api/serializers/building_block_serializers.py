@@ -41,15 +41,11 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
 # Input
 
-
+## Base
 class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
-
-
-class BuildingBlockTemplateCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
-    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
@@ -58,5 +54,19 @@ class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
 
 
+## Template
+class BuildingBlockTemplateCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
+    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
+
+
 class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
     type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices, required=False)
+
+
+## Instance
+class BuildingBlockInstanceCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
+    template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all())
+
+
+class BuildingBlockInstanceUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
+    template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all(), required=False)
