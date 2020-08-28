@@ -2,6 +2,7 @@ import django_filters
 from django.db.models import Q
 from ...models import BuildingBlockTemplate
 from ...models.enums.building_block_type import BuildingBlockType
+from apps.filter_extensions.filters import MultipleUUIDFilter
 
 
 class BuildingBlockTemplateFilter(django_filters.FilterSet):
@@ -9,6 +10,7 @@ class BuildingBlockTemplateFilter(django_filters.FilterSet):
     type = django_filters.ChoiceFilter(choices=BuildingBlockType.choices, field_name="building_block_type")
     duration_start = django_filters.DurationFilter(field_name="duration", lookup_expr="gte")
     duration_end = django_filters.DurationFilter(field_name="duration", lookup_expr="lte")
+    category = MultipleUUIDFilter()
 
     class Meta:
         model = BuildingBlockTemplate
