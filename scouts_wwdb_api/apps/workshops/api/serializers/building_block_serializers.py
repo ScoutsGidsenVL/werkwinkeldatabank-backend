@@ -6,7 +6,6 @@ from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
 from apps.serializer_extensions.serializers import DurationField
-from pprint import pprint
 
 
 # Output
@@ -39,6 +38,19 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
 
 
+class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
+    type = serializers.SerializerMethodField()
+    duration = DurationField()
+
+    class Meta:
+        model = BuildingBlockInstance
+        fields = ("id", "title", "description", "duration", "type")
+
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
+    def get_type(self, obj):
+        return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
+
+
 # Input
 
 ## Base
@@ -64,9 +76,27 @@ class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSer
 
 
 ## Instance
-class BuildingBlockInstanceCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
+class BuildingBlockInstanceNestedCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all())
 
 
-class BuildingBlockInstanceUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
+class BuildingBlockInstanceNestedUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
+    id = serializers.UUIDField(required=False)
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all(), required=False)
+
+    def to_internal_value(self, data):
+        # If id given then template should get ignored because we shouldnt change template of existing building block
+        if data.get("id", None):
+            try:
+                data.pop("template")
+            except KeyError:
+                pass
+        return super().to_internal_value(data)
+
+    def validate(self, data):
+        # If no id given then do required check for all fields that are not id
+        if not data.get("id", None):
+            for field_name, field in self.fields.items():
+                if field_name != "id" and not data.get(field_name, None):
+                    raise serializers.ValidationError({field_name: ["This field is required."]})
+        return data

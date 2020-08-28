@@ -13,4 +13,4 @@ class BuildingBlockInstance(AbstractBuildingBlock):
 
     @property
     def building_block_type(self):
-        return template.building_block_type
+        return self.template.building_block_type

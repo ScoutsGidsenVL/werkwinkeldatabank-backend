@@ -25,7 +25,6 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
-        pprint(workshop.theme)
         serializer = WorkshopDetailOutputSerializer(workshop)
 
         return Response(serializer.data)
@@ -63,7 +62,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
 
-        serializer = WorkshopUpdateInputSerializer(data=request.data)
+        serializer = WorkshopUpdateInputSerializer(data=request.data, context={"instance": workshop})
         serializer.is_valid(raise_exception=True)
 
         updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 from datetime import timedelta
 from .theme import Theme
 from apps.base.models import BaseModel
@@ -22,3 +23,7 @@ class Workshop(BaseModel):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if len(self.building_blocks.all()) < 1:
+            raise ValidationError("A workshop needs at least one building block")
