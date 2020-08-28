@@ -15,6 +15,7 @@ class Workshop(BaseModel):
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
     necessities = models.TextField()
+    is_sensitive = models.BooleanField()
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields. We add them here in comment for documentation purposes
