@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from datetime import timedelta
 from drf_yasg.utils import swagger_serializer_method
-from ...models import BuildingBlockTemplate, BuildingBlockInstance
+from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category
 from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
@@ -18,7 +18,8 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "description", "duration", "type")
+        fields = ("id", "title", "description", "duration", "type", "category", "short_description")
+        depth = 2
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -31,7 +32,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "description", "duration", "type")
+        fields = ("id", "title", "duration", "type", "short_description")
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -58,12 +59,16 @@ class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    short_description = serializers.CharField(max_length=500)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
 
 
 ## Template
