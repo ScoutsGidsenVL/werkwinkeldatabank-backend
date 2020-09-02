@@ -32,7 +32,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "duration", "type", "short_description")
+        fields = ("id", "title", "duration", "type", "short_description", "category")
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
