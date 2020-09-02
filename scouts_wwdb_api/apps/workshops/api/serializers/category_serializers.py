@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
 from ...models import Category
 
 
@@ -21,8 +22,10 @@ class CategoryListOutputSerializer(serializers.ModelSerializer):
 
 
 class CategoryCreateInputSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
+    title = serializers.CharField(max_length=200, validators=[UniqueValidator(queryset=Category.objects.all())])
 
 
 class CategoryUpdateInputSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200, required=False)
+    title = serializers.CharField(
+        max_length=200, validators=[UniqueValidator(queryset=Category.objects.all())], required=False
+    )

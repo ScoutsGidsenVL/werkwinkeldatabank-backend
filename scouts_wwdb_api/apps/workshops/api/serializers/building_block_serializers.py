@@ -59,8 +59,8 @@ class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-    short_description = serializers.CharField(max_length=500)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):

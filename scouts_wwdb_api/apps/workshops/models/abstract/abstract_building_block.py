@@ -11,8 +11,9 @@ class AbstractBuildingBlock(BaseModel):
     duration = models.DurationField(
         validators=[MinValueValidator(timedelta(minutes=1)), MaxValueValidator(timedelta(days=1))]
     )
-    category = models.ForeignKey(Category, on_delete=models.RESTRICT)
-    short_description = models.CharField(max_length=500)
+    category = models.ForeignKey(Category, on_delete=models.RESTRICT, null=True, blank=True)
+    # Its django best practice to not set charfields nullable, an empty string will be used as empty field
+    short_description = models.CharField(max_length=500, blank=True)
 
     class Meta:
         abstract = True

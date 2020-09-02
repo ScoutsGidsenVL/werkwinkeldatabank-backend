@@ -59,7 +59,8 @@ class CategoryViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         category = get_object_or_404(Category.objects, pk=pk)
 
-        serializer = CategoryUpdateInputSerializer(data=request.data)
+        serializer = CategoryUpdateInputSerializer(data=request.data, instance=category)
+
         serializer.is_valid(raise_exception=True)
 
         updated_category = category_update(existing_category=category, **serializer.validated_data)

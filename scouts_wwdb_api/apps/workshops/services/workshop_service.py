@@ -6,9 +6,23 @@ from .building_block_instance_service import building_block_instance_create, bui
 # Make atomic so database changes can be rolled back if error occurs
 @transaction.atomic
 def workshop_create(
-    *, title: str, duration: str, theme: Theme, description: str, necessities: str, building_blocks: list
+    *,
+    title: str,
+    duration: str,
+    theme: Theme,
+    description: str,
+    necessities: str,
+    building_blocks: list,
+    is_sensitive: bool = False,
 ) -> Workshop:
-    workshop = Workshop(title=title, duration=duration, theme=theme, description=description, necessities=necessities)
+    workshop = Workshop(
+        title=title,
+        duration=duration,
+        theme=theme,
+        description=description,
+        necessities=necessities,
+        is_sensitive=is_sensitive,
+    )
     workshop.save()
 
     for building_block_data in building_blocks:

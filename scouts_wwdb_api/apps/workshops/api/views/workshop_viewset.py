@@ -62,7 +62,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
 
-        serializer = WorkshopUpdateInputSerializer(data=request.data, context={"instance": workshop})
+        serializer = WorkshopUpdateInputSerializer(data=request.data, instance=workshop)
         serializer.is_valid(raise_exception=True)
 
         updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)

@@ -40,7 +40,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     description = serializers.CharField()
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
-    is_sensitive = serializers.BooleanField()
+    is_sensitive = serializers.BooleanField(required=False)
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
@@ -56,7 +56,7 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
 
     def validate_building_blocks(self, value):
         # Check whether if an id was given for building block it is already linked to current workshop
-        current_workshop = self.context.get("instance", None)
+        current_workshop = self.instance
         if not current_workshop:
             raise Exception("Context for workshop update input serializer should contain an instance")
 

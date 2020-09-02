@@ -61,7 +61,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         template = get_object_or_404(BuildingBlockTemplate.objects, pk=pk)
 
-        serializer = BuildingBlockTemplateUpdateInputSerializer(data=request.data)
+        serializer = BuildingBlockTemplateUpdateInputSerializer(data=request.data, instance=template)
         serializer.is_valid(raise_exception=True)
 
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)

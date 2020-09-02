@@ -59,7 +59,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         theme = get_object_or_404(Theme.objects, pk=pk)
 
-        serializer = ThemeUpdateInputSerializer(data=request.data)
+        serializer = ThemeUpdateInputSerializer(data=request.data, instance=theme)
         serializer.is_valid(raise_exception=True)
 
         updated_theme = theme_update(existing_theme=theme, **serializer.validated_data)
