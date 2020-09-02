@@ -7,9 +7,9 @@ def building_block_template_create(
     title: str,
     description: str,
     duration: timedelta,
-    category: Category,
+    category: Category = None,
     building_block_type,
-    short_description: str,
+    short_description: str = "",
 ) -> BuildingBlockTemplate:
     template = BuildingBlockTemplate(
         title=title,
