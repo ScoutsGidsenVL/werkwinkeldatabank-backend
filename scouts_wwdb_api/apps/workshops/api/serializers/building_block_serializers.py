@@ -99,9 +99,10 @@ class BuildingBlockInstanceNestedUpdateInputSerializer(BaseBuildingBlockUpdateIn
         return super().to_internal_value(data)
 
     def validate(self, data):
-        # If no id given then do required check for all fields that are not id
+        # If no id given then do required check for all fields that need it
         if not data.get("id", None):
             for field_name, field in self.fields.items():
-                if field_name != "id" and not data.get(field_name, None):
+                required_fields = ["title", "description", "duration", "template"]
+                if field_name in required_fields and not data.get(field_name, None):
                     raise serializers.ValidationError({field_name: ["This field is required."]})
         return data
