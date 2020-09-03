@@ -2,6 +2,7 @@ from ..models import Workshop, Theme
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
+from pprint import pprint
 
 # Make atomic so database changes can be rolled back if error occurs
 @transaction.atomic
@@ -40,7 +41,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.title = fields.get("title", existing_workshop.title)
     existing_workshop.description = fields.get("description", existing_workshop.description)
     existing_workshop.duration = fields.get("duration", existing_workshop.duration)
-    existing_workshop.theme_ = fields.get("theme", existing_workshop.theme)
+    existing_workshop.theme = fields.get("theme", existing_workshop.theme)
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
 
     # Handle building blocks
