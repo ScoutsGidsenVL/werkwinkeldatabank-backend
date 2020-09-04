@@ -5,6 +5,7 @@ from datetime import timedelta
 from .theme import Theme
 from apps.base.models import BaseModel
 from .theme import Theme
+from .enums.workshop_status_type import WorkshopStatusType
 
 
 class Workshop(BaseModel):
@@ -16,6 +17,9 @@ class Workshop(BaseModel):
     description = models.TextField()
     necessities = models.TextField()
     is_sensitive = models.BooleanField(default=False)
+    workshop_status_type = models.CharField(
+        max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
+    )
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields. We add them here in comment for documentation purposes

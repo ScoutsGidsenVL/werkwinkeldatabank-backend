@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from ..serializers.workshop_serializers import (
@@ -70,3 +71,19 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
 
         return Response(output_serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def request_publication(self, request, pk=None):
+        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        return None
+
+    @action(detail=True, methods=["post"])
+    def publish(self, request, pk=None):
+        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        return None
+
+    @action(detail=True, methods=["post"])
+    def unpublish(self, request, pk=None):
+        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        return None
+
