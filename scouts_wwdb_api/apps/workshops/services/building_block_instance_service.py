@@ -1,5 +1,5 @@
 from datetime import timedelta
-from ..models import BuildingBlockInstance, BuildingBlockTemplate, Workshop, Category
+from ..models import BuildingBlockInstance, BuildingBlockTemplate, Workshop, Category, Theme
 
 
 def building_block_instance_create(
@@ -11,6 +11,7 @@ def building_block_instance_create(
     workshop: Workshop,
     short_description: str = "",
     category: Category = None,
+    theme: Theme = None,
 ) -> BuildingBlockInstance:
     instance = BuildingBlockInstance(
         title=title,
@@ -20,6 +21,7 @@ def building_block_instance_create(
         workshop=workshop,
         short_description=short_description,
         category=category,
+        theme=theme,
     )
     instance.full_clean()
     instance.save()
@@ -34,6 +36,7 @@ def building_block_instance_update(*, existing_instance: BuildingBlockInstance, 
     existing_instance.category = fields.get("category", existing_instance.category)
     existing_instance.short_description = fields.get("short_description", existing_instance.short_description)
     existing_instance.template = fields.get("template", existing_instance.template)
+    existing_instance.theme = fields.get("theme", existing_instance.theme)
 
     existing_instance.full_clean()
     existing_instance.save()

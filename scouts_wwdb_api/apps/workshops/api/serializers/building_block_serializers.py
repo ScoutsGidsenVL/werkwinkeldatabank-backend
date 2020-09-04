@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from datetime import timedelta
 from drf_yasg.utils import swagger_serializer_method
-from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category
+from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category, Theme
 from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
 from .category_serializers import CategoryDetailOutputSerializer
@@ -20,7 +20,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "description", "duration", "type", "category", "short_description")
+        fields = ("id", "title", "description", "duration", "type", "category", "short_description", "theme")
         depth = 2
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
@@ -35,7 +35,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "duration", "type", "short_description", "category")
+        fields = ("id", "title", "duration", "type", "short_description", "category", "theme")
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -64,6 +64,7 @@ class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
+    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
@@ -72,6 +73,7 @@ class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
+    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
 
 
 ## Template
