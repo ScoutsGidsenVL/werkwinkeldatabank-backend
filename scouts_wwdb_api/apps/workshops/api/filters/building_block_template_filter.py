@@ -11,6 +11,7 @@ class BuildingBlockTemplateFilter(django_filters.FilterSet):
     duration_start = django_filters.DurationFilter(field_name="duration", lookup_expr="gte")
     duration_end = django_filters.DurationFilter(field_name="duration", lookup_expr="lte")
     category = MultipleUUIDFilter()
+    theme = MultipleUUIDFilter()
 
     class Meta:
         model = BuildingBlockTemplate
