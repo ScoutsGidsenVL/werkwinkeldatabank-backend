@@ -1,5 +1,7 @@
-from django.urls import path, include
-from .api.views.theme_viewset import ThemeViewSet
-from .api.views.workshop_viewset import WorkshopViewSet
+from django.urls import path
+from .api.views import AuthCodeView, RefreshView
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("token/", AuthCodeView.as_view()),
+    path("refresh/", RefreshView.as_view()),
+]

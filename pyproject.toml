@@ -13,6 +13,7 @@ mozilla-django-oidc = "^1.2.3"
 drf-yasg = "^1.17.1"
 django-cors-headers = "^3.4.0"
 django-filter = "^2.3.0"
+requests = "^2.24.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.4"

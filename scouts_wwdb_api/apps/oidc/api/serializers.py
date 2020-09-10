@@ -5,12 +5,13 @@ from rest_framework import serializers
 # between django and symfony
 class AuthCodeInputSerializer(serializers.Serializer):
     authCode = serializers.CharField()
-    clientId = serializers.CharField()
-    realm = serializers.CharField()
     redirectUri = serializers.CharField()
 
 
 class RefreshInputSerializer(serializers.Serializer):
     refreshToken = serializers.CharField()
-    clientId = serializers.CharField()
-    realm = serializers.CharField()
+
+
+class TokenOutputSerializer(serializers.Serializer):
+    access_token = serializers.CharField()
+    refresh_token = serializers.CharField()

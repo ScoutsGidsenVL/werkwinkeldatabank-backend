@@ -96,10 +96,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+    },
 ]
 
 
@@ -125,8 +133,12 @@ STATIC_URL = "/static/"
 # Rest framework
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ["mozilla_django_oidc.contrib.drf.OIDCAuthentication",],
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny",],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+    ],
     "DEFAULT_PAGINATION_CLASS": "scouts_wwdb_api.pagination.ScoutsPageNumberPagination",
 }
 
@@ -149,8 +161,8 @@ OIDC_RP_SIGN_ALGO = "RS256"
 
 OIDC_OP_JWKS_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/.well-known/openid-configuration"
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth"
-OIDC_OP_USER_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/userinfo"
+OIDC_OP_TOKEN_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/token"
+# OIDC_OP_USER_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/userinfo"
 
-OIDC_RP_CLIENT_ID = "client_id"
-OIDC_RP_CLIENT_SECRET = "client_secret"
+OIDC_RP_CLIENT_ID = "scouts-workflows"
+OIDC_RP_CLIENT_SECRET = "4141f2a7-49b2-4226-9fe0-0bbc02a0b965"
