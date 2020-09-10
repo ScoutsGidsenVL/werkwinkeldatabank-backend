@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "apps.workshops",
     "django.contrib.admin",
     "django.contrib.auth",
+    "apps.scouts_auth",
     "mozilla_django_oidc",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -152,11 +153,12 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 # OIDC
+AUTH_USER_MODEL = "scouts_auth.User"
 
 AUTHENTICATION_BACKENDS = {
-    "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
+    "apps.oidc.auth.InuitsOIDCAuthenticationBackend",
 }
-
+OIDC_DRF_AUTH_BACKEND = "apps.oidc.auth.InuitsOIDCAuthenticationBackend"
 OIDC_RP_SIGN_ALGO = "RS256"
 
 OIDC_OP_JWKS_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/.well-known/openid-configuration"
