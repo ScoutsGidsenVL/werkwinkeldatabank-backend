@@ -2,6 +2,7 @@ from ..models import Workshop, Theme
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
+from ..models.enums.workshop_status_type import WorkshopStatusType
 from pprint import pprint
 
 # Make atomic so database changes can be rolled back if error occurs
@@ -43,6 +44,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.duration = fields.get("duration", existing_workshop.duration)
     existing_workshop.theme = fields.get("theme", existing_workshop.theme)
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
+    existing_workshop.is_sensitive = fields.get("is_sensitive", existing_workshop.is_sensitive)
 
     # Handle building blocks
     new_building_blocks_data = fields.get("building_blocks", None)
@@ -63,6 +65,15 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
         for block_id, instance in instance_mapping.items():
             if block_id not in data_mapping:
                 instance.delete()
+
+    existing_workshop.full_clean()
+    existing_workshop.save()
+
+    return existing_workshop
+
+
+def workshop_status_change(*, existing_workshop: Workshop, workshop_status: WorkshopStatusType) -> Workshop:
+    existing_workshop.workshop_status_type = workshop_status
 
     existing_workshop.full_clean()
     existing_workshop.save()

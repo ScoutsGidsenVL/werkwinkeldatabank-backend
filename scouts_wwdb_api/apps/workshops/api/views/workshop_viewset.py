@@ -10,10 +10,12 @@ from ..serializers.workshop_serializers import (
     WorkshopCreateInputSerializer,
     WorkshopUpdateInputSerializer,
 )
-from ...services.workshop_service import workshop_create, workshop_update
+from ...services.workshop_service import workshop_create, workshop_update, workshop_status_change
 from ...models import Workshop
+from ...models.enums.workshop_status_type import WorkshopStatusType
 from ..filters.workshop_filter import WorkshopFilter
 from pprint import pprint
+from ...api.exceptions.InvalidWorkflowTransitionException import InvalidWorkflowTransitionException
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):
@@ -75,15 +77,33 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=True, methods=["post"])
     def request_publication(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
-        return None
+        status_type = WorkshopStatusType.PUBLICATION_REQUESTED
+
+        if workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
+            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
     @action(detail=True, methods=["post"])
     def publish(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
-        return None
+        status_type = WorkshopStatusType.PUBLISHED
+
+        if workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
+            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
     @action(detail=True, methods=["post"])
     def unpublish(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
-        return None
+        status_type = WorkshopStatusType.PRIVATE
+
+        if workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
+            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
+            return Response(status=status.HTTP_200_OK)
+        else:
+            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
