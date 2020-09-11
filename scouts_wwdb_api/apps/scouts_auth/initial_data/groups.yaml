@@ -1,0 +1,3 @@
+role_admin:
+  - workshops.add_theme
+role_super_admin: [] # Doesn't need permissions because is made super user in django
