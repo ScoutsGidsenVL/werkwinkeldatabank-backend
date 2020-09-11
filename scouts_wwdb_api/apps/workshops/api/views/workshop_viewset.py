@@ -107,3 +107,20 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         else:
             raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
+    @action(detail=False, methods=["post"])
+    def published_workshops(self, request):
+        # Apply filter using the custom manager
+        workshops = Workshop.my_workshops.all()
+        # Apply paging
+        page = self.paginate_queryset(workshops)
+
+        if page is not None:
+            serializer = WorkshopListOutputSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        else:
+            serializer = WorkshopListOutputSerializer(workshops, many=True)
+            return Response(serializer.data)
+
+    @action(detail=False, methods=["post"])
+    def my_workshops(self, request):
+        return None

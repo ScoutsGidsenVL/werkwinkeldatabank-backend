@@ -6,6 +6,12 @@ from .theme import Theme
 from apps.base.models import BaseModel
 from .theme import Theme
 from .enums.workshop_status_type import WorkshopStatusType
+from django.conf import settings
+
+
+class PublishedWorkshopsManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(workshop_status_type=WorkshopStatusType.PUBLISHED)
 
 
 class Workshop(BaseModel):
@@ -20,6 +26,12 @@ class Workshop(BaseModel):
     workshop_status_type = models.CharField(
         max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
     )
+
+    # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
+    objects = models.Manager()
+    my_workshops = PublishedWorkshopsManager()
+
+    # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields. We add them here in comment for documentation purposes
