@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
 import os
+from decouple import config, Csv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "th6x-_1m2dr1wquv0jawkkhbx3oq2ab3&b)7k-&8n)#c0^jhpd"
+SECRET_KEY = config('SECRET_KEY', default='th6x-_1m2dr1wquv0jawkkhbx3oq2ab3&b)7k-&8n)#c0^jhpd')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv(), default='localhost, 127.0.0.1, [::1]')
 
 
 # Application definition
@@ -84,11 +84,11 @@ WSGI_APPLICATION = "scouts_wwdb_api.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "scouts-wwdb",
-        "USER": "root",
-        "PASSWORD": "ROOT",
-        "HOST": "postgres-scouts-wwdb",
-        "PORT": "5432",
+        "NAME": config('DBNAME', default='scouts-wwdb'),
+        "USER": config('DBUSER', default='root'),
+        "PASSWORD": config('DBPASSWORD', default='ROOT'),
+        "HOST": config('DBHOST', default='postgres-scouts-wwdb'),
+        "PORT": config('DBPORT', default='5432'),
     }
 }
 
@@ -147,12 +147,7 @@ REST_FRAMEWORK = {
 
 # CORS
 
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-    "http://localhost:8080",
-    "http://localhost:8040",
-]
+CORS_ORIGIN_WHITELIST = config('CORS_ORIGIN_WHITELIST', cast=Csv())
 
 # OIDC
 AUTH_USER_MODEL = "scouts_auth.User"
@@ -163,10 +158,10 @@ AUTHENTICATION_BACKENDS = {
 OIDC_DRF_AUTH_BACKEND = "apps.oidc.auth.InuitsOIDCAuthenticationBackend"
 OIDC_RP_SIGN_ALGO = "RS256"
 
-OIDC_OP_JWKS_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/.well-known/openid-configuration"
-OIDC_OP_AUTHORIZATION_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/token"
-OIDC_OP_USER_ENDPOINT = "https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/userinfo"
+OIDC_OP_JWKS_ENDPOINT = config('OIDC_OP_JWKS_ENDPOINT', default='https://idp-dev.inuits.io/auth/realms/scouts-dev/.well-known/openid-configuration')
+OIDC_OP_AUTHORIZATION_ENDPOINT = config('OIDC_OP_AUTHORIZATION_ENDPOINT', default='https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/auth')
+OIDC_OP_TOKEN_ENDPOINT = config('OIDC_OP_TOKEN_ENDPOINT', default='https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/token')
+OIDC_OP_USER_ENDPOINT = config('OIDC_OP_USER_ENDPOINT', default='https://idp-dev.inuits.io/auth/realms/scouts-dev/protocol/openid-connect/userinfo')
 
-OIDC_RP_CLIENT_ID = "scouts-workflows"
-OIDC_RP_CLIENT_SECRET = "4141f2a7-49b2-4226-9fe0-0bbc02a0b965"
+OIDC_RP_CLIENT_ID = config('OIDC_RP_CLIENT_ID', default='scouts-workflows')
+OIDC_RP_CLIENT_SECRET = config('OIDC_RP_CLIENT_SECRET', default='4141f2a7-49b2-4226-9fe0-0bbc02a0b965')
