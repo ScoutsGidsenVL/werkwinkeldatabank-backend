@@ -25,9 +25,11 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
+    duration = DurationField()
+
     class Meta:
         model = Workshop
-        fields = ("id", "title")
+        fields = ("id", "title", "duration", "is_sensitive")
 
 
 # Input
