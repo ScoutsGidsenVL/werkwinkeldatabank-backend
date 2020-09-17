@@ -74,7 +74,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
         return Response(output_serializer.data)
 
-    @action(detail=True, methods=["post"])
+    @action(detail=True, methods=["get"])
     def request_publication(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
         status_type = WorkshopStatusType.PUBLICATION_REQUESTED
@@ -107,7 +107,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         else:
             raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
-    @action(detail=False, methods=["post"])
+    @action(detail=False, methods=["get"])
     def published_workshops(self, request):
         # Apply filter using the custom manager
         workshops = Workshop.published_workshops.all()
@@ -121,7 +121,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
             serializer = WorkshopListOutputSerializer(workshops, many=True)
             return Response(serializer.data)
 
-    @action(detail=False, methods=["post"])
+    @action(detail=False, methods=["get"])
     def my_workshops(self, request):
         # Apply filter using the custom manager
         workshops = Workshop.my_workshops.for_user(request.user.id)
