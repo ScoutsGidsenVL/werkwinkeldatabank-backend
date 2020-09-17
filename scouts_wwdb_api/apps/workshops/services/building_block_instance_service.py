@@ -12,6 +12,7 @@ def building_block_instance_create(
     short_description: str = "",
     category: Category = None,
     theme: Theme = None,
+    order: int,
 ) -> BuildingBlockInstance:
     instance = BuildingBlockInstance(
         title=title,
@@ -22,6 +23,7 @@ def building_block_instance_create(
         short_description=short_description,
         category=category,
         theme=theme,
+        order=order,
     )
     instance.full_clean()
     instance.save()
@@ -37,6 +39,7 @@ def building_block_instance_update(*, existing_instance: BuildingBlockInstance, 
     existing_instance.short_description = fields.get("short_description", existing_instance.short_description)
     existing_instance.template = fields.get("template", existing_instance.template)
     existing_instance.theme = fields.get("theme", existing_instance.theme)
+    existing_instance.order = fields.get("order", existing_instance.order)
 
     existing_instance.full_clean()
     existing_instance.save()

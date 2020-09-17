@@ -48,7 +48,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockInstance
-        fields = ("id", "title", "description", "duration", "type")
+        fields = ("id", "title", "description", "duration", "type", "order")
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -65,6 +65,7 @@ class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    order = serializers.IntegerField(required=False)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
@@ -74,6 +75,7 @@ class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    order = serializers.IntegerField(required=False)
 
 
 ## Template

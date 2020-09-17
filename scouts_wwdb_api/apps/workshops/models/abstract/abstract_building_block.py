@@ -16,6 +16,7 @@ class AbstractBuildingBlock(BaseModel):
     # Its django best practice to not set charfields nullable, an empty string will be used as empty field
     short_description = models.CharField(max_length=500, blank=True)
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT, null=True, blank=True)
+    order = models.IntegerField(null=True, blank=True)
 
     class Meta:
         abstract = True
