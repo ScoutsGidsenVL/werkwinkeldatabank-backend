@@ -29,7 +29,7 @@ class Workshop(BaseModel):
 
     # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
     objects = models.Manager()
-    my_workshops = PublishedWorkshopsManager()
+    published_workshops = PublishedWorkshopsManager()
 
     # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
 
