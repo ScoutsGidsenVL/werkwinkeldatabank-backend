@@ -14,6 +14,11 @@ class PublishedWorkshopsManager(models.Manager):
         return super().get_queryset().filter(workshop_status_type=WorkshopStatusType.PUBLISHED)
 
 
+class MyWorkshopsManager(models.Manager):
+    def for_user(self, user):
+        return self.get_queryset().filter(created_by=user)
+
+
 class Workshop(BaseModel):
     title = models.CharField(max_length=200)
     duration = models.DurationField(
@@ -30,6 +35,7 @@ class Workshop(BaseModel):
     # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
     objects = models.Manager()
     published_workshops = PublishedWorkshopsManager()
+    my_workshops = MyWorkshopsManager()
 
     # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
 
