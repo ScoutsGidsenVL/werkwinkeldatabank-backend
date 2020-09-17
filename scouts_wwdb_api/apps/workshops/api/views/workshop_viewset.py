@@ -74,7 +74,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
         return Response(output_serializer.data)
 
-    @action(detail=True, methods=["get"])
+    @action(detail=True, methods=["post"])
     def request_publication(self, request, pk=None):
         workshop = get_object_or_404(Workshop.objects, pk=pk)
         status_type = WorkshopStatusType.PUBLICATION_REQUESTED
