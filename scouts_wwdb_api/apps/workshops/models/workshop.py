@@ -26,6 +26,7 @@ class Workshop(BaseModel):
     )
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
+    short_description = models.TextField(max_length=500, blank=True)
     necessities = models.TextField()
     is_sensitive = models.BooleanField(default=False)
     workshop_status_type = models.CharField(

@@ -43,6 +43,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     is_sensitive = serializers.BooleanField(required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
@@ -55,6 +56,7 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
         child=BuildingBlockInstanceNestedUpdateInputSerializer(), min_length=1, required=False
     )
     is_sensitive = serializers.BooleanField(required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
 
     def validate_building_blocks(self, value):
         # Check whether if an id was given for building block it is already linked to current workshop
