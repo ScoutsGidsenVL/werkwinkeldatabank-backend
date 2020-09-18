@@ -110,7 +110,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"])
     def published_workshops(self, request):
         # Apply filter using the custom manager
-        workshops = Workshop.published_workshops.all()
+        workshops = self.filter_queryset(Workshop.published_workshops.all())
         # Apply paging
         page = self.paginate_queryset(workshops)
 
@@ -124,7 +124,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"])
     def my_workshops(self, request):
         # Apply filter using the custom manager
-        workshops = Workshop.my_workshops.for_user(request.user.id)
+        workshops = self.filter_queryset(Workshop.my_workshops.for_user(request.user.id))
         # Apply paging
         page = self.paginate_queryset(workshops)
 
