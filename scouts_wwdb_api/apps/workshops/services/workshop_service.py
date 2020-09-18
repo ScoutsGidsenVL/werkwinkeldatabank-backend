@@ -16,6 +16,7 @@ def workshop_create(
     necessities: str,
     building_blocks: list,
     is_sensitive: bool = False,
+    short_description: str = "",
 ) -> Workshop:
     workshop = Workshop(
         title=title,
@@ -24,6 +25,7 @@ def workshop_create(
         description=description,
         necessities=necessities,
         is_sensitive=is_sensitive,
+        short_description=short_description,
     )
     workshop.save()
 
@@ -45,6 +47,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.theme = fields.get("theme", existing_workshop.theme)
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
     existing_workshop.is_sensitive = fields.get("is_sensitive", existing_workshop.is_sensitive)
+    existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
 
     # Handle building blocks
     new_building_blocks_data = fields.get("building_blocks", None)
