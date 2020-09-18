@@ -29,7 +29,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "is_sensitive")
+        fields = ("id", "title", "duration", "is_sensitive", "workshop_status_type")
 
 
 # Input
