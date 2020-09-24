@@ -138,7 +138,7 @@ REST_FRAMEWORK = {
 
 # CORS
 
-CORS_ORIGIN_WHITELIST = config("CORS_ORIGIN_WHITELIST", cast=Csv())
+CORS_ORIGIN_WHITELIST = config("CORS_ORIGIN_WHITELIST", cast=Csv(), default='http://localhost:8080, http://localhost:8040')
 
 # OIDC
 AUTH_USER_MODEL = "scouts_auth.User"

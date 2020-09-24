@@ -44,6 +44,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     is_sensitive = serializers.BooleanField(required=False)
     short_description = serializers.CharField(max_length=500, required=False)
+    created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
