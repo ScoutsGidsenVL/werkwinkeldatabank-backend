@@ -4,6 +4,7 @@ from django.db import transaction
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
 from ..models.enums.workshop_status_type import WorkshopStatusType
 from pprint import pprint
+from ...scouts_auth.models.user import User
 
 # Make atomic so database changes can be rolled back if error occurs
 @transaction.atomic
@@ -17,6 +18,7 @@ def workshop_create(
     building_blocks: list,
     is_sensitive: bool = False,
     short_description: str = "",
+    created_by: User,
 ) -> Workshop:
     workshop = Workshop(
         title=title,
@@ -26,6 +28,7 @@ def workshop_create(
         necessities=necessities,
         is_sensitive=is_sensitive,
         short_description=short_description,
+        created_by=created_by,
     )
     workshop.save()
 
