@@ -20,7 +20,17 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "description", "duration", "type", "category", "short_description", "theme")
+        fields = (
+            "id",
+            "title",
+            "description",
+            "duration",
+            "type",
+            "category",
+            "short_description",
+            "theme",
+            "buildingblock_necessities",
+        )
         depth = 2
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
