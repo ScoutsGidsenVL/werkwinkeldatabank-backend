@@ -21,14 +21,11 @@ class MyWorkshopsManager(models.Manager):
 
 class Workshop(BaseModel):
     title = models.CharField(max_length=200)
-    duration = models.DurationField(
-        validators=[MinValueValidator(timedelta(minutes=1)), MaxValueValidator(timedelta(days=7))]
-    )
+    duration = models.DurationField()
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
     necessities = models.TextField()
-    is_sensitive = models.BooleanField(default=False)
     workshop_status_type = models.CharField(
         max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
     )

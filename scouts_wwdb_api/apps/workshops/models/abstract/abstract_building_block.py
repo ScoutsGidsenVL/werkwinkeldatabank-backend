@@ -18,6 +18,7 @@ class AbstractBuildingBlock(BaseModel):
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT, null=True, blank=True)
     order = models.IntegerField(null=True, blank=True)
     buildingblock_necessities = models.TextField(blank=True, null=True)
+    is_sensitive = models.BooleanField(default=False)
 
     class Meta:
         abstract = True

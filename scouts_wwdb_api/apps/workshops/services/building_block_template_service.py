@@ -12,6 +12,7 @@ def building_block_template_create(
     short_description: str = "",
     theme: Theme = None,
     buildingblock_necessities: str,
+    is_sensitive: bool = False,
 ) -> BuildingBlockTemplate:
     template = BuildingBlockTemplate(
         title=title,
@@ -22,6 +23,7 @@ def building_block_template_create(
         short_description=short_description,
         theme=theme,
         buildingblock_necessities=buildingblock_necessities,
+        is_sensitive=is_sensitive,
     )
     template.full_clean()
     template.save()
@@ -40,6 +42,7 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
     existing_template.buildingblock_necessities = fields.get(
         "buildingblock_necessities", existing_template.buildingblock_necessities
     )
+    existing_template.is_sensitive = fields.get("is_sensitive", existing_template.is_sensitive)
 
     existing_template.full_clean()
     existing_template.save()

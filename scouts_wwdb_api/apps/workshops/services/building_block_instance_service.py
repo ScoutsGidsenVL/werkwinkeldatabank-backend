@@ -14,6 +14,7 @@ def building_block_instance_create(
     theme: Theme = None,
     order: int,
     buildingblock_necessities: str,
+    is_sensitive: bool = False,
 ) -> BuildingBlockInstance:
     instance = BuildingBlockInstance(
         title=title,
@@ -26,6 +27,7 @@ def building_block_instance_create(
         theme=theme,
         order=order,
         buildingblock_necessities=buildingblock_necessities,
+        is_sensitive=is_sensitive,
     )
     instance.full_clean()
     instance.save()
@@ -45,6 +47,7 @@ def building_block_instance_update(*, existing_instance: BuildingBlockInstance, 
     existing_instance.buildingblock_necessities = fields.get(
         "buildingblock_necessities", existing_instance.buildingblock_necessities
     )
+    existing_instance.is_sensitive = fields.get("is_sensitive", existing_instance.is_sensitive)
 
     existing_instance.full_clean()
     existing_instance.save()

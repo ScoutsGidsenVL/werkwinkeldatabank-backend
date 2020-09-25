@@ -11,22 +11,18 @@ from django.conf import settings
 def workshop_create(
     *,
     title: str,
-    duration: str,
     theme: Theme,
     description: str,
     necessities: str,
     building_blocks: list,
-    is_sensitive: bool = False,
     short_description: str = "",
     created_by: settings.AUTH_USER_MODEL,
 ) -> Workshop:
     workshop = Workshop(
         title=title,
-        duration=duration,
         theme=theme,
         description=description,
         necessities=necessities,
-        is_sensitive=is_sensitive,
         short_description=short_description,
         created_by=created_by,
     )
@@ -46,10 +42,8 @@ def workshop_create(
 def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.title = fields.get("title", existing_workshop.title)
     existing_workshop.description = fields.get("description", existing_workshop.description)
-    existing_workshop.duration = fields.get("duration", existing_workshop.duration)
     existing_workshop.theme = fields.get("theme", existing_workshop.theme)
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
-    existing_workshop.is_sensitive = fields.get("is_sensitive", existing_workshop.is_sensitive)
     existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
 
     # Handle building blocks

@@ -30,6 +30,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "short_description",
             "theme",
             "buildingblock_necessities",
+            "is_sensitive",
         )
         depth = 2
 
@@ -45,7 +46,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "duration", "type", "short_description", "category", "theme")
+        fields = ("id", "title", "duration", "type", "short_description", "category", "theme", "is_sensitive")
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -58,7 +59,16 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockInstance
-        fields = ("id", "title", "description", "duration", "type", "order", "buildingblock_necessities")
+        fields = (
+            "id",
+            "title",
+            "description",
+            "duration",
+            "type",
+            "order",
+            "buildingblock_necessities",
+            "is_sensitive",
+        )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -77,6 +87,7 @@ class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
     order = serializers.IntegerField(required=False)
     buildingblock_necessities = serializers.CharField(required=False)
+    is_sensitive = serializers.BooleanField(required=False)
 
 
 class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
@@ -88,6 +99,7 @@ class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
     order = serializers.IntegerField(required=False)
     buildingblock_necessities = serializers.CharField(required=False)
+    is_sensitive = serializers.BooleanField(required=False)
 
 
 ## Template

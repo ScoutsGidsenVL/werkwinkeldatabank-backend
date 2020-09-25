@@ -29,7 +29,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "is_sensitive", "workshop_status_type")
+        fields = ("id", "title", "duration", "workshop_status_type")
 
 
 # Input
@@ -37,26 +37,22 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
 class WorkshopCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
-    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=7))
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all())
     description = serializers.CharField()
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
-    is_sensitive = serializers.BooleanField(required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
-    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=7), required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
     description = serializers.CharField(required=False)
     necessities = serializers.CharField(required=False)
     building_blocks = serializers.ListField(
         child=BuildingBlockInstanceNestedUpdateInputSerializer(), min_length=1, required=False
     )
-    is_sensitive = serializers.BooleanField(required=False)
     short_description = serializers.CharField(max_length=500, required=False)
 
     def validate_building_blocks(self, value):
