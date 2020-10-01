@@ -114,6 +114,7 @@ class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSer
 ## Instance
 class BuildingBlockInstanceNestedCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all())
+    title = serializers.CharField(max_length=200, required=False)
 
 
 class BuildingBlockInstanceNestedUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
