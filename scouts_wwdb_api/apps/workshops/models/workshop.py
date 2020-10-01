@@ -21,7 +21,7 @@ class MyWorkshopsManager(models.Manager):
 
 class Workshop(BaseModel):
     title = models.CharField(max_length=200)
-    duration = models.DurationField()
+    duration = models.DurationField(blank=True, null=True)
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
