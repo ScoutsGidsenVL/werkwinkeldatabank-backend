@@ -27,6 +27,7 @@ class RefreshView(views.APIView):
         serializer = RefreshInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
+        data = serializer.validated_data
         try:
             tokens = get_tokens_by_refresh_token(refresh_token=data.get("refreshToken"))
         except HTTPError as e:
