@@ -19,6 +19,11 @@ class MyWorkshopsManager(models.Manager):
         return self.get_queryset().filter(created_by=user)
 
 
+class PublicationRequestedManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(workshop_status_type=WorkshopStatusType.PUBLICATION_REQUESTED)
+
+
 class Workshop(BaseModel):
     title = models.CharField(max_length=200)
     duration = models.DurationField(blank=True, null=True)
@@ -34,6 +39,7 @@ class Workshop(BaseModel):
     objects = models.Manager()
     published_workshops = PublishedWorkshopsManager()
     my_workshops = MyWorkshopsManager()
+    publication_requested_workshops = PublicationRequestedManager()
 
     # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
 

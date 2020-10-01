@@ -137,3 +137,17 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         else:
             serializer = WorkshopListOutputSerializer(workshops, many=True)
             return Response(serializer.data)
+
+    @action(detail=False, methods=["get"])
+    def publication_requested_workshops(self, request):
+        # Apply filter using the custom manager
+        workshops = self.filter_queryset(Workshop.publication_requested_workshops.all())
+        # Apply paging
+        page = self.paginate_queryset(workshops)
+
+        if page is not None:
+            serializer = WorkshopListOutputSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        else:
+            serializer = WorkshopListOutputSerializer(workshops, many=True)
+            return Response(serializer.data)
