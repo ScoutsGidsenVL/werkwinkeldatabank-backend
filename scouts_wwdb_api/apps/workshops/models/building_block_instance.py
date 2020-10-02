@@ -22,7 +22,7 @@ class BuildingBlockInstance(AbstractBuildingBlock):
     _category = models.ForeignKey(Category, on_delete=models.RESTRICT, null=True, blank=True)
     _short_description = models.CharField(max_length=500, blank=True)
     _theme = models.ForeignKey(Theme, on_delete=models.RESTRICT, null=True, blank=True)
-    _order = models.IntegerField(null=True, blank=True)
+    order = models.IntegerField(null=True, blank=True)
     _buildingblock_necessities = models.TextField(blank=True)
     _is_sensitive = models.BooleanField(default=False, null=True, blank=True)
 
@@ -85,16 +85,6 @@ class BuildingBlockInstance(AbstractBuildingBlock):
     @theme.setter
     def theme(self, value):
         self._theme = value
-
-    @property
-    def order(self):
-        if self._order:
-            return self._order
-        return self.template.order
-
-    @order.setter
-    def order(self, value):
-        self._order = value
 
     @property
     def buildingblock_necessities(self):
