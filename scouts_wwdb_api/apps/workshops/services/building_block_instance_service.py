@@ -4,15 +4,15 @@ from ..models import BuildingBlockInstance, BuildingBlockTemplate, Workshop, Cat
 
 def building_block_instance_create(
     *,
-    title: str,
-    description: str,
-    duration: timedelta,
+    title: str = "",
+    description: str = "",
+    duration: timedelta = None,
     template: BuildingBlockTemplate,
     workshop: Workshop,
     short_description: str = "",
     category: Category = None,
     theme: Theme = None,
-    order: int,
+    order: int = 0,
     buildingblock_necessities: str,
     is_sensitive: bool = False,
 ) -> BuildingBlockInstance:

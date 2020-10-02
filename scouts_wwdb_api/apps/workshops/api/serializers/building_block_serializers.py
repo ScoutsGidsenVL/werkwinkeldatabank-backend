@@ -112,14 +112,31 @@ class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSer
 
 
 ## Instance
-class BuildingBlockInstanceNestedCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
+class BuildingBlockInstanceNestedCreateInputSerializer(serializers.Serializer):
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all())
     title = serializers.CharField(max_length=200, required=False)
+    description = serializers.CharField(required=False)
+    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
+    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    order = serializers.IntegerField(required=False)
+    buildingblock_necessities = serializers.CharField(required=False)
+    is_sensitive = serializers.BooleanField(required=False)
 
 
-class BuildingBlockInstanceNestedUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
+class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
     id = serializers.UUIDField(required=False)
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all(), required=False)
+    title = serializers.CharField(max_length=200, required=False)
+    description = serializers.CharField(required=False)
+    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
+    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    order = serializers.IntegerField(required=False)
+    buildingblock_necessities = serializers.CharField(required=False)
+    is_sensitive = serializers.BooleanField(required=False)
 
     def to_internal_value(self, data):
         # If id given then template should get ignored because we shouldnt change template of existing building block
