@@ -15,6 +15,7 @@ def workshop_create(
     description: str,
     necessities: str,
     building_blocks: list,
+    approving_team,
     short_description: str = "",
     created_by: settings.AUTH_USER_MODEL,
 ) -> Workshop:
@@ -25,6 +26,7 @@ def workshop_create(
         necessities=necessities,
         short_description=short_description,
         created_by=created_by,
+        approving_team=approving_team,
     )
     workshop.save()
 
@@ -45,6 +47,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.theme = fields.get("theme", existing_workshop.theme)
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
     existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
+    existing_workshop.approving_team = fields.get("approving_team", existing_workshop.approving_team)
 
     # Handle building blocks
     new_building_blocks_data = fields.get("building_blocks", None)

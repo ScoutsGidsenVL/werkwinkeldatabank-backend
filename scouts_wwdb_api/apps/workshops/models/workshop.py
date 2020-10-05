@@ -6,6 +6,7 @@ from .theme import Theme
 from apps.base.models import BaseModel
 from .theme import Theme
 from .enums.workshop_status_type import WorkshopStatusType
+from .enums.scouts_team import ScoutsTeam
 from django.conf import settings
 
 
@@ -25,6 +26,12 @@ class PublicationRequestedManager(models.Manager):
 
 
 class Workshop(BaseModel):
+    # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
+    objects = models.Manager()
+    published_workshops = PublishedWorkshopsManager()
+    my_workshops = MyWorkshopsManager()
+    publication_requested_workshops = PublicationRequestedManager()
+
     title = models.CharField(max_length=200)
     duration = models.DurationField(blank=True, null=True)
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
@@ -34,17 +41,11 @@ class Workshop(BaseModel):
     workshop_status_type = models.CharField(
         max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
     )
-
-    # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
-    objects = models.Manager()
-    published_workshops = PublishedWorkshopsManager()
-    my_workshops = MyWorkshopsManager()
-    publication_requested_workshops = PublicationRequestedManager()
-
-    # created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.RESTRICT)
+    approving_team = models.CharField(max_length=30, choices=ScoutsTeam.choices, blank=True, null=True)
 
     # Related Many field
-    # These are the related many fields that are opposites of ForeignKey or ManyToMany fields. We add them here in comment for documentation purposes
+    # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
+    # We add them here in comment for documentation purposes
     #
     # building_blocks (BuildingBlockInstances)
 

@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from datetime import timedelta
+from drf_yasg.utils import swagger_serializer_method
 from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
 from ...models import Workshop, Theme
+from ...models.enums.scouts_team import ScoutsTeam
+from ...helpers.enum_helper import parse_choice_to_tuple
 from .theme_serializers import ThemeDetailOutputSerializer
+from .enum_serializers import EnumOutputSerializer
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from .building_block_serializers import (
     BuildingBlockInstanceNestedCreateInputSerializer,
@@ -19,11 +23,16 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     duration = DurationField()
     building_blocks = BuildingBlockInstanceNestedOutputSerializer(many=True, read_only=True)
     created_by = UserNestedOutputSerializer(read_only=True)
+    approving_team = serializers.SerializerMethodField()
 
     class Meta:
         model = Workshop
         fields = "__all__"
         depth = 2
+
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
+    def get_approving_team(self, obj):
+        return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
@@ -44,6 +53,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     short_description = serializers.CharField(max_length=500, required=False)
+    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices)
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
@@ -60,6 +70,7 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
         required=False,
     )
     short_description = serializers.CharField(max_length=500, required=False)
+    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
 
     def validate_building_blocks(self, value):
         # Check whether if an id was given for building block it is already linked to current workshop
