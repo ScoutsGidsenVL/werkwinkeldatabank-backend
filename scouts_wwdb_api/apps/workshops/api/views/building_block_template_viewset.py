@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
@@ -67,5 +68,15 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)
 
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(updated_template)
+
+        return Response(output_serializer.data)
+
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer},
+    )
+    @action(detail=False, methods=["get"], url_path="empty_default")
+    def get_empty_default(self, request):
+        template = BuildingBlockTemplate.objects.get_empty_default()
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template)
 
         return Response(output_serializer.data)

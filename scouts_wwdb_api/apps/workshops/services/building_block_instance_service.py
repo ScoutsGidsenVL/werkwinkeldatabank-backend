@@ -41,7 +41,6 @@ def building_block_instance_update(*, existing_instance: BuildingBlockInstance, 
     existing_instance.duration = fields.get("duration", existing_instance._duration)
     existing_instance.category = fields.get("category", existing_instance._category)
     existing_instance.short_description = fields.get("short_description", existing_instance._short_description)
-    existing_instance.template = fields.get("template", existing_instance.template)
     existing_instance.theme = fields.get("theme", existing_instance._theme)
     existing_instance.order = fields.get("order", existing_instance.order)
     existing_instance.building_block_necessities = fields.get(

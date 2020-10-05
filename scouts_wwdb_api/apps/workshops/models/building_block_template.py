@@ -3,13 +3,17 @@ from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from apps.base.models import BaseModel
 from .enums.building_block_type import BuildingBlockType
-from ..models.category import Category
-from ..models.theme import Theme
+from .category import Category
+from .theme import Theme
+from ..managers.building_block_template_managers import BuildingBlockTemplateManager
 
 
 # This model represents a template for a building block that can be used by scouts admins to manage some predefined templates
 # These are not actual building blocks and cant be connected directly to a workshop
 class BuildingBlockTemplate(BaseModel):
+    # Overwrite manager
+    objects = BuildingBlockTemplateManager()
+
     title = models.CharField(max_length=200)
     description = models.TextField()
     duration = models.DurationField(
@@ -25,6 +29,8 @@ class BuildingBlockTemplate(BaseModel):
         choices=BuildingBlockType.choices,
     )
     is_sensitive = models.BooleanField(default=False)
+    # Boolean that is only active for the special empty template that is generated in migration
+    is_default_empty = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

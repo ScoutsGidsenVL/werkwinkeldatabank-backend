@@ -6,36 +6,36 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0013_auto_20201002_1256'),
+        ("workshops", "0013_auto_20201002_1256"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='buildingblockinstance',
-            old_name='_buildingblock_necessities',
-            new_name='_building_block_necessities',
+            model_name="buildingblockinstance",
+            old_name="_buildingblock_necessities",
+            new_name="_building_block_necessities",
         ),
         migrations.RenameField(
-            model_name='buildingblocktemplate',
-            old_name='buildingblock_necessities',
-            new_name='building_block_necessities',
+            model_name="buildingblocktemplate",
+            old_name="buildingblock_necessities",
+            new_name="building_block_necessities",
         ),
         migrations.RemoveField(
-            model_name='buildingblockinstance',
-            name='_is_sensitive',
+            model_name="buildingblockinstance",
+            name="_is_sensitive",
         ),
         migrations.RemoveField(
-            model_name='buildingblocktemplate',
-            name='order',
+            model_name="buildingblocktemplate",
+            name="order",
         ),
         migrations.AddField(
-            model_name='buildingblockinstance',
-            name='linked_template_values',
+            model_name="buildingblockinstance",
+            name="linked_template_values",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='buildingblockinstance',
-            name='order',
+            model_name="buildingblockinstance",
+            name="order",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),
