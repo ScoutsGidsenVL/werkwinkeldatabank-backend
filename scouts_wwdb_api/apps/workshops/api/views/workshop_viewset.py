@@ -36,13 +36,10 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         request_body=WorkshopCreateInputSerializer, responses={status.HTTP_201_CREATED: WorkshopDetailOutputSerializer}
     )
     def create(self, request):
-        context = {
-            "request": request,
-        }
-        input_serializer = WorkshopCreateInputSerializer(data=request.data, context=context)
+        input_serializer = WorkshopCreateInputSerializer(data=request.data)
         input_serializer.is_valid(raise_exception=True)
 
-        created_workshop = workshop_create(**input_serializer.validated_data)
+        created_workshop = workshop_create(**input_serializer.validated_data, created_by=request.user)
 
         output_serializer = WorkshopDetailOutputSerializer(created_workshop)
 

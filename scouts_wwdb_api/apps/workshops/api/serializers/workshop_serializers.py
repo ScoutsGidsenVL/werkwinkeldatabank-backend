@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from datetime import timedelta
-from apps.serializer_extensions.serializers import DurationField
+from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
 from ...models import Workshop, Theme
 from .theme_serializers import ThemeDetailOutputSerializer
+from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from .building_block_serializers import (
     BuildingBlockInstanceNestedCreateInputSerializer,
     BuildingBlockInstanceNestedUpdateInputSerializer,
@@ -17,6 +18,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     theme = ThemeDetailOutputSerializer(read_only=True)
     duration = DurationField()
     building_blocks = BuildingBlockInstanceNestedOutputSerializer(many=True, read_only=True)
+    created_by = UserNestedOutputSerializer(read_only=True)
 
     class Meta:
         model = Workshop
@@ -42,7 +44,6 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     short_description = serializers.CharField(max_length=500, required=False)
-    created_by = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):
@@ -51,7 +52,12 @@ class WorkshopUpdateInputSerializer(serializers.Serializer):
     description = serializers.CharField(required=False)
     necessities = serializers.CharField(required=False)
     building_blocks = serializers.ListField(
-        child=BuildingBlockInstanceNestedUpdateInputSerializer(), min_length=1, required=False
+        child=SerializerSwitchField(
+            create_serializer=BuildingBlockInstanceNestedCreateInputSerializer(),
+            update_serializer=BuildingBlockInstanceNestedUpdateInputSerializer(),
+        ),
+        min_length=1,
+        required=False,
     )
     short_description = serializers.CharField(max_length=500, required=False)
 

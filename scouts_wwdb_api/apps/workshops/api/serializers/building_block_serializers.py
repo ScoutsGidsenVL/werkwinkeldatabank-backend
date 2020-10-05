@@ -29,7 +29,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "category",
             "short_description",
             "theme",
-            "buildingblock_necessities",
+            "building_block_necessities",
             "is_sensitive",
         )
         depth = 2
@@ -66,7 +66,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
             "duration",
             "type",
             "order",
-            "buildingblock_necessities",
+            "building_block_necessities",
             "is_sensitive",
         )
 
@@ -77,81 +77,60 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
 
 # Input
 
-## Base
-class BaseBuildingBlockCreateInputSerializer(serializers.Serializer):
+## Template
+class BuildingBlockTemplateCreateInputSerializer(serializers.Serializer):
+    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
-    order = serializers.IntegerField(required=False)
-    buildingblock_necessities = serializers.CharField(required=False)
+    building_block_necessities = serializers.CharField(required=False)
     is_sensitive = serializers.BooleanField(required=False)
 
 
-class BaseBuildingBlockUpdateInputSerializer(serializers.Serializer):
+class BuildingBlockTemplateUpdateInputSerializer(serializers.Serializer):
+    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices, required=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
-    order = serializers.IntegerField(required=False)
-    buildingblock_necessities = serializers.CharField(required=False)
+    building_block_necessities = serializers.CharField(required=False)
     is_sensitive = serializers.BooleanField(required=False)
-
-
-## Template
-class BuildingBlockTemplateCreateInputSerializer(BaseBuildingBlockCreateInputSerializer):
-    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
-
-
-class BuildingBlockTemplateUpdateInputSerializer(BaseBuildingBlockUpdateInputSerializer):
-    type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices, required=False)
 
 
 ## Instance
 class BuildingBlockInstanceNestedCreateInputSerializer(serializers.Serializer):
     template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all())
+    linked_template_values = serializers.BooleanField(default=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
-    order = serializers.IntegerField(required=False)
-    buildingblock_necessities = serializers.CharField(required=False)
-    is_sensitive = serializers.BooleanField(required=False)
-
-
-class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
-    id = serializers.UUIDField(required=False)
-    template = serializers.PrimaryKeyRelatedField(queryset=BuildingBlockTemplate.objects.all(), required=False)
-    title = serializers.CharField(max_length=200, required=False)
-    description = serializers.CharField(required=False)
-    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
-    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
-    short_description = serializers.CharField(max_length=500, required=False)
-    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
-    order = serializers.IntegerField(required=False)
-    buildingblock_necessities = serializers.CharField(required=False)
-    is_sensitive = serializers.BooleanField(required=False)
-
-    def to_internal_value(self, data):
-        # If id given then template should get ignored because we shouldnt change template of existing building block
-        if data.get("id", None):
-            try:
-                data.pop("template")
-            except KeyError:
-                pass
-        return super().to_internal_value(data)
+    building_block_necessities = serializers.CharField(required=False)
 
     def validate(self, data):
-        # If no id given then do required check for all fields that need it
-        if not data.get("id", None):
+        # If linked template values false then make certain fields required again
+        if not data.get("linked_template_values", False):
             for field_name, field in self.fields.items():
-                required_fields = ["title", "description", "duration", "template"]
+                required_fields = ["title", "description", "duration"]
                 if field_name in required_fields and not data.get(field_name, None):
                     raise serializers.ValidationError({field_name: ["This field is required."]})
         return data
+
+
+class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
+    id = serializers.UUIDField()
+    linked_template_values = serializers.BooleanField(required=False)
+    title = serializers.CharField(max_length=200, required=False)
+    description = serializers.CharField(required=False)
+    duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False)
+    short_description = serializers.CharField(max_length=500, required=False)
+    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    building_block_necessities = serializers.CharField(required=False)
