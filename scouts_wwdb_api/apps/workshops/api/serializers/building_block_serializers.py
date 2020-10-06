@@ -68,6 +68,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
             "order",
             "building_block_necessities",
             "is_sensitive",
+            "linked_template_values"
         )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
