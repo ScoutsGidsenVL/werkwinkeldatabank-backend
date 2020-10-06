@@ -27,7 +27,20 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = "__all__"
+        fields = (
+            "id",
+            "title",
+            "description",
+            "short_description",
+            "necessities",
+            "workshop_status_type",
+            "theme",
+            "duration",
+            "building_blocks",
+            "created_by",
+            "approving_team",
+            "is_sensitive",
+        )
         depth = 2
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)

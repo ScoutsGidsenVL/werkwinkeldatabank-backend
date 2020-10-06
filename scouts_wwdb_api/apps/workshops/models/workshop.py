@@ -64,3 +64,10 @@ class Workshop(BaseModel):
         for building_block in self.building_blocks.all():
             duration += building_block.duration
         self.duration = duration
+
+    @property
+    def is_sensitive(self):
+        for building_block in self.building_blocks.all():
+            if building_block.is_sensitive:
+                return True
+        return False
