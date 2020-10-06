@@ -20,7 +20,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     filterset_class = BuildingBlockTemplateFilter
 
     def get_queryset(self):
-        return BuildingBlockTemplate.objects.all()
+        return BuildingBlockTemplate.objects.all_non_empty()
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer})
     def retrieve(self, request, pk=None):
