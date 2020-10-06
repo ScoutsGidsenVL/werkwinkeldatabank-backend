@@ -32,7 +32,10 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_approving_team(self, obj):
-        return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
+        if obj.approving_team:
+            return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
+        else:
+            return None
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
@@ -53,7 +56,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     necessities = serializers.CharField()
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     short_description = serializers.CharField(max_length=500, required=False)
-    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices)
+    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
 
 
 class WorkshopUpdateInputSerializer(serializers.Serializer):

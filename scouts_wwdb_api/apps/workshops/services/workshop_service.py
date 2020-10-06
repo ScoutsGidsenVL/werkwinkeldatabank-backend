@@ -15,7 +15,7 @@ def workshop_create(
     description: str,
     necessities: str,
     building_blocks: list,
-    approving_team,
+    approving_team=None,
     short_description: str = "",
     created_by: settings.AUTH_USER_MODEL,
 ) -> Workshop:
@@ -33,9 +33,13 @@ def workshop_create(
     for index, building_block_data in enumerate(building_blocks):
         building_block = building_block_instance_create(**building_block_data, order=index, workshop=workshop)
 
+    workshop.calculate_duration()
+
     # We have to validate workshop after save because workshop needs to be saved before we can add building blocks to it
     # But because this is an atomic transaction if this fails now after save there will still not be any data in the database
     workshop.full_clean()
+    # save again to save duration
+    workshop.save()
     return workshop
 
 
@@ -73,6 +77,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
             if block_id not in data_mapping:
                 instance.delete()
 
+    existing_workshop.calculate_duration()
     existing_workshop.full_clean()
     existing_workshop.save()
 

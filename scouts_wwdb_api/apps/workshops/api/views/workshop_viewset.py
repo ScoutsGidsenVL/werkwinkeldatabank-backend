@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import APIException
 from rest_framework.decorators import action
 from drf_yasg.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
@@ -15,7 +16,7 @@ from ...models import Workshop
 from ...models.enums.workshop_status_type import WorkshopStatusType
 from ..filters.workshop_filter import WorkshopFilter
 from pprint import pprint
-from ...api.exceptions.InvalidWorkflowTransitionException import InvalidWorkflowTransitionException
+from ..exceptions import InvalidWorkflowTransitionException
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):
@@ -81,7 +82,8 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
         if workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
             updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            return Response(status=status.HTTP_200_OK)
+            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+            return Response(output_serializer.data, status=status.HTTP_200_OK)
         else:
             raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
@@ -91,8 +93,11 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         status_type = WorkshopStatusType.PUBLISHED
 
         if workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
+            if not workshop.approving_team:
+                raise APIException("A workshop needs an approving team before it can be published", code=400)
             updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            return Response(status=status.HTTP_200_OK)
+            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+            return Response(output_serializer.data, status=status.HTTP_200_OK)
         else:
             raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 
@@ -103,7 +108,8 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
         if workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
             updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            return Response(status=status.HTTP_200_OK)
+            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+            return Response(output_serializer.data, status=status.HTTP_200_OK)
         else:
             raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
 

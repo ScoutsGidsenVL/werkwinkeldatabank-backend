@@ -33,7 +33,7 @@ class Workshop(BaseModel):
     publication_requested_workshops = PublicationRequestedManager()
 
     title = models.CharField(max_length=200)
-    duration = models.DurationField(blank=True, null=True)
+    duration = models.DurationField(default=timedelta())
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
@@ -55,3 +55,12 @@ class Workshop(BaseModel):
     def clean(self):
         if len(self.building_blocks.all()) < 1:
             raise ValidationError("A workshop needs at least one building block")
+
+        if self.workshop_status_type == WorkshopStatusType.PUBLISHED and not self.approving_team:
+            raise ValidationError("A published workshop needs an approving team")
+
+    def calculate_duration(self):
+        duration = timedelta()
+        for building_block in self.building_blocks.all():
+            duration += building_block.duration
+        self.duration = duration
