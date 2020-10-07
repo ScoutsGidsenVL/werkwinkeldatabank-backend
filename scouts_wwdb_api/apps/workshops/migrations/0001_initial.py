@@ -60,7 +60,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('duration', models.DurationField(validators=[django.core.validators.MinValueValidator(datetime.timedelta(seconds=60)), django.core.validators.MaxValueValidator(datetime.timedelta(days=1))])),
                 ('short_description', models.CharField(blank=True, max_length=500)),
-                ('building_block_type', models.CharField(choices=[('THEMATIC', 'Thematisch'), ('METHODIC', 'Methodisch')], max_length=20)),
+                ('building_block_type', models.CharField(choices=[('THEMATIC', 'Inhoud'), ('METHODIC', 'Werkvorm')], max_length=20)),
                 ('category', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='workshops.category')),
                 ('theme', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.RESTRICT, to='workshops.theme')),
             ],

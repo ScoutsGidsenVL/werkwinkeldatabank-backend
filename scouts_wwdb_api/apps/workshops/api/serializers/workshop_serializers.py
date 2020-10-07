@@ -53,10 +53,11 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
     duration = DurationField()
+    theme = ThemeDetailOutputSerializer(read_only=True)
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "workshop_status_type")
+        fields = ("id", "title", "duration", "workshop_status_type", "theme")
 
 
 # Input
