@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, serializers
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import APIException
@@ -94,7 +94,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
         if workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
             if not workshop.approving_team:
-                raise APIException("A workshop needs an approving team before it can be published", code=400)
+                raise serializers.ValidationError("A workshop needs an approving team before it can be published")
             updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
             output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
             return Response(output_serializer.data, status=status.HTTP_200_OK)
