@@ -7,7 +7,7 @@ from .enum_serializers import EnumOutputSerializer
 from .category_serializers import CategoryDetailOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
 from apps.serializer_extensions.serializers import DurationField
-
+from .theme_serializers import ThemeDetailOutputSerializer
 
 # Output
 
@@ -43,6 +43,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     duration = DurationField()
     category = CategoryDetailOutputSerializer(read_only=True)
+    theme = ThemeDetailOutputSerializer(read_only=True)
 
     class Meta:
         model = BuildingBlockTemplate
