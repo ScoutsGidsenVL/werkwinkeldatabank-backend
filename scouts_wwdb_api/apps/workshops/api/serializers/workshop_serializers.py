@@ -57,7 +57,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "workshop_status_type", "theme")
+        fields = ("id", "title", "duration", "workshop_status_type", "theme", "short_description")
 
 
 # Input
@@ -67,7 +67,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all())
     description = serializers.CharField()
-    necessities = serializers.CharField()
+    necessities = serializers.CharField(required=False)
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     short_description = serializers.CharField(max_length=500, required=False)
     approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
