@@ -57,7 +57,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "workshop_status_type", "theme")
+        fields = ("id", "title", "duration", "workshop_status_type", "theme", "short_description")
 
 
 # Input
