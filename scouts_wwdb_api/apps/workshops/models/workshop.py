@@ -37,7 +37,7 @@ class Workshop(BaseModel):
     theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
-    necessities = models.TextField()
+    necessities = models.TextField(blank=True)
     workshop_status_type = models.CharField(
         max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
     )

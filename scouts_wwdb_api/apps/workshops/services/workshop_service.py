@@ -13,9 +13,9 @@ def workshop_create(
     title: str,
     theme: Theme,
     description: str,
-    necessities: str,
     building_blocks: list,
     approving_team=None,
+    necessities: str = "",
     short_description: str = "",
     created_by: settings.AUTH_USER_MODEL,
 ) -> Workshop:
