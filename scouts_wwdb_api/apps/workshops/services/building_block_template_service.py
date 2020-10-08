@@ -1,5 +1,6 @@
 from datetime import timedelta
 from ..models import BuildingBlockTemplate, Category, Theme
+from apps.base.services.disabled_field_service import update_is_disabled_field
 
 
 def building_block_template_create(
@@ -13,6 +14,7 @@ def building_block_template_create(
     theme: Theme = None,
     building_block_necessities: str = "",
     is_sensitive: bool = False,
+    is_disabled: bool = False,
 ) -> BuildingBlockTemplate:
     template = BuildingBlockTemplate(
         title=title,
@@ -24,6 +26,7 @@ def building_block_template_create(
         theme=theme,
         building_block_necessities=building_block_necessities,
         is_sensitive=is_sensitive,
+        is_disabled=is_disabled,
     )
     template.full_clean()
     template.save()
@@ -43,6 +46,7 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
         "building_block_necessities", existing_template.building_block_necessities
     )
     existing_template.is_sensitive = fields.get("is_sensitive", existing_template.is_sensitive)
+    update_is_disabled_field(instance=existing_template, **fields)
 
     existing_template.full_clean()
     existing_template.save()

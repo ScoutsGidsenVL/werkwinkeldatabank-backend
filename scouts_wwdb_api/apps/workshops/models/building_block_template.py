@@ -1,16 +1,16 @@
 from django.db import models
 from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
-from apps.base.models import BaseModel
+from apps.base.models import BaseModel, DisabledFieldModelMixin
 from .enums.building_block_type import BuildingBlockType
 from .category import Category
 from .theme import Theme
-from ..managers.building_block_template_managers import BuildingBlockTemplateManager
+from ..managers import BuildingBlockTemplateManager
 
 
 # This model represents a template for a building block that can be used by scouts admins to manage some predefined templates
 # These are not actual building blocks and cant be connected directly to a workshop
-class BuildingBlockTemplate(BaseModel):
+class BuildingBlockTemplate(DisabledFieldModelMixin, BaseModel):
     # Overwrite manager
     objects = BuildingBlockTemplateManager()
 

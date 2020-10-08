@@ -20,11 +20,11 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     filterset_class = BuildingBlockTemplateFilter
 
     def get_queryset(self):
-        return BuildingBlockTemplate.objects.all_non_empty()
+        return BuildingBlockTemplate.objects.all().non_empty().allowed(self.request.user)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        template = get_object_or_404(BuildingBlockTemplate.objects, pk=pk)
+        template = get_object_or_404(self.get_queryset(), pk=pk)
         serializer = BuildingBlockTemplateDetailOutputSerializer(template)
 
         return Response(serializer.data)
@@ -34,7 +34,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         responses={status.HTTP_201_CREATED: BuildingBlockTemplateDetailOutputSerializer},
     )
     def create(self, request):
-        input_serializer = BuildingBlockTemplateCreateInputSerializer(data=request.data)
+        input_serializer = BuildingBlockTemplateCreateInputSerializer(data=request.data, context={"request": request})
         input_serializer.is_valid(raise_exception=True)
 
         created_template = building_block_template_create(**input_serializer.validated_data)
@@ -60,9 +60,11 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer},
     )
     def partial_update(self, request, pk=None):
-        template = get_object_or_404(BuildingBlockTemplate.objects, pk=pk)
+        template = get_object_or_404(self.get_queryset(), pk=pk)
 
-        serializer = BuildingBlockTemplateUpdateInputSerializer(data=request.data, instance=template)
+        serializer = BuildingBlockTemplateUpdateInputSerializer(
+            data=request.data, instance=template, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
 
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)

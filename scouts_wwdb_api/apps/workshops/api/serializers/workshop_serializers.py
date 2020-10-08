@@ -2,6 +2,7 @@ from rest_framework import serializers
 from datetime import timedelta
 from drf_yasg.utils import swagger_serializer_method
 from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
+from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import Workshop, Theme
 from ...models.enums.scouts_team import ScoutsTeam
 from ...helpers.enum_helper import parse_choice_to_tuple
@@ -40,6 +41,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             "created_by",
             "approving_team",
             "is_sensitive",
+            "is_disabled",
         )
         depth = 2
 
@@ -57,13 +59,13 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "workshop_status_type", "theme", "short_description")
+        fields = ("id", "title", "duration", "workshop_status_type", "theme", "short_description", "is_disabled")
 
 
 # Input
 
 
-class WorkshopCreateInputSerializer(serializers.Serializer):
+class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all())
     description = serializers.CharField()
@@ -73,7 +75,7 @@ class WorkshopCreateInputSerializer(serializers.Serializer):
     approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
 
 
-class WorkshopUpdateInputSerializer(serializers.Serializer):
+class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
     description = serializers.CharField(required=False)

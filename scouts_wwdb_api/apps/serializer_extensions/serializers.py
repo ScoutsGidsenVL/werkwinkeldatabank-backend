@@ -1,7 +1,9 @@
 import copy
 import inspect
 from rest_framework import serializers
+from rest_framework.fields import empty
 from drf_yasg import openapi
+from pprint import pprint
 
 # Overwrite DurationField to give it correct swagger configuration
 class DurationField(serializers.DurationField):
@@ -10,6 +12,33 @@ class DurationField(serializers.DurationField):
             "type": openapi.TYPE_STRING,
             "format": "[DD] [HH:[MM:]]ss[.uuuuuu]",
         }
+
+
+# Custom field that only parses value if you have the required permission
+class PermissionRequiredInputField(serializers.Field):
+    field = None
+    permission = None
+
+    def __init__(self, *args, **kwargs):
+        self.field = kwargs.pop("field", copy.deepcopy(self.field))
+        self.permission = kwargs.pop("permission")
+        assert self.field is not None, "`field` is a required argument."
+        assert not inspect.isclass(self.field), "`field` has not been instantiated."
+        assert self.permission is not None, "`permission` is a required argument."
+        super().__init__(*args, **kwargs)
+
+    def to_internal_value(self, data):
+        request = self.context.get("request")
+        if not request:
+            raise Exception(
+                "Make sure request has been given to the context of the serializer,"
+                "otherwise PermissionRequiredField won't work"
+            )
+        # If have permission just act as if you are the given field with data
+        if request.user.has_perm(self.permission):
+            return self.field.run_validation(data)
+        # Else act as if no value given
+        return self.field.run_validation(empty)
 
 
 # Create serializer field that can switch between a create and a delete depending on id given

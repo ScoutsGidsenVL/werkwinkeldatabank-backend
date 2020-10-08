@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from datetime import timedelta
 from drf_yasg.utils import swagger_serializer_method
+from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category, Theme
 from ...models.enums.building_block_type import BuildingBlockType
 from .enum_serializers import EnumOutputSerializer
@@ -31,6 +32,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "theme",
             "building_block_necessities",
             "is_sensitive",
+            "is_disabled",
         )
         depth = 2
 
@@ -47,7 +49,17 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingBlockTemplate
-        fields = ("id", "title", "duration", "type", "short_description", "category", "theme", "is_sensitive")
+        fields = (
+            "id",
+            "title",
+            "duration",
+            "type",
+            "short_description",
+            "category",
+            "theme",
+            "is_sensitive",
+            "is_disabled",
+        )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
@@ -69,7 +81,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
             "order",
             "building_block_necessities",
             "is_sensitive",
-            "linked_template_values"
+            "linked_template_values",
         )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
@@ -80,7 +92,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
 # Input
 
 ## Template
-class BuildingBlockTemplateCreateInputSerializer(serializers.Serializer):
+class BuildingBlockTemplateCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
@@ -92,7 +104,7 @@ class BuildingBlockTemplateCreateInputSerializer(serializers.Serializer):
     is_sensitive = serializers.BooleanField(required=False)
 
 
-class BuildingBlockTemplateUpdateInputSerializer(serializers.Serializer):
+class BuildingBlockTemplateUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
     type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices, required=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)

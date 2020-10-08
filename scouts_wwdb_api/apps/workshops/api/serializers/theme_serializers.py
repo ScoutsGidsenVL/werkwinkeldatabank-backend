@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import Theme
 
 
@@ -8,23 +9,23 @@ from ...models import Theme
 class ThemeDetailOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = Theme
-        fields = ("id", "title", "description")
+        fields = ("id", "title", "description", "is_disabled")
 
 
 class ThemeListOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = Theme
-        fields = ("id", "title")
+        fields = ("id", "title", "is_disabled")
 
 
 # Input
 
 
-class ThemeCreateInputSerializer(serializers.Serializer):
+class ThemeCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
 
 
-class ThemeUpdateInputSerializer(serializers.Serializer):
+class ThemeUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
