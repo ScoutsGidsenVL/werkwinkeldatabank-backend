@@ -2,6 +2,7 @@ from django.db import models
 from apps.base.models import BaseModel
 from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
+from .enums.building_block_type import BuildingBlockType
 from .building_block_template import BuildingBlockTemplate
 from .workshop import Workshop
 from ..models.category import Category
@@ -120,3 +121,22 @@ class BuildingBlockInstance(BaseModel):
 
     class Meta:
         ordering = ["order"]
+
+    def clean(self):
+        if self.building_block_type == BuildingBlockType.THEMATIC:
+            if not self.theme:
+                raise ValidationError("A building block of type %s needs a theme" % BuildingBlockType.THEMATIC.label)
+            if self.category:
+                raise ValidationError(
+                    "A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label
+                )
+
+        if self.building_block_type == BuildingBlockType.METHODIC:
+            if not self.category:
+                raise ValidationError(
+                    "A building block of type %s needs a category" % BuildingBlockType.METHODIC.label
+                )
+            if self.theme:
+                raise ValidationError(
+                    "A building block of type %s can't have a theme" % BuildingBlockType.METHODIC.label
+                )

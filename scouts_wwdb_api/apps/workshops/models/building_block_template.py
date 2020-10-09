@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 from apps.base.models import BaseModel, DisabledFieldModelMixin
 from .enums.building_block_type import BuildingBlockType
 from .category import Category
@@ -34,3 +35,22 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, BaseModel):
 
     def __str__(self):
         return self.title
+
+    def clean(self):
+        if self.building_block_type == BuildingBlockType.THEMATIC:
+            if not self.theme:
+                raise ValidationError("A building block of type %s needs a theme" % BuildingBlockType.THEMATIC.label)
+            if self.category:
+                raise ValidationError(
+                    "A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label
+                )
+
+        if self.building_block_type == BuildingBlockType.METHODIC:
+            if not self.category:
+                raise ValidationError(
+                    "A building block of type %s needs a category" % BuildingBlockType.METHODIC.label
+                )
+            if self.theme:
+                raise ValidationError(
+                    "A building block of type %s can't have a theme" % BuildingBlockType.METHODIC.label
+                )
