@@ -54,3 +54,8 @@ class Workshop(DisabledFieldModelMixin, BaseModel):
             if building_block.is_sensitive:
                 return True
         return False
+
+    class Meta:
+        permissions = [
+            ("view_to_be_published_workshops", "Can view the to be published workshops"),
+        ]

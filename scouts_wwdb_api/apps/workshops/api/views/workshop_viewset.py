@@ -17,6 +17,8 @@ from ...models.enums.workshop_status_type import WorkshopStatusType
 from ..filters.workshop_filter import WorkshopFilter
 from pprint import pprint
 from ..exceptions import InvalidWorkflowTransitionException
+from ..permissions.custom_django_permission import CustomDjangoPermission
+from functools import partial
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):
@@ -141,7 +143,11 @@ class WorkshopViewSet(viewsets.GenericViewSet):
             serializer = WorkshopListOutputSerializer(workshops, many=True)
             return Response(serializer.data)
 
-    @action(detail=False, methods=["get"])
+    @action(
+        detail=False,
+        methods=["get"],
+        permission_classes=[partial(CustomDjangoPermission, "workshops.view_to_be_published_workshops2")],
+    )
     def publication_requested_workshops(self, request):
         # Apply filter using the custom manager
         workshops = self.filter_queryset(self.get_queryset().publication_requested())
