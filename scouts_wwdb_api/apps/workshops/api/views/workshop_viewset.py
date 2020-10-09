@@ -26,7 +26,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     filterset_class = WorkshopFilter
 
     def get_queryset(self):
-        return Workshop.objects.all()
+        return Workshop.objects.all().allowed(self.request.user)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
@@ -39,7 +39,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         request_body=WorkshopCreateInputSerializer, responses={status.HTTP_201_CREATED: WorkshopDetailOutputSerializer}
     )
     def create(self, request):
-        input_serializer = WorkshopCreateInputSerializer(data=request.data)
+        input_serializer = WorkshopCreateInputSerializer(data=request.data, context={"request": request})
         input_serializer.is_valid(raise_exception=True)
 
         created_workshop = workshop_create(**input_serializer.validated_data, created_by=request.user)
@@ -66,9 +66,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         request_body=WorkshopUpdateInputSerializer, responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer}
     )
     def partial_update(self, request, pk=None):
-        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        workshop = get_object_or_404(self.get_queryset(), pk=pk)
 
-        serializer = WorkshopUpdateInputSerializer(data=request.data, instance=workshop)
+        serializer = WorkshopUpdateInputSerializer(data=request.data, instance=workshop, context={"request": request})
         serializer.is_valid(raise_exception=True)
 
         updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)
@@ -79,7 +79,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     @action(detail=True, methods=["post"])
     def request_publication(self, request, pk=None):
-        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        workshop = get_object_or_404(self.get_queryset(), pk=pk)
         status_type = WorkshopStatusType.PUBLICATION_REQUESTED
 
         if workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
@@ -91,7 +91,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     @action(detail=True, methods=["post"])
     def publish(self, request, pk=None):
-        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        workshop = get_object_or_404(self.get_queryset(), pk=pk)
         status_type = WorkshopStatusType.PUBLISHED
 
         if workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
@@ -105,7 +105,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     @action(detail=True, methods=["post"])
     def unpublish(self, request, pk=None):
-        workshop = get_object_or_404(Workshop.objects, pk=pk)
+        workshop = get_object_or_404(self.get_queryset(), pk=pk)
         status_type = WorkshopStatusType.PRIVATE
 
         if workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
@@ -118,7 +118,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"])
     def published_workshops(self, request):
         # Apply filter using the custom manager
-        workshops = self.filter_queryset(Workshop.published_workshops.all())
+        workshops = self.filter_queryset(self.get_queryset().published())
         # Apply paging
         page = self.paginate_queryset(workshops)
 
@@ -132,7 +132,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"])
     def my_workshops(self, request):
         # Apply filter using the custom manager
-        workshops = self.filter_queryset(Workshop.my_workshops.for_user(request.user.id))
+        workshops = self.filter_queryset(self.get_queryset().owned(request.user.id))
         # Apply paging
         page = self.paginate_queryset(workshops)
 
@@ -150,7 +150,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     )
     def publication_requested_workshops(self, request):
         # Apply filter using the custom manager
-        workshops = self.filter_queryset(Workshop.publication_requested_workshops.all())
+        workshops = self.filter_queryset(self.get_queryset().publication_requested())
         # Apply paging
         page = self.paginate_queryset(workshops)
 

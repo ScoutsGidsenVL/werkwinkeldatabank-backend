@@ -3,9 +3,10 @@ from django.db.models import Q
 from ...models import BuildingBlockTemplate
 from ...models.enums.building_block_type import BuildingBlockType
 from apps.filter_extensions.filters import MultipleUUIDFilter
+from apps.base.filters import ActiveFilterMixin
 
 
-class BuildingBlockTemplateFilter(django_filters.FilterSet):
+class BuildingBlockTemplateFilter(ActiveFilterMixin, django_filters.FilterSet):
     term = django_filters.CharFilter(method="filter_by_term")
     type = django_filters.ChoiceFilter(choices=BuildingBlockType.choices, field_name="building_block_type")
     duration_start = django_filters.DurationFilter(field_name="duration", lookup_expr="gte")

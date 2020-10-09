@@ -19,7 +19,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
     filterset_class = ThemeFilter
 
     def get_queryset(self):
-        return Theme.objects.all()
+        return Theme.objects.all().allowed(self.request.user)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeDetailOutputSerializer})
     def retrieve(self, request, pk=None):
@@ -32,7 +32,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
         request_body=ThemeCreateInputSerializer, responses={status.HTTP_201_CREATED: ThemeDetailOutputSerializer}
     )
     def create(self, request):
-        input_serializer = ThemeCreateInputSerializer(data=request.data)
+        input_serializer = ThemeCreateInputSerializer(data=request.data, context={"request": request})
         input_serializer.is_valid(raise_exception=True)
 
         created_theme = theme_create(**input_serializer.validated_data)
@@ -59,7 +59,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         theme = get_object_or_404(Theme.objects, pk=pk)
 
-        serializer = ThemeUpdateInputSerializer(data=request.data, instance=theme)
+        serializer = ThemeUpdateInputSerializer(data=request.data, instance=theme, context={"request": request})
         serializer.is_valid(raise_exception=True)
 
         updated_theme = theme_update(existing_theme=theme, **serializer.validated_data)

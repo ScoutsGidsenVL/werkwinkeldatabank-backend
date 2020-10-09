@@ -19,7 +19,7 @@ class CategoryViewSet(viewsets.GenericViewSet):
     filterset_class = CategoryFilter
 
     def get_queryset(self):
-        return Category.objects.all()
+        return Category.objects.all().allowed(self.request.user)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: CategoryDetailOutputSerializer})
     def retrieve(self, request, pk=None):
@@ -32,7 +32,7 @@ class CategoryViewSet(viewsets.GenericViewSet):
         request_body=CategoryCreateInputSerializer, responses={status.HTTP_201_CREATED: CategoryDetailOutputSerializer}
     )
     def create(self, request):
-        input_serializer = CategoryCreateInputSerializer(data=request.data)
+        input_serializer = CategoryCreateInputSerializer(data=request.data, context={"request": request})
         input_serializer.is_valid(raise_exception=True)
 
         created_category = category_create(**input_serializer.validated_data)
@@ -59,7 +59,7 @@ class CategoryViewSet(viewsets.GenericViewSet):
     def partial_update(self, request, pk=None):
         category = get_object_or_404(Category.objects, pk=pk)
 
-        serializer = CategoryUpdateInputSerializer(data=request.data, instance=category)
+        serializer = CategoryUpdateInputSerializer(data=request.data, instance=category, context={"request": request})
 
         serializer.is_valid(raise_exception=True)
 

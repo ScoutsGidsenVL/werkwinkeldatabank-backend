@@ -1,4 +1,5 @@
 role_admin:
+  - scouts_auth.access_disabled_entities
   - workshops.add_theme
   - workshops.view_to_be_published_workshops
 role_super_admin: [] # Doesn't need permissions because is made super user in django

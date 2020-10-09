@@ -1,10 +1,12 @@
 from ..models import Workshop, Theme
 from django.shortcuts import get_object_or_404
 from django.db import transaction
+from django.conf import settings
+from apps.base.services.disabled_field_service import update_is_disabled_field
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
 from ..models.enums.workshop_status_type import WorkshopStatusType
 from pprint import pprint
-from django.conf import settings
+
 
 # Make atomic so database changes can be rolled back if error occurs
 @transaction.atomic
@@ -18,6 +20,7 @@ def workshop_create(
     necessities: str = "",
     short_description: str = "",
     created_by: settings.AUTH_USER_MODEL,
+    is_disabled: bool = False,
 ) -> Workshop:
     workshop = Workshop(
         title=title,
@@ -27,6 +30,7 @@ def workshop_create(
         short_description=short_description,
         created_by=created_by,
         approving_team=approving_team,
+        is_disabled=is_disabled,
     )
     workshop.save()
 
@@ -52,6 +56,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
     existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
     existing_workshop.approving_team = fields.get("approving_team", existing_workshop.approving_team)
+    update_is_disabled_field(instance=existing_workshop, **fields)
 
     # Handle building blocks
     new_building_blocks_data = fields.get("building_blocks", None)

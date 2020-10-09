@@ -1,9 +1,10 @@
 import django_filters
 from ...models import Workshop
 from apps.filter_extensions.filters import MultipleUUIDFilter
+from apps.base.filters import ActiveFilterMixin
 
 
-class WorkshopFilter(django_filters.FilterSet):
+class WorkshopFilter(ActiveFilterMixin, django_filters.FilterSet):
     term = django_filters.CharFilter(field_name="title", lookup_expr="icontains")
     theme = MultipleUUIDFilter()
     duration_start = django_filters.DurationFilter(field_name="duration", lookup_expr="gte")
