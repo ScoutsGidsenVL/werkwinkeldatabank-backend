@@ -70,6 +70,8 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
 class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
     duration = DurationField()
+    category = CategoryDetailOutputSerializer(read_only=True)
+    theme = ThemeDetailOutputSerializer(read_only=True)
 
     class Meta:
         model = BuildingBlockInstance
@@ -79,6 +81,8 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
             "description",
             "duration",
             "type",
+            "category",
+            "theme",
             "order",
             "building_block_necessities",
             "is_sensitive",
@@ -101,7 +105,6 @@ def get_theme_category_by_type_errors(type, theme, category):
         if category:
             errors.append("A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label)
 
-    pprint((type, theme, category))
     if type == BuildingBlockType.METHODIC:
         if not category:
             errors.append("A building block of type %s needs a category" % BuildingBlockType.METHODIC.label)
