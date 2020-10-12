@@ -11,12 +11,18 @@ from ..serializers.workshop_serializers import (
     WorkshopCreateInputSerializer,
     WorkshopUpdateInputSerializer,
 )
-from ...services.workshop_service import workshop_create, workshop_update, workshop_status_change
+from ...services.workshop_service import (
+    workshop_create,
+    workshop_update,
+    workshop_request_publication,
+    workshop_publish,
+    workshop_unpublish,
+)
 from ...models import Workshop
 from ...models.enums.workshop_status_type import WorkshopStatusType
 from ..filters.workshop_filter import WorkshopFilter
-from pprint import pprint
-from ..exceptions import InvalidWorkflowTransitionException
+from ...exceptions import InvalidWorkflowTransitionException
+from ..exceptions import InvalidWorkflowTransitionAPIException
 from ..permissions.custom_django_permission import CustomDjangoPermission
 from functools import partial
 
@@ -27,6 +33,12 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     def get_queryset(self):
         return Workshop.objects.all().allowed(self.request.user)
+
+    def handle_exception(self, exc):
+        if isinstance(exc, InvalidWorkflowTransitionException):
+            exc = InvalidWorkflowTransitionAPIException(exc)
+
+        return super().handle_exception(exc)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
@@ -80,40 +92,26 @@ class WorkshopViewSet(viewsets.GenericViewSet):
     @action(detail=True, methods=["post"])
     def request_publication(self, request, pk=None):
         workshop = get_object_or_404(self.get_queryset(), pk=pk)
-        status_type = WorkshopStatusType.PUBLICATION_REQUESTED
 
-        if workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
-            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
-            return Response(output_serializer.data, status=status.HTTP_200_OK)
-        else:
-            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
+        updated_workshop = workshop_request_publication(workshop=workshop)
+        output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=["post"])
     def publish(self, request, pk=None):
         workshop = get_object_or_404(self.get_queryset(), pk=pk)
-        status_type = WorkshopStatusType.PUBLISHED
 
-        if workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
-            if not workshop.approving_team:
-                raise serializers.ValidationError("A workshop needs an approving team before it can be published")
-            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
-            return Response(output_serializer.data, status=status.HTTP_200_OK)
-        else:
-            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
+        updated_workshop = workshop_publish(workshop=workshop)
+        output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=["post"])
     def unpublish(self, request, pk=None):
         workshop = get_object_or_404(self.get_queryset(), pk=pk)
-        status_type = WorkshopStatusType.PRIVATE
 
-        if workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
-            updated_workshop = workshop_status_change(existing_workshop=workshop, workshop_status=status_type)
-            output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
-            return Response(output_serializer.data, status=status.HTTP_200_OK)
-        else:
-            raise InvalidWorkflowTransitionException(from_msg=workshop.workshop_status_type, to_msg=status_type)
+        updated_workshop = workshop_unpublish(workshop=workshop)
+        output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=["get"])
     def published_workshops(self, request):

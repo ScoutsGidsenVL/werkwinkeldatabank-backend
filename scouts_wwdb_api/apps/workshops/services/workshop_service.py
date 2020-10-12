@@ -2,10 +2,12 @@ from ..models import Workshop, Theme
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from apps.base.services.disabled_field_service import update_is_disabled_field
+from apps.wwdb_mails.services import send_template_mail
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
 from ..models.enums.workshop_status_type import WorkshopStatusType
-from pprint import pprint
+from ..exceptions import InvalidWorkflowTransitionException
 
 
 # Make atomic so database changes can be rolled back if error occurs
@@ -89,10 +91,51 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     return existing_workshop
 
 
-def workshop_status_change(*, existing_workshop: Workshop, workshop_status: WorkshopStatusType) -> Workshop:
-    existing_workshop.workshop_status_type = workshop_status
+def workshop_request_publication(*, workshop: Workshop) -> Workshop:
+    new_status = WorkshopStatusType.PUBLICATION_REQUESTED
+    if not workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
+        raise InvalidWorkflowTransitionException(from_status=workshop.workshop_status_type, to_status=new_status)
 
-    existing_workshop.full_clean()
-    existing_workshop.save()
+    workshop.workshop_status_type = new_status
+    try:
+        workshop.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
+        )
+    send_template_mail(template="workshop_publication_requested", workshop=workshop)
+    workshop.save()
+    return workshop
 
-    return existing_workshop
+
+def workshop_publish(*, workshop: Workshop) -> Workshop:
+    new_status = WorkshopStatusType.PUBLISHED
+    if not workshop.workshop_status_type == WorkshopStatusType.PUBLICATION_REQUESTED:
+        raise InvalidWorkflowTransitionException(from_status=workshop.workshop_status_type, to_status=new_status)
+
+    workshop.workshop_status_type = new_status
+    try:
+        workshop.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
+        )
+    send_template_mail(template="workshop_published", workshop=workshop)
+    workshop.save()
+    return workshop
+
+
+def workshop_unpublish(*, workshop: Workshop) -> Workshop:
+    new_status = WorkshopStatusType.PRIVATE
+    if not workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
+        raise InvalidWorkflowTransitionException(from_status=workshop.workshop_status_type, to_status=new_status)
+
+    workshop.workshop_status_type = new_status
+    try:
+        workshop.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
+        )
+    workshop.save()
+    return workshop

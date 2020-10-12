@@ -36,6 +36,7 @@ ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 INSTALLED_APPS = [
     "apps.workshops",
     "apps.files",
+    "apps.wwdb_mails",
     "django.contrib.admin",
     "django.contrib.auth",
     "apps.scouts_auth",
@@ -150,6 +151,18 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "scouts_wwdb_api.pagination.ScoutsPageNumberPagination",
 }
+
+# Email
+email = env.dj_email_url("EMAIL_URL")
+EMAIL_HOST = email["EMAIL_HOST"]
+EMAIL_PORT = email["EMAIL_PORT"]
+EMAIL_HOST_PASSWORD = email["EMAIL_HOST_PASSWORD"]
+EMAIL_HOST_USER = email["EMAIL_HOST_USER"]
+EMAIL_USE_TLS = email["EMAIL_USE_TLS"]
+
+DEFAULT_FROM_EMAIL = env.str("EMAIL_SENDER")
+DEFAULT_EMAIL_RECIPIENTS = env.list("EMAIL_RECIPIENTS")
+
 
 # CORS
 
