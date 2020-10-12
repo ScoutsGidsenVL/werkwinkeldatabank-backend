@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import timedelta
-from drf_yasg.utils import swagger_serializer_method
+from drf_yasg2.utils import swagger_serializer_method
 from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import Workshop, Theme
@@ -42,6 +42,8 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             "approving_team",
             "is_sensitive",
             "is_disabled",
+            "created_at",
+            "published_at",
         )
         depth = 2
 
@@ -59,7 +61,17 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workshop
-        fields = ("id", "title", "duration", "workshop_status_type", "theme", "short_description", "is_disabled")
+        fields = (
+            "id",
+            "title",
+            "duration",
+            "workshop_status_type",
+            "theme",
+            "short_description",
+            "is_disabled",
+            "created_at",
+            "published_at",
+        )
 
 
 # Input

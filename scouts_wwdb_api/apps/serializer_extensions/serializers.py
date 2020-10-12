@@ -2,7 +2,7 @@ import copy
 import inspect
 from rest_framework import serializers
 from rest_framework.fields import empty
-from drf_yasg import openapi
+from drf_yasg2 import openapi
 from pprint import pprint
 
 # Overwrite DurationField to give it correct swagger configuration

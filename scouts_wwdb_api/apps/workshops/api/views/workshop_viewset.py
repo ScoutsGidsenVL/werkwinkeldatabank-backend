@@ -1,9 +1,10 @@
-from rest_framework import viewsets, status, serializers
+from rest_framework import viewsets, status, serializers, filters
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from django.db.models import F
 from rest_framework.exceptions import APIException
 from rest_framework.decorators import action
-from drf_yasg.utils import swagger_auto_schema
+from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from ..serializers.workshop_serializers import (
     WorkshopDetailOutputSerializer,
@@ -28,8 +29,10 @@ from functools import partial
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_class = WorkshopFilter
+    ordering_fields = ["published_at", "created_at"]
+    ordering = [F("published_at").desc(nulls_last=True), "-created_at"]
 
     def get_queryset(self):
         return Workshop.objects.all().allowed(self.request.user)

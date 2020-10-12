@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-from drf_yasg.utils import swagger_auto_schema
+from drf_yasg2.utils import swagger_auto_schema
 from .serializers import UploadFileInputSerializer, UploadFileOutputSerializer
 from ..services.file_service import store_ckeditor_file
 from ..models import CKEditorFile

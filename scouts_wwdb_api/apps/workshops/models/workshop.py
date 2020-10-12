@@ -3,7 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from datetime import timedelta
 from .theme import Theme
-from apps.base.models import BaseModel, DisabledFieldModelMixin
+from apps.base.models import BaseModel, DisabledFieldModelMixin, AuditTimestampMixin
 from .theme import Theme
 from .enums.workshop_status_type import WorkshopStatusType
 from .enums.scouts_team import ScoutsTeam
@@ -11,7 +11,7 @@ from ..managers import WorkshopManager
 from django.conf import settings
 
 
-class Workshop(DisabledFieldModelMixin, BaseModel):
+class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, BaseModel):
     # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
     objects = WorkshopManager()
 
@@ -25,6 +25,7 @@ class Workshop(DisabledFieldModelMixin, BaseModel):
         max_length=30, choices=WorkshopStatusType.choices, default=WorkshopStatusType.PRIVATE
     )
     approving_team = models.CharField(max_length=30, choices=ScoutsTeam.choices, blank=True, null=True)
+    published_at = models.DateTimeField(blank=True, null=True)
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
@@ -41,6 +42,9 @@ class Workshop(DisabledFieldModelMixin, BaseModel):
 
         if self.workshop_status_type == WorkshopStatusType.PUBLISHED and not self.approving_team:
             raise ValidationError("A published workshop needs an approving team")
+
+        if self.workshop_status_type == WorkshopStatusType.PUBLISHED and not self.published_at:
+            raise ValidationError("A published workshop needs a published at date")
 
     def calculate_duration(self):
         duration = timedelta()

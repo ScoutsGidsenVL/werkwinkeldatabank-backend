@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from datetime import timedelta
-from drf_yasg.utils import swagger_serializer_method
+from drf_yasg2.utils import swagger_serializer_method
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category, Theme
 from ...models.enums.building_block_type import BuildingBlockType

@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from apps.base.services.disabled_field_service import update_is_disabled_field
 from apps.wwdb_mails.services import send_template_mail
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
@@ -114,6 +115,7 @@ def workshop_publish(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(from_status=workshop.workshop_status_type, to_status=new_status)
 
     workshop.workshop_status_type = new_status
+    workshop.published_at = timezone.now()
     try:
         workshop.full_clean()
     except ValidationError as error:
@@ -131,6 +133,7 @@ def workshop_unpublish(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(from_status=workshop.workshop_status_type, to_status=new_status)
 
     workshop.workshop_status_type = new_status
+    workshop.published_at = None
     try:
         workshop.full_clean()
     except ValidationError as error:
