@@ -64,6 +64,8 @@ class SerializerSwitchField(serializers.Field):
         assert self.update_serializer is not None, "`update_serializer` is a required argument."
         assert not inspect.isclass(self.update_serializer), "`update_serializer` has not been instantiated."
         super().__init__(*args, **kwargs)
+        self.create_serializer.bind(field_name="", parent=self)
+        self.update_serializer.bind(field_name="", parent=self)
 
     def to_internal_value(self, data):
         if data.get("id", None):

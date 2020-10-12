@@ -2,6 +2,7 @@ from django.db import models
 from apps.base.models import BaseModel
 from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.exceptions import ValidationError
 from .enums.building_block_type import BuildingBlockType
 from .building_block_template import BuildingBlockTemplate
 from .workshop import Workshop

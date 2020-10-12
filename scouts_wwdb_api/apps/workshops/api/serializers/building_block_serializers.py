@@ -195,6 +195,14 @@ class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
     building_block_necessities = serializers.CharField(required=False)
 
     def validate(self, data):
+        # Calculate instance from root serializer
+        self.instance = self.root.instance.building_blocks.get(pk=data.get("id"))
+
+        if not self.instance:
+            raise Exception("Cant update building block that isnt already related to workshop")
+        # Set the linked_template_values boolean of instance to get correct properties for validation
+        self.instance.linked_template_values = data.get("linked_template_values", self.instance.linked_template_values)
+
         errors = get_theme_category_by_type_errors(
             data.get("template", self.instance.template).building_block_type,
             data.get("theme", self.instance.theme),
