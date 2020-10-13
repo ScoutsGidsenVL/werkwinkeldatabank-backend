@@ -10,7 +10,12 @@ from ..serializers.building_block_serializers import (
     BuildingBlockTemplateListOutputSerializer,
     BuildingBlockTemplateUpdateInputSerializer,
 )
-from ...services.building_block_template_service import building_block_template_create, building_block_template_update
+from ..serializers.history_serializers import HistoryOutputSerializer
+from ...services.building_block_template_service import (
+    building_block_template_create,
+    building_block_template_update,
+    building_block_template_add_history,
+)
 from ...models import BuildingBlockTemplate
 from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
 
@@ -41,6 +46,9 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
 
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(created_template)
 
+        # Save data json in history to get easy history
+        building_block_template_add_history(data=output_serializer.data, template=created_template)
+
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateListOutputSerializer})
@@ -70,6 +78,8 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)
 
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(updated_template)
+        # Save data json in history to get easy history
+        building_block_template_add_history(data=output_serializer.data, template=updated_template)
 
         return Response(output_serializer.data)
 
@@ -80,5 +90,17 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     def get_empty_default(self, request):
         template = BuildingBlockTemplate.objects.get_empty_default()
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(template)
+
+        return Response(output_serializer.data)
+
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: HistoryOutputSerializer},
+    )
+    @action(detail=True, methods=["get"])
+    def history(self, request, pk=None):
+        template = get_object_or_404(self.get_queryset(), pk=pk)
+        history = template.historic_data.all().order_by("-created_at")
+
+        output_serializer = HistoryOutputSerializer(history, many=True)
 
         return Response(output_serializer.data)

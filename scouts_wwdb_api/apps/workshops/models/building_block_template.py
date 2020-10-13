@@ -33,6 +33,11 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, BaseModel):
     # Boolean that is only active for the special empty template that is generated in migration
     is_default_empty = models.BooleanField(default=False)
 
+    # Related Many field
+    # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
+    # We add them here in comment for documentation purposes
+    # historic_data (History)
+
     def __str__(self):
         return self.title
 

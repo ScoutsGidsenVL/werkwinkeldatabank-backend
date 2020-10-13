@@ -12,12 +12,14 @@ from ..serializers.workshop_serializers import (
     WorkshopCreateInputSerializer,
     WorkshopUpdateInputSerializer,
 )
+from ..serializers.history_serializers import HistoryOutputSerializer
 from ...services.workshop_service import (
     workshop_create,
     workshop_update,
     workshop_request_publication,
     workshop_publish,
     workshop_unpublish,
+    workshop_add_history,
 )
 from ...models import Workshop
 from ...models.enums.workshop_status_type import WorkshopStatusType
@@ -36,6 +38,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     def get_queryset(self):
         return Workshop.objects.all().allowed(self.request.user)
+
+    def get_serializer_class(self):
+        return WorkshopDetailOutputSerializer
 
     def handle_exception(self, exc):
         if isinstance(exc, InvalidWorkflowTransitionException):
@@ -60,6 +65,8 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         created_workshop = workshop_create(**input_serializer.validated_data, created_by=request.user)
 
         output_serializer = WorkshopDetailOutputSerializer(created_workshop)
+        # Save data json in history to get easy history
+        workshop_add_history(data=output_serializer.data, workshop=created_workshop)
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
@@ -89,6 +96,8 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         updated_workshop = workshop_update(existing_workshop=workshop, **serializer.validated_data)
 
         output_serializer = WorkshopDetailOutputSerializer(updated_workshop)
+        # Save data json in history to get easy history
+        workshop_add_history(data=output_serializer.data, workshop=updated_workshop)
 
         return Response(output_serializer.data)
 
@@ -161,3 +170,15 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         else:
             serializer = WorkshopListOutputSerializer(workshops, many=True)
             return Response(serializer.data)
+
+    @swagger_auto_schema(
+        responses={status.HTTP_200_OK: HistoryOutputSerializer},
+    )
+    @action(detail=True, methods=["get"])
+    def history(self, request, pk=None):
+        workshop = get_object_or_404(self.get_queryset(), pk=pk)
+        history = workshop.historic_data.all().order_by("-created_at")
+
+        output_serializer = HistoryOutputSerializer(history, many=True)
+
+        return Response(output_serializer.data)

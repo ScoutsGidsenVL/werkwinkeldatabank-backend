@@ -7,6 +7,7 @@ from django.utils import timezone
 from apps.base.services.disabled_field_service import update_is_disabled_field
 from apps.wwdb_mails.services import send_template_mail
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
+from .history_service import history_create
 from ..models.enums.workshop_status_type import WorkshopStatusType
 from ..exceptions import InvalidWorkflowTransitionException
 
@@ -142,3 +143,7 @@ def workshop_unpublish(*, workshop: Workshop) -> Workshop:
         )
     workshop.save()
     return workshop
+
+
+def workshop_add_history(*, data: dict, workshop: Workshop):
+    return history_create(data=data, workshop=workshop)

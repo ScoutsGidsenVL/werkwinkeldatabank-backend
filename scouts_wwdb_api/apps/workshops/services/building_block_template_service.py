@@ -1,5 +1,6 @@
 from datetime import timedelta
 from ..models import BuildingBlockTemplate, Category, Theme
+from .history_service import history_create
 from apps.base.services.disabled_field_service import update_is_disabled_field
 
 
@@ -52,3 +53,7 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
     existing_template.save()
 
     return existing_template
+
+
+def building_block_template_add_history(*, data: dict, template: BuildingBlockTemplate):
+    return history_create(data=data, building_block=template)
