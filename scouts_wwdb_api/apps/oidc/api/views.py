@@ -1,4 +1,4 @@
-from rest_framework import views, status
+from rest_framework import views, status, permissions
 from rest_framework.response import Response
 from requests.exceptions import HTTPError
 from .serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenOutputSerializer
@@ -7,6 +7,8 @@ from ..exceptions import TokenRequestException
 
 
 class AuthCodeView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         serializer = AuthCodeInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -23,6 +25,8 @@ class AuthCodeView(views.APIView):
 
 
 class RefreshView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         serializer = RefreshInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

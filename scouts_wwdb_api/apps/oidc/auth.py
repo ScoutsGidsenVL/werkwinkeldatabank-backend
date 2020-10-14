@@ -31,10 +31,33 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         return user
 
     def map_user_with_claims(self, user, claims):
+        if settings.OIDC_OP_USER_ENDPOINT.startswith("https://groepsadmin.scoutsengidsenvlaanderen.be"):
+            return self.map_user_with_groepsadmin_claims(user, claims)
+        else:
+            return self.map_user_with_userinfo_claims(user, claims)
+
+    def map_user_with_userinfo_claims(self, user, claims):
         user.first_name = claims.get("given_name", user.first_name)
         user.last_name = claims.get("family_name", user.last_name)
 
         roles = claims.get(settings.OIDC_RP_CLIENT_ID, {}).get("roles", [])
+        user = self.map_user_roles(user, roles)
+        return user
+
+    def map_user_with_groepsadmin_claims(self, user, claims):
+
+        user.first_name = claims.get("vgagegevens", {}).get("voornaam", user.first_name)
+        user.last_name = claims.get("vgagegevens", {}).get("achternaam", user.last_name)
+
+        # Everybody gets role user
+        roles = ["role_user"]
+        # give admin role if in one of the scouts groups
+        scouts_groups = claims.get("functies", [])
+        admin_scouts_groups = ["X0001G", "X0002G", "X0015G", "X1027G"]
+        for group in scouts_groups:
+            if group.get("groep", "") in admin_scouts_groups and not group.get("einde", False):
+                roles.append("role_admin")
+                break
         user = self.map_user_roles(user, roles)
         return user
 
