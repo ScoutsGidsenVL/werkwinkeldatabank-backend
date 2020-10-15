@@ -12,3 +12,8 @@ class DisabledFieldQuerySetMixin(models.QuerySet):
         if not user.has_perm("scouts_auth.access_disabled_entities"):
             return self.active()
         return self.filter()
+
+
+class CreatedByQuerySetMixin(models.QuerySet):
+    def owned(self, user):
+        return self.filter(created_by=user)

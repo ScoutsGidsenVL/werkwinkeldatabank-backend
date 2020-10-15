@@ -145,9 +145,7 @@ REST_FRAMEWORK = {
         "apps.oidc.auth.InuitsOIDCAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        # Here it gets decided whether you need to be authenticated for the api or not
-        "rest_framework.permissions.AllowAny",
-        # "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAuthenticated",
     ],
     "DEFAULT_PAGINATION_CLASS": "scouts_wwdb_api.pagination.ScoutsPageNumberPagination",
 }

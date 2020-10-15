@@ -16,4 +16,4 @@ class UserDetailOutputSerializer(serializers.ModelSerializer):
 class UserNestedOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "first_name", "last_name", "date_joined")
+        fields = ("id", "first_name", "last_name", "email", "date_joined")

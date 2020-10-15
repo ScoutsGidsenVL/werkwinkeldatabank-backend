@@ -2,7 +2,7 @@ from django.db import models
 from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
-from apps.base.models import BaseModel, DisabledFieldModelMixin
+from apps.base.models import BaseModel, DisabledFieldModelMixin, CreatedByMixin, AuditTimestampMixin
 from .enums.building_block_type import BuildingBlockType
 from .category import Category
 from .theme import Theme
@@ -11,7 +11,7 @@ from ..managers import BuildingBlockTemplateManager
 
 # This model represents a template for a building block that can be used by scouts admins to manage some predefined templates
 # These are not actual building blocks and cant be connected directly to a workshop
-class BuildingBlockTemplate(DisabledFieldModelMixin, BaseModel):
+class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, BaseModel):
     # Overwrite manager
     objects = BuildingBlockTemplateManager()
 
@@ -37,6 +37,11 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, BaseModel):
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
     # We add them here in comment for documentation purposes
     # historic_data (History)
+
+    class Meta:
+        permissions = [
+            ("view_field_created_by_buildingblocktemplate", "Can view created by field of templates"),
+        ]
 
     def __str__(self):
         return self.title

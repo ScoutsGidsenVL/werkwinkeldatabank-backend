@@ -15,13 +15,13 @@ class DurationField(serializers.DurationField):
 
 
 # Custom field that only parses value if you have the required permission
-class PermissionRequiredInputField(serializers.Field):
+class PermissionRequiredField(serializers.Field):
     field = None
     permission = None
 
     def __init__(self, *args, **kwargs):
         self.field = kwargs.pop("field", copy.deepcopy(self.field))
-        self.permission = kwargs.pop("permission")
+        self.permission = kwargs.pop("permission", None)
         assert self.field is not None, "`field` is a required argument."
         assert not inspect.isclass(self.field), "`field` has not been instantiated."
         assert self.permission is not None, "`permission` is a required argument."

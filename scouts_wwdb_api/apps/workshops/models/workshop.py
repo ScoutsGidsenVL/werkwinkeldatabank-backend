@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from datetime import timedelta
 from .theme import Theme
-from apps.base.models import BaseModel, DisabledFieldModelMixin, AuditTimestampMixin
+from apps.base.models import BaseModel, DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin
 from .theme import Theme
 from .enums.workshop_status_type import WorkshopStatusType
 from .enums.scouts_team import ScoutsTeam
@@ -12,7 +12,7 @@ from ..managers import WorkshopManager
 from django.conf import settings
 
 
-class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, BaseModel):
+class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, BaseModel):
     # Need to define objects exlicitly otherwise the default Workshop.objects gets overridden by my_workshops
     objects = WorkshopManager()
 
@@ -27,14 +27,6 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, BaseModel):
     )
     approving_team = models.CharField(max_length=30, choices=ScoutsTeam.choices, blank=True, null=True)
     published_at = models.DateTimeField(blank=True, null=True)
-    created_by = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        verbose_name="Created by",
-        blank=True,
-        null=True,
-        related_name="%(app_label)s_%(class)s_created",
-        on_delete=models.SET_NULL,
-    )
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
@@ -71,5 +63,12 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, BaseModel):
 
     class Meta:
         permissions = [
+            ("view_all_workshop", "Can view all workshops"),
+            ("change_all_workshop", "Can change all workshops"),
+            ("request_publication_workshop", "Can request publication of workshops"),
+            ("publish_workshop", "Can publish of workshops"),
+            ("unpublish_workshop", "Can unpublish of workshops"),
             ("view_to_be_published_workshops", "Can view the to be published workshops"),
+            ("view_field_created_by_workshop", "Can view created by field of workshops"),
+            ("view_field_is_sensitive_workshop", "Can view is sensitive field of workshops"),
         ]

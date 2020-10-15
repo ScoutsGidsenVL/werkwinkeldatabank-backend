@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from datetime import timedelta
 from drf_yasg2.utils import swagger_serializer_method
-from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
+from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField, PermissionRequiredField
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import Workshop, Theme
 from ...models.enums.scouts_team import ScoutsTeam
@@ -53,6 +53,17 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
         else:
             return None
+
+    def to_representation(self, value):
+        result = super().to_representation(value)
+        request = self.context.get("request")
+        if not request:
+            raise Exception("Make sure request has been given to the context of the serializer")
+        if not request.user.has_perm("workshops.view_field_created_by_workshop"):
+            result.pop("created_by")
+        if not request.user.has_perm("workshops.view_field_is_sensitive_workshop"):
+            result.pop("is_sensitive")
+        return result
 
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):

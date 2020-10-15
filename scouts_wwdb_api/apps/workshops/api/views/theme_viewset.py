@@ -1,8 +1,9 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
+from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
 from ..serializers.theme_serializers import (
     ThemeCreateInputSerializer,
     ThemeDetailOutputSerializer,
@@ -17,13 +18,21 @@ from ..filters.theme_filter import ThemeFilter
 class ThemeViewSet(viewsets.GenericViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = ThemeFilter
+    permission_classes = [ExtendedDjangoModelPermissions]
 
     def get_queryset(self):
         return Theme.objects.all().allowed(self.request.user)
 
+    def get_permissions(self):
+        current_permissions = super().get_permissions()
+        if self.action in ("retrieve", "list"):
+            return [permissions.AllowAny()]
+
+        return current_permissions
+
     @swagger_auto_schema(responses={status.HTTP_200_OK: ThemeDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        theme = get_object_or_404(Theme.objects, pk=pk)
+        theme = self.get_object()
         serializer = ThemeDetailOutputSerializer(theme)
 
         return Response(serializer.data)
@@ -57,7 +66,7 @@ class ThemeViewSet(viewsets.GenericViewSet):
         request_body=ThemeUpdateInputSerializer, responses={status.HTTP_200_OK: ThemeDetailOutputSerializer}
     )
     def partial_update(self, request, pk=None):
-        theme = get_object_or_404(Theme.objects, pk=pk)
+        theme = self.get_object()
 
         serializer = ThemeUpdateInputSerializer(data=request.data, instance=theme, context={"request": request})
         serializer.is_valid(raise_exception=True)

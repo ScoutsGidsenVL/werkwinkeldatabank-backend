@@ -1,9 +1,10 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
+from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
 from ..serializers.building_block_serializers import (
     BuildingBlockTemplateCreateInputSerializer,
     BuildingBlockTemplateDetailOutputSerializer,
@@ -23,13 +24,23 @@ from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = BuildingBlockTemplateFilter
+    permission_classes = [ExtendedDjangoModelPermissions]
 
     def get_queryset(self):
         return BuildingBlockTemplate.objects.all().non_empty().allowed(self.request.user)
 
+    def get_permissions(self):
+        current_permissions = super().get_permissions()
+        if self.action in ("retrieve", "list", "get_empty_default"):
+            return [permissions.AllowAny()]
+        if self.action == "history":
+            current_permissions.append(CustomDjangoPermission("workshops.view_history"))
+
+        return current_permissions
+
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        template = get_object_or_404(self.get_queryset(), pk=pk)
+        template = self.get_object()
         serializer = BuildingBlockTemplateDetailOutputSerializer(template)
 
         return Response(serializer.data)
@@ -68,7 +79,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer},
     )
     def partial_update(self, request, pk=None):
-        template = get_object_or_404(self.get_queryset(), pk=pk)
+        template = self.get_object()
 
         serializer = BuildingBlockTemplateUpdateInputSerializer(
             data=request.data, instance=template, context={"request": request}
@@ -98,7 +109,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     )
     @action(detail=True, methods=["get"])
     def history(self, request, pk=None):
-        template = get_object_or_404(self.get_queryset(), pk=pk)
+        template = self.get_object()
         history = template.historic_data.all().order_by("-created_at")
 
         output_serializer = HistoryOutputSerializer(history, many=True)

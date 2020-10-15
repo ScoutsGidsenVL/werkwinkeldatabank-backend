@@ -1,8 +1,9 @@
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
+from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
 from ..serializers.category_serializers import (
     CategoryCreateInputSerializer,
     CategoryDetailOutputSerializer,
@@ -17,13 +18,21 @@ from ..filters.category_filter import CategoryFilter
 class CategoryViewSet(viewsets.GenericViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = CategoryFilter
+    permission_classes = [ExtendedDjangoModelPermissions]
 
     def get_queryset(self):
         return Category.objects.all().allowed(self.request.user)
 
+    def get_permissions(self):
+        current_permissions = super().get_permissions()
+        if self.action in ("retrieve", "list"):
+            return [permissions.AllowAny()]
+
+        return current_permissions
+
     @swagger_auto_schema(responses={status.HTTP_200_OK: CategoryDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        category = get_object_or_404(Category.objects, pk=pk)
+        category = self.get_object()
         serializer = CategoryDetailOutputSerializer(category)
 
         return Response(serializer.data)
@@ -57,7 +66,7 @@ class CategoryViewSet(viewsets.GenericViewSet):
         request_body=CategoryUpdateInputSerializer, responses={status.HTTP_200_OK: CategoryDetailOutputSerializer}
     )
     def partial_update(self, request, pk=None):
-        category = get_object_or_404(Category.objects, pk=pk)
+        category = self.get_object()
 
         serializer = CategoryUpdateInputSerializer(data=request.data, instance=category, context={"request": request})
 

@@ -8,6 +8,7 @@ from .enum_serializers import EnumOutputSerializer
 from .category_serializers import CategoryDetailOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
 from apps.serializer_extensions.serializers import DurationField
+from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from .theme_serializers import ThemeDetailOutputSerializer
 from pprint import pprint
 
@@ -19,6 +20,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
     # Use own durationfield instead of existing one to get correct swagger documentation
     duration = DurationField()
     category = CategoryDetailOutputSerializer(read_only=True)
+    created_by = UserNestedOutputSerializer(read_only=True)
 
     class Meta:
         model = BuildingBlockTemplate
@@ -32,14 +34,26 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "short_description",
             "theme",
             "building_block_necessities",
+            "created_by",
             "is_sensitive",
             "is_disabled",
+            "created_at",
+            "published_at",
         )
         depth = 2
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
+
+    def to_representation(self, value):
+        result = super().to_representation(value)
+        request = self.context.get("request")
+        if not request:
+            raise Exception("Make sure request has been given to the context of the serializer")
+        if not request.user.has_perm("workshops.view_field_created_by_buildingblocktemplate"):
+            result.pop("created_by")
+        return result
 
 
 class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
