@@ -1,5 +1,5 @@
 from rest_framework.parsers import MultiPartParser
-from rest_framework import views, status, serializers
+from rest_framework import views, status, serializers, permissions
 from rest_framework.response import Response
 from django.http.response import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -34,6 +34,8 @@ class FileUploadView(views.APIView):
 
 
 class FileDownloadView(views.APIView):
+    permission_classes = [permissions.AllowAny]
+
     def get(self, request, pk):
         ck_file = get_object_or_404(CKEditorFile.objects, pk=pk)
         return HttpResponse(ck_file.file, content_type=ck_file.content_type)
