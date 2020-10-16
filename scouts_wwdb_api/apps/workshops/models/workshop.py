@@ -18,7 +18,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
 
     title = models.CharField(max_length=200)
     duration = models.DurationField(default=timedelta())
-    theme = models.ForeignKey(Theme, on_delete=models.RESTRICT)
+    themes = models.ManyToManyField(Theme, related_name="workshops")
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
     necessities = models.TextField(blank=True)

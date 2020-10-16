@@ -20,7 +20,7 @@ from pprint import pprint
 
 
 class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
-    theme = ThemeDetailOutputSerializer(read_only=True)
+    themes = ThemeDetailOutputSerializer(read_only=True, many=True)
     duration = DurationField()
     building_blocks = BuildingBlockInstanceNestedOutputSerializer(many=True, read_only=True)
     created_by = UserNestedOutputSerializer(read_only=True)
@@ -35,7 +35,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             "short_description",
             "necessities",
             "workshop_status_type",
-            "theme",
+            "themes",
             "duration",
             "building_blocks",
             "created_by",
@@ -68,7 +68,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
 
 class WorkshopListOutputSerializer(serializers.ModelSerializer):
     duration = DurationField()
-    theme = ThemeDetailOutputSerializer(read_only=True)
+    themes = ThemeDetailOutputSerializer(read_only=True, many=True)
 
     class Meta:
         model = Workshop
@@ -77,7 +77,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
             "title",
             "duration",
             "workshop_status_type",
-            "theme",
+            "themes",
             "short_description",
             "is_disabled",
             "created_at",
@@ -90,17 +90,22 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 
 class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200)
-    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all())
+    themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), many=True)
     description = serializers.CharField()
     necessities = serializers.CharField(required=False)
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
     short_description = serializers.CharField(max_length=500, required=False)
     approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
 
+    def validate_themes(self, attrs):
+        if len(attrs) < 1:
+            raise serializers.ValidationError("At least one theme required")
+        return attrs
+
 
 class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
-    theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False)
+    themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, many=True)
     description = serializers.CharField(required=False)
     necessities = serializers.CharField(required=False)
     building_blocks = serializers.ListField(

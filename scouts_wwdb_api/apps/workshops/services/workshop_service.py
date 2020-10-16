@@ -17,7 +17,7 @@ from ..exceptions import InvalidWorkflowTransitionException
 def workshop_create(
     *,
     title: str,
-    theme: Theme,
+    themes: list,
     description: str,
     building_blocks: list,
     approving_team=None,
@@ -28,7 +28,6 @@ def workshop_create(
 ) -> Workshop:
     workshop = Workshop(
         title=title,
-        theme=theme,
         description=description,
         necessities=necessities,
         short_description=short_description,
@@ -36,6 +35,7 @@ def workshop_create(
         approving_team=approving_team,
         is_disabled=is_disabled,
     )
+    workshop.themes.set(themes)
     workshop.save()
 
     for index, building_block_data in enumerate(building_blocks):
@@ -56,7 +56,7 @@ def workshop_create(
 def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.title = fields.get("title", existing_workshop.title)
     existing_workshop.description = fields.get("description", existing_workshop.description)
-    existing_workshop.theme = fields.get("theme", existing_workshop.theme)
+    existing_workshop.themes.set(fields.get("themes", existing_workshop.themes.all()))
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
     existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
     existing_workshop.approving_team = fields.get("approving_team", existing_workshop.approving_team)

@@ -10,5 +10,9 @@ class Theme(DisabledFieldModelMixin, BaseModel):
     title = models.CharField(max_length=200)
     description = models.TextField()
 
+    # Related Many field
+    #
+    # workshops (Workshop)
+
     def __str__(self):
         return self.title
