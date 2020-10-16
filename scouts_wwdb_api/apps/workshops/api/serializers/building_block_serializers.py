@@ -85,6 +85,10 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
     duration = DurationField()
     category = CategoryDetailOutputSerializer(read_only=True)
     theme = ThemeDetailOutputSerializer(read_only=True)
+    template = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='id'
+     )
 
     class Meta:
         model = BuildingBlockInstance
@@ -100,6 +104,7 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
             "building_block_necessities",
             "is_sensitive",
             "linked_template_values",
+            "template"
         )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
