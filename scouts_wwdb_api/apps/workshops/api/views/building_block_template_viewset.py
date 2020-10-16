@@ -41,7 +41,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer})
     def retrieve(self, request, pk=None):
         template = self.get_object()
-        serializer = BuildingBlockTemplateDetailOutputSerializer(template)
+        serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
 
         return Response(serializer.data)
 
@@ -55,7 +55,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
 
         created_template = building_block_template_create(**input_serializer.validated_data)
 
-        output_serializer = BuildingBlockTemplateDetailOutputSerializer(created_template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(created_template, context={"request": request})
 
         # Save data json in history to get easy history
         building_block_template_add_history(data=output_serializer.data, template=created_template)
@@ -68,10 +68,10 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         page = self.paginate_queryset(results)
 
         if page is not None:
-            serializer = BuildingBlockTemplateListOutputSerializer(page, many=True)
+            serializer = BuildingBlockTemplateListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
         else:
-            serializer = BuildingBlockTemplateListOutputSerializer(results, many=True)
+            serializer = BuildingBlockTemplateListOutputSerializer(results, many=True, context={"request": request})
             return Response(serializer.data)
 
     @swagger_auto_schema(
@@ -88,7 +88,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
 
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)
 
-        output_serializer = BuildingBlockTemplateDetailOutputSerializer(updated_template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(updated_template, context={"request": request})
         # Save data json in history to get easy history
         building_block_template_add_history(data=output_serializer.data, template=updated_template)
 
@@ -100,7 +100,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     @action(detail=False, methods=["get"], url_path="empty_default")
     def get_empty_default(self, request):
         template = BuildingBlockTemplate.objects.get_empty_default()
-        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
 
         return Response(output_serializer.data)
 

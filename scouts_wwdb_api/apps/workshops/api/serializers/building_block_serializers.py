@@ -38,7 +38,6 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "is_sensitive",
             "is_disabled",
             "created_at",
-            "published_at",
         )
         depth = 2
 
