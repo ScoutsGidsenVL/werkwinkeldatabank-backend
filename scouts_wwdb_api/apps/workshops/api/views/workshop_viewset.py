@@ -72,7 +72,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        workshop = self.get_object()
+        workshop = self.get_queryset().filter(pk=pk).first()
         serializer = WorkshopDetailOutputSerializer(workshop, context={"request": request})
 
         return Response(serializer.data)

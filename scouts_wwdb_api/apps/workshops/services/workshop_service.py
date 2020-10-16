@@ -87,6 +87,10 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
                 instance.delete()
 
     existing_workshop.calculate_duration()
+    # Set publication date if status is published
+    if existing_workshop.workshop_status_type == WorkshopStatusType.PUBLISHED:
+        existing_workshop.published_at = timezone.now()
+
     existing_workshop.full_clean()
     existing_workshop.save()
 
