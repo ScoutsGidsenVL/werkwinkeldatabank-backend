@@ -1,4 +1,5 @@
 from datetime import timedelta
+from django.conf import settings
 from ..models import BuildingBlockTemplate, Category, Theme
 from .history_service import history_create
 from apps.base.services.disabled_field_service import update_is_disabled_field
@@ -9,6 +10,7 @@ def building_block_template_create(
     title: str,
     description: str,
     duration: timedelta,
+    created_by: settings.AUTH_USER_MODEL,
     category: Category = None,
     building_block_type,
     short_description: str = "",
@@ -28,6 +30,7 @@ def building_block_template_create(
         building_block_necessities=building_block_necessities,
         is_sensitive=is_sensitive,
         is_disabled=is_disabled,
+        created_by=created_by,
     )
     template.full_clean()
     template.save()

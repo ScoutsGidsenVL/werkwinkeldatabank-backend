@@ -53,7 +53,7 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         input_serializer = BuildingBlockTemplateCreateInputSerializer(data=request.data, context={"request": request})
         input_serializer.is_valid(raise_exception=True)
 
-        created_template = building_block_template_create(**input_serializer.validated_data)
+        created_template = building_block_template_create(**input_serializer.validated_data, created_by=request.user)
 
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(created_template, context={"request": request})
 
