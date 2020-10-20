@@ -25,6 +25,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     building_blocks = BuildingBlockInstanceNestedOutputSerializer(many=True, read_only=True)
     created_by = UserNestedOutputSerializer(read_only=True)
     approving_team = serializers.SerializerMethodField()
+    is_mine = serializers.SerializerMethodField()
 
     class Meta:
         model = Workshop
@@ -40,6 +41,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             "building_blocks",
             "created_by",
             "approving_team",
+            "is_mine",
             "is_sensitive",
             "is_disabled",
             "created_at",
@@ -53,6 +55,12 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
         else:
             return None
+
+    def get_is_mine(self, obj):
+        request = self.context.get("request")
+        if not request:
+            raise Exception("Make sure request has been given to the context of the serializer")
+        return request.user == obj.created_by
 
     def to_representation(self, value):
         result = super().to_representation(value)
