@@ -8,6 +8,7 @@ from rest_framework.decorators import action
 from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
 from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
+from apps.wwdb_exports.services import generate_workshop_pdf_response
 from ..serializers.workshop_serializers import (
     WorkshopDetailOutputSerializer,
     WorkshopListOutputSerializer,
@@ -72,7 +73,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer})
     def retrieve(self, request, pk=None):
-        workshop = self.get_queryset().filter(pk=pk).first()
+        workshop = self.get_object()
         serializer = WorkshopDetailOutputSerializer(workshop, context={"request": request})
 
         return Response(serializer.data)
@@ -200,3 +201,8 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         output_serializer = HistoryOutputSerializer(history, many=True)
 
         return Response(output_serializer.data)
+
+    @action(detail=True, methods=["get"])
+    def download(self, request, pk=None):
+        workshop = self.get_object()
+        return generate_workshop_pdf_response(workshop=workshop)
