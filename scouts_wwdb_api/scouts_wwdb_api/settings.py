@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "apps.workshops",
     "apps.files",
     "apps.wwdb_mails",
+    "apps.wwdb_exports",
     "django.contrib.admin",
     "django.contrib.auth",
     "apps.scouts_auth",
@@ -191,6 +192,6 @@ AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = env.str("S3_ACCESS_SECRET")
 AWS_STORAGE_BUCKET_NAME = env.str("S3_STORAGE_BUCKET_NAME")
 AWS_S3_ENDPOINT_URL = env.str("S3_ENDPOINT_URL")
-AWS_DEFAULT_ACL = "private"
+AWS_DEFAULT_ACL = "public-read"
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_SIGNATURE_VERSION = "s3v4"

@@ -20,6 +20,7 @@ environs = "^8.0.0"
 dj-email-url = "^1.0.1"
 drf-yasg2 = "^1.18.5"
 packaging = "^20.4"
+xhtml2pdf = "^0.2.5"
 
 [tool.poetry.dev-dependencies]
 pytest = "^3.4"

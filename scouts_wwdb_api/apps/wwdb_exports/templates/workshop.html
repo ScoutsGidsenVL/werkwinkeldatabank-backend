@@ -1,0 +1,16 @@
+<h1>{{ workshop.title }}</h1>
+<div>{{ workshop.duration }}</div>
+<div><span>Gemaakt door {{ workshop.created_by.first_name }} {{ workshop.created_by.last_name }}</span></div>
+<div>{{ workshop.short_description }}</div>
+<div>{{ workshop.description | safe }}</div>
+<br/>
+<h2>Bouwblokken</h2>
+{% for building_block in workshop.building_blocks.all %}
+    <div>
+        <h3>{{ building_block.title }}</h3>
+        <div>{{ building_block.description | safe }}</div>
+    </div>
+{% endfor %}
+<br/>
+<h2>Benodigdheden</h2>
+<div>{{ workshop.necessities | safe }}</div>
