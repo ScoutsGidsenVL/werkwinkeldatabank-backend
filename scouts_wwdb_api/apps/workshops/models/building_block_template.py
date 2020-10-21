@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
 from apps.base.models import BaseModel, DisabledFieldModelMixin, CreatedByMixin, AuditTimestampMixin
-from .enums.building_block_type import BuildingBlockType
+from .enums import BuildingBlockType, BuildingBlockStatus
 from .category import Category
 from .theme import Theme
 from ..managers import BuildingBlockTemplateManager
@@ -32,6 +32,7 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
     is_sensitive = models.BooleanField(default=False)
     # Boolean that is only active for the special empty template that is generated in migration
     is_default_empty = models.BooleanField(default=False)
+    status = models.CharField(max_length=30, choices=BuildingBlockStatus.choices, default=BuildingBlockStatus.PRIVATE)
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.
@@ -41,6 +42,11 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
     class Meta:
         permissions = [
             ("view_field_created_by_buildingblocktemplate", "Can view created by field of templates"),
+            ("view_all_buildingblocktemplate", "Can view all buildingblocktemplates"),
+            ("change_all_buildingblocktemplate", "Can change all buildingblocktemplates"),
+            ("request_publication_buildingblocktemplate", "Can request publication of buildingblocktemplate"),
+            ("publish_buildingblocktemplate", "Can publish buildingblocktemplate"),
+            ("unpublish_buildingblocktemplate", "Can unpublish buildingblocktemplate"),
         ]
 
     def __str__(self):

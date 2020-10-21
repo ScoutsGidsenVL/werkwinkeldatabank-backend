@@ -1,8 +1,10 @@
 from datetime import timedelta
 from django.conf import settings
-from ..models import BuildingBlockTemplate, Category, Theme
-from .history_service import history_create
 from apps.base.services.disabled_field_service import update_is_disabled_field
+from ..models import BuildingBlockTemplate, Category, Theme
+from ..models.enums import BuildingBlockStatus
+from ..exceptions import InvalidWorkflowTransitionException
+from .history_service import history_create
 
 
 def building_block_template_create(
@@ -56,6 +58,48 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
     existing_template.save()
 
     return existing_template
+
+
+def building_block_template_request_publication(*, template: BuildingBlockTemplate) -> BuildingBlockTemplate:
+    new_status = BuildingBlockStatus.PUBLICATION_REQUESTED
+    if not template.status == BuildingBlockStatus.PRIVATE:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status)
+
+    template.status = new_status
+    try:
+        template.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    template.save()
+    return template
+
+
+def building_block_template_publish(*, template: BuildingBlockTemplate) -> BuildingBlockTemplate:
+    new_status = BuildingBlockStatus.PUBLISHED
+    if not template.status == BuildingBlockStatus.PUBLICATION_REQUESTED:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status)
+
+    template.status = new_status
+    try:
+        template.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    template.save()
+    return template
+
+
+def building_block_template_unpublish(*, template: BuildingBlockTemplate) -> BuildingBlockTemplate:
+    new_status = BuildingBlockStatus.PRIVATE
+    if not template.status == BuildingBlockStatus.PUBLISHED:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status)
+
+    template.status = new_status
+    try:
+        template.full_clean()
+    except ValidationError as error:
+        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    template.save()
+    return template
 
 
 def building_block_template_add_history(*, data: dict, template: BuildingBlockTemplate):

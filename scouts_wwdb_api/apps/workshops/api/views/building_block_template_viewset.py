@@ -16,9 +16,15 @@ from ...services.building_block_template_service import (
     building_block_template_create,
     building_block_template_update,
     building_block_template_add_history,
+    building_block_template_request_publication,
+    building_block_template_publish,
+    building_block_template_unpublish,
 )
 from ...models import BuildingBlockTemplate
 from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
+from ...exceptions import InvalidWorkflowTransitionException
+from ..exceptions import InvalidWorkflowTransitionAPIException
+from ..permissions import BuildingBlockTemplateChangePermission
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
@@ -35,8 +41,27 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
             return [permissions.AllowAny()]
         if self.action == "history":
             current_permissions.append(CustomDjangoPermission("workshops.view_history"))
+        if self.action == "partial_update":
+            current_permissions.append(BuildingBlockTemplateChangePermission())
+        if self.action == "request_publication":
+            current_permissions.extend(
+                [
+                    CustomDjangoPermission("workshops.request_publication_buildingblocktemplate"),
+                    BuildingBlockTemplateChangePermission(),
+                ]
+            )
+        if self.action == "publish":
+            current_permissions.append(CustomDjangoPermission("workshops.publish_buildingblocktemplate"))
+        if self.action == "unpublish":
+            current_permissions.append(CustomDjangoPermission("workshops.unpublish_buildingblocktemplate"))
 
         return current_permissions
+
+    def handle_exception(self, exc):
+        if isinstance(exc, InvalidWorkflowTransitionException):
+            exc = InvalidWorkflowTransitionAPIException(exc)
+
+        return super().handle_exception(exc)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateDetailOutputSerializer})
     def retrieve(self, request, pk=None):
@@ -103,6 +128,30 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
 
         return Response(output_serializer.data)
+
+    @action(detail=True, methods=["post"])
+    def request_publication(self, request, pk=None):
+        template = self.get_object()
+
+        template = building_block_template_request_publication(template=template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=["post"])
+    def publish(self, request, pk=None):
+        template = self.get_object()
+
+        template = building_block_template_publish(template=template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=["post"])
+    def unpublish(self, request, pk=None):
+        template = self.get_object()
+
+        template = building_block_template_unpublish(template=template)
+        output_serializer = BuildingBlockTemplateDetailOutputSerializer(template, context={"request": request})
+        return Response(output_serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         responses={status.HTTP_200_OK: HistoryOutputSerializer},

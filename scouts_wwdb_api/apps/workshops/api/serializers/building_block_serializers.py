@@ -3,7 +3,7 @@ from datetime import timedelta
 from drf_yasg2.utils import swagger_serializer_method
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category, Theme
-from ...models.enums.building_block_type import BuildingBlockType
+from ...models.enums import BuildingBlockType, BuildingBlockStatus
 from .enum_serializers import EnumOutputSerializer
 from .category_serializers import CategoryDetailOutputSerializer
 from ...helpers.enum_helper import parse_choice_to_tuple
@@ -17,6 +17,7 @@ from pprint import pprint
 
 class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
     # Use own durationfield instead of existing one to get correct swagger documentation
     duration = DurationField()
     category = CategoryDetailOutputSerializer(read_only=True)
@@ -31,6 +32,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
             "duration",
             "type",
             "category",
+            "status",
             "short_description",
             "theme",
             "building_block_necessities",
@@ -45,6 +47,10 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
 
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
+    def get_status(self, obj):
+        return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockStatus(obj.status))).data
+
     def to_representation(self, value):
         result = super().to_representation(value)
         request = self.context.get("request")
@@ -57,6 +63,7 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
 
 class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
     type = serializers.SerializerMethodField()
+    status = serializers.SerializerMethodField()
     duration = DurationField()
     category = CategoryDetailOutputSerializer(read_only=True)
     theme = ThemeDetailOutputSerializer(read_only=True)
@@ -70,6 +77,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
             "type",
             "short_description",
             "category",
+            "status",
             "theme",
             "is_sensitive",
             "is_disabled",
@@ -78,6 +86,10 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
     def get_type(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockType(obj.building_block_type))).data
+
+    @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
+    def get_status(self, obj):
+        return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockStatus(obj.status))).data
 
 
 class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):

@@ -1,5 +1,6 @@
 from django.db import models
 from apps.base.managers import DisabledFieldQuerySetMixin
+from ..models.enums import BuildingBlockStatus
 
 
 class BuildingBlockTemplateQuerySet(DisabledFieldQuerySetMixin, models.QuerySet):
@@ -7,7 +8,23 @@ class BuildingBlockTemplateQuerySet(DisabledFieldQuerySetMixin, models.QuerySet)
         return self.filter(is_default_empty=False)
 
     def allowed(self, user):
-        return self.disabled_allowed(user)
+        return self.disabled_allowed(user).template_allowed(user)
+
+    def template_allowed(self, user):
+        # If no user only return published
+        if user.is_anonymous:
+            return self.published()
+        else:
+            if user.has_perm("workshops.view_all_buildingblocktemplate"):
+                return self.filter()
+            else:
+                return self.filter(Q(status=BuildingBlockStatus.PUBLISHED) | Q(created_by=user))
+
+    def published(self):
+        return self.filter(status=BuildingBlockStatus.PUBLISHED)
+
+    def publication_requested(self):
+        return self.filter(status=BuildingBlockStatus.PUBLICATION_REQUESTED)
 
 
 class BuildingBlockTemplateManager(models.Manager):

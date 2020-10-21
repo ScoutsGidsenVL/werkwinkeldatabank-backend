@@ -25,6 +25,7 @@ def populate_groups(sender, **kwargs):
             print(exc)
     for group_name, permissions in groups.items():
         group = Group.objects.get_or_create(name=group_name)[0]
+        group.permissions.clear()
         for permission_name in permissions:
             _add_permission_by_name(group, permission_name)
         group.save()

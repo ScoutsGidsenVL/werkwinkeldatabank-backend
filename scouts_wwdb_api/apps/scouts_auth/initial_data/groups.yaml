@@ -4,12 +4,13 @@ role_user:
   - workshops.view_theme
   - workshops.view_workshop
   - workshops.add_workshop
-  - workshops.change_workshop
-  - workshops.request_publication_workshop
-role_admin:
-  - scouts_auth.access_disabled_entities
   - workshops.add_buildingblocktemplate
   - workshops.change_buildingblocktemplate
+  - workshops.change_workshop
+  - workshops.request_publication_workshop
+  - workshops.request_publication_buildingblocktemplate
+role_admin:
+  - scouts_auth.access_disabled_entities
   - workshops.add_category
   - workshops.change_category
   - workshops.add_theme
@@ -18,6 +19,10 @@ role_admin:
   - workshops.change_all_workshop
   - workshops.publish_workshop
   - workshops.unpublish_workshop
+  - workshops.view_all_buildingblocktemplate
+  - workshops.change_all_buildingblocktemplate
+  - workshops.publish_buildingblocktemplate
+  - workshops.unpublish_buildingblocktemplate
   - workshops.view_to_be_published_workshops
   - workshops.view_history
   - workshops.view_field_created_by_workshop
