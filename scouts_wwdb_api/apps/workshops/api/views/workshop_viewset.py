@@ -48,7 +48,7 @@ class WorkshopViewSet(viewsets.GenericViewSet):
 
     def get_permissions(self):
         current_permissions = super().get_permissions()
-        if self.action in ("retrieve", "list", "published_workshops"):
+        if self.action in ("retrieve", "list", "published_workshops", "download"):
             return [permissions.AllowAny()]
         if self.action == "history":
             current_permissions.append(CustomDjangoPermission("workshops.view_history"))
