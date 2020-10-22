@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template.response import SimpleTemplateResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from apps.workshops.models import Workshop
@@ -37,4 +38,5 @@ def generate_pdf_response(*, template_path: str, context, filename: str) -> Http
 def generate_workshop_pdf_response(*, workshop: Workshop) -> HttpResponse:
     context = {"workshop": workshop}
     filename = workshop.title.replace(" ", "_") + "_workshop.pdf"
+    # return SimpleTemplateResponse(template="workshop.html", context=context)
     return generate_pdf_response(template_path="workshop.html", context=context, filename=filename)
