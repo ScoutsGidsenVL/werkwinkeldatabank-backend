@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import viewsets, status, permissions, filters
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
@@ -28,9 +28,11 @@ from ..permissions import BuildingBlockTemplateChangePermission
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     filterset_class = BuildingBlockTemplateFilter
     permission_classes = [ExtendedDjangoModelPermissions]
+    ordering_fields = ["updated_at", "created_at"]
+    ordering = ["-updated_at"]
 
     def get_queryset(self):
         return BuildingBlockTemplate.objects.all().non_empty().allowed(self.request.user)
