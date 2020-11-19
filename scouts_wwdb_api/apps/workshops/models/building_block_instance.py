@@ -20,7 +20,7 @@ class BuildingBlockInstance(BaseModel):
     _description = models.TextField(blank=True)
     _title = models.CharField(max_length=200, blank=True)
     _duration = models.DurationField(
-        validators=[MinValueValidator(timedelta(minutes=1)), MaxValueValidator(timedelta(days=1))],
+        validators=[MinValueValidator(timedelta(minutes=0)), MaxValueValidator(timedelta(days=1))],
         null=True,
         blank=True,
     )

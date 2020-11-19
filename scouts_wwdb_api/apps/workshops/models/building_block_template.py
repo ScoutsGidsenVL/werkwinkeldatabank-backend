@@ -18,7 +18,7 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
     title = models.CharField(max_length=200)
     description = models.TextField()
     duration = models.DurationField(
-        validators=[MinValueValidator(timedelta(minutes=1)), MaxValueValidator(timedelta(days=1))]
+        validators=[MinValueValidator(timedelta(minutes=0)), MaxValueValidator(timedelta(days=1))]
     )
     category = models.ForeignKey(Category, on_delete=models.RESTRICT, null=True, blank=True)
     # Its django best practice to not set charfields nullable, an empty string will be used as empty field
