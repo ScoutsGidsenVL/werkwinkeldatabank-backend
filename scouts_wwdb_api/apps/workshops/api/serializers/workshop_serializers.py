@@ -100,10 +100,12 @@ class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, ser
     title = serializers.CharField(max_length=200)
     themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), many=True)
     description = serializers.CharField()
-    necessities = serializers.CharField(required=False)
+    necessities = serializers.CharField(required=False, allow_blank=True)
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
-    short_description = serializers.CharField(max_length=500, required=False)
-    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
+    short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
+    approving_team = serializers.ChoiceField(
+        choices=ScoutsTeam.choices, required=False, allow_null=True, allow_blank=True
+    )
 
     def validate_themes(self, attrs):
         if len(attrs) < 1:
@@ -115,7 +117,7 @@ class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, ser
     title = serializers.CharField(max_length=200, required=False)
     themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, many=True)
     description = serializers.CharField(required=False)
-    necessities = serializers.CharField(required=False)
+    necessities = serializers.CharField(required=False, allow_blank=True)
     building_blocks = serializers.ListField(
         child=SerializerSwitchField(
             create_serializer=BuildingBlockInstanceNestedCreateInputSerializer(),
@@ -124,8 +126,10 @@ class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, ser
         min_length=1,
         required=False,
     )
-    short_description = serializers.CharField(max_length=500, required=False)
-    approving_team = serializers.ChoiceField(choices=ScoutsTeam.choices, required=False)
+    short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
+    approving_team = serializers.ChoiceField(
+        choices=ScoutsTeam.choices, required=False, allow_null=True, allow_blank=True
+    )
 
     def validate_building_blocks(self, value):
         # Check whether if an id was given for building block it is already linked to current workshop

@@ -147,9 +147,9 @@ class BuildingBlockTemplateCreateInputSerializer(DisabledFieldCreateInputSeriali
     description = serializers.CharField()
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1))
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
-    short_description = serializers.CharField(max_length=500, required=False)
+    short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
-    building_block_necessities = serializers.CharField(required=False)
+    building_block_necessities = serializers.CharField(required=False, allow_blank=True)
     is_sensitive = serializers.BooleanField(required=False)
 
     def validate(self, data):
@@ -167,9 +167,9 @@ class BuildingBlockTemplateUpdateInputSerializer(DisabledFieldUpdateInputSeriali
     description = serializers.CharField(required=False)
     duration = DurationField(min_value=timedelta(minutes=1), max_value=timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
-    short_description = serializers.CharField(max_length=500, required=False)
+    short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
-    building_block_necessities = serializers.CharField(required=False)
+    building_block_necessities = serializers.CharField(required=False, allow_blank=True)
     is_sensitive = serializers.BooleanField(required=False)
 
     def validate(self, data):
