@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.response import SimpleTemplateResponse
@@ -6,11 +8,15 @@ from xhtml2pdf import pisa
 from apps.workshops.models import Workshop
 from apps.files.models import CKEditorFile
 from pprint import pprint
+from django.contrib.staticfiles import finders
 
 
 def link_callback(uri, rel):
     # "http://localhost:8011/api/files/download/fd1c3746-841e-4d2c-a03e-d9abdd226701\"
     # Handle file links
+    sUrl = settings.STATIC_URL        # Typically /static/
+    sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+    
     if "/api/files/download/" in uri:
         file_id = uri.rpartition("/api/files/download/")[2].strip("\\ /")
         ck_file = CKEditorFile.objects.get(pk=file_id)
@@ -18,6 +24,9 @@ def link_callback(uri, rel):
             raise Exception("Unknown file id in workshop")
 
         uri = ck_file.file.url
+    elif sUrl  in uri:
+        uri = os.path.join(sRoot, uri.replace(sUrl, ""))
+    
     return uri
 
 

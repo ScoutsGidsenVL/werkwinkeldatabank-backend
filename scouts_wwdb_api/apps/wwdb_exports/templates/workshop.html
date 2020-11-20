@@ -1,24 +1,221 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<style>
+    @page {
+        size: a4 portrait;
+        @frame header_frame {           /* Static Frame */
+            -pdf-frame-content: header_content;
+            left: 50pt; width: 512pt; top: 50pt; height: 40pt;
+        }
+        @frame content_frame {          /* Content Frame */
+            left: 50pt; width: 432pt; top: 90pt; height: 632pt;
+        }
+
+
+        @frame footer_frame_line {           /* Another static Frame */
+            -pdf-frame-content: footer_frame_line;
+            left: 50pt; width: 485pt; top: 772pt; height: 20pt;
+        }
+
+        @frame footer_frame_info {           /* Another static Frame */
+            -pdf-frame-content: footer_frame_info;
+            left: 50pt; width: 485pt; top: 790pt; height: 30pt;
+        }
+
+        @frame footer_frame_page {           /* Another static Frame */
+            -pdf-frame-content: footer_frame_page;
+            left: 542pt; width: 20pt; top: 777pt; height: 20pt;
+        }
+
+        @frame header_frame_logo {           /* Another static Frame */
+            -pdf-frame-content: header_frame_logo;
+            left: 502pt; width: 60pt; top: 65pt; height: 200pt;
+        }
+    }
+
+    /* @font-face {
+        font-family: XanhMono;
+        src: url('/static/XanhMono-Regular.ttf');
+        font-weight: bold;
+    } */
+    
+
+    h1 {
+        font-family: Aglet-Slab, sans-serif;        
+        font-size: 28px;
+    }
+
+    img.logo{
+        width: 100px;
+    }
+
+    h2 {
+        font-family: Museo-Sans;
+        font-size: 16px;
+        font-weight: 900;
+    }
+
+    h3 {
+        font-family: Museo-Sans;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    h4 {
+        font-family: Museo-Sans;
+        font-size: 9px;
+        font-weight: 900;
+    }
+
+    h5{
+        font-family: Museo Sans;
+        font-size: 9px;
+        text-decoration: underline;
+        margin-bottom: 0;
+    }
+
+    h6{
+        font-family: Museo Sans;
+        font-size: 9px;
+        margin-bottom: 0;
+        font-weight: 300;
+    }
+
+    .intro {
+        font-family: Museo-Sans, sans-serif;        
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    body{
+        font-family: Museo-Sans, sans-serif;        
+        font-size: 9px;
+        font-weight: 300;
+        color: #000000;
+    }
+
+    img{
+        width: 100%;
+    }
+
+    td{
+        border-bottom: 1px solid #000000;
+        padding: 7px 5px 5px 5px;
+    }
+
+    table {
+        border-top: 1px solid #000000;
+        border-spacing: 0px;
+    }
+
+    .footer-line{
+        border-bottom: 2px solid #000000;
+        width: 100%;
+        text-align: right;
+    }
+
+    .page-number{
+        width: 100%;
+        color: #E00A1E;
+        font-size: 13px;
+        text-align: right;
+    }
+
+    figcaption{
+        display: block;
+        width: 100%;
+        text-align: left;
+        font-size: 9px;
+    }
+
+    figure{
+        width: 100%;
+    }
+
+    a{
+        color: #E00A1E;
+    }
+
+    .nodig ul{
+        padding-left: 10px;
+        margin-left: 5px;
+    }
+
+    .page-info{
+        width: 100%;
+        text-align: left;
+        font-family: Museo-Sans, sans-serif;        
+        font-size: 9px;
+        font-weight: 300;
+        color: #000000;
+    }
+
+    .page-info a{
+        color: #000000;
+    }
+
+    .headertable{
+        border-top: none;
+    }
+
+    .headertable td{
+        border-bottom: none;
+    }
+
+    .content-wrapper{
+        display: block;
+        width: 100px;
+    }
+
+</style>
 <html>
     <head>
         <title>Title</title>
     </head>
     <body>
+        <div id="footer_frame_line">
+            <div class="footer-line">
+                &nbsp;
+            </div>
+        </div>
+        <div id="footer_frame_page">
+            <div class="page-number"><pdf:pagenumber>&nbsp;</div>
+        </div>
+        <div id="footer_frame_info">
+            <div class="page-info">
+                Check <a href='https://scoutsengidsenvlaanderen.be/vormin'>scoutsengidsenvlaanderen.be/vormin</a> voor meer info en vergeet niet om nieuwe<br>
+                werkvormen of inhoud in te sturen via de werkwinkeldatabank!
+            </div>
+        </div>
+       
+        <div id="header_frame_logo">
+         <img class="logo" src='/static/logo-pdf.png' /></td>
+        </div>
         <h1>{{ workshop.title }}</h1>
-        <div>{{ workshop.duration }}</div>
-        <div><span>Gemaakt door {{ workshop.created_by.first_name }} {{ workshop.created_by.last_name }}</span></div>
-        <div>{{ workshop.short_description }}</div>
+        <div class="intro">{{ workshop.short_description }}</div></td>
         <div>{{ workshop.description | safe }}</div>
+        <h5>Duur</h5>
+        <div>{{ workshop.duration }}</div>
         <br/>
-        <h2>Bouwblokken</h2>
         {% for building_block in workshop.building_blocks.all %}
             <div>
                 <h3>{{ building_block.title }}</h3>
+                <h5>Duur</h5>
+                <span>{{ building_block.duration }}</span>
+                <br/>
+                <br/>
                 <div>{{ building_block.description | safe }}</div>
             </div>
         {% endfor %}
         <br/>
-        <h2>Benodigdheden</h2>
-        <div>{{ workshop.necessities | safe }}</div>
+        <div class="nodig">
+            <h5>Nodig</h5>
+            {% for building_block in workshop.building_blocks.all %}
+                <h6>{{ building_block.title }}:</h6>
+                <div>{{ building_block.building_block_necessities | safe }}</div>
+            {% endfor %}
+            <h6>Extra benodigdheden:</h6>
+            <div>{{ workshop.necessities | safe }}</div>
+        </div>
     </body>  
 </html>
