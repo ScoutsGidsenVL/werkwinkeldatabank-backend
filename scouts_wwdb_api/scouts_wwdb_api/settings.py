@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "drf_yasg2",
     "corsheaders",
     "storages",
+    "sqlmiddleware",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +65,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    MIDDLEWARE.append("sqlmiddleware.middlewares.LogSQLMiddleware")
 
 ROOT_URLCONF = "scouts_wwdb_api.urls"
 
