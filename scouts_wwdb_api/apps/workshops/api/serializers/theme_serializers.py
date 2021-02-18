@@ -23,7 +23,7 @@ class ThemeListOutputSerializer(serializers.ModelSerializer):
 
 class ThemeCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200)
-    description = serializers.CharField()
+    description = serializers.CharField(required=False)
 
 
 class ThemeUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):

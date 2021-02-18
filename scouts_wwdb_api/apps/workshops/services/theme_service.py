@@ -2,7 +2,7 @@ from ..models import Theme
 from apps.base.services.disabled_field_service import update_is_disabled_field
 
 
-def theme_create(*, title: str, description: str, is_disabled: bool = False) -> Theme:
+def theme_create(*, title: str, description: str = '', is_disabled: bool = False) -> Theme:
     theme = Theme(
         title=title,
         description=description,

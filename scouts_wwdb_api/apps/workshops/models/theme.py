@@ -8,7 +8,7 @@ class Theme(DisabledFieldModelMixin, BaseModel):
     objects = ThemeManager()
 
     title = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True)
 
     # Related Many field
     #
