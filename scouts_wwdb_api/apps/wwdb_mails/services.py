@@ -25,9 +25,9 @@ def get_mail_subject_and_message(*, template: str, **kwargs):
     return (mail.get("subject"), render_to_string(mail.get("template"), kwargs))
 
 
-def send_template_mail(*, template: str, from_email: str = None, recipients: list = [], **kwargs):
+def send_template_mail(*, template: str, title: str = None, from_email: str = None, recipients: list = [], **kwargs):
     subject_message = get_mail_subject_and_message(template=template, **kwargs)
 
     send_wwdb_mail(
-        subject=subject_message[0], html_message=subject_message[1], from_email=from_email, recipients=recipients
+        subject=subject_message[0] + ': ' + title, html_message=subject_message[1], from_email=from_email, recipients=recipients
     )

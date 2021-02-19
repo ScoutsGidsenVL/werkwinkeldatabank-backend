@@ -109,7 +109,7 @@ def workshop_request_publication(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(
             from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
         )
-    send_template_mail(template="workshop_publication_requested", workshop=workshop)
+    send_template_mail(template="workshop_publication_requested", title=workshop.title, workshop=workshop)
     workshop.save()
     return workshop
 
@@ -127,7 +127,7 @@ def workshop_publish(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(
             from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
         )
-    send_template_mail(template="workshop_published", workshop=workshop)
+    send_template_mail(template="workshop_published", title=workshop.title, workshop=workshop)
     workshop.save()
     return workshop
 

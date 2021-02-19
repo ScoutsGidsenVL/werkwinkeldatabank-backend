@@ -1,2 +1,20 @@
 <p>Beste Scouts medewerker,</p>
-<p>Er is een nieuwe werkwinkel met id {{workshop.id}} gepubliceerd in de werkwinkel databank.</p>
+
+<p>Er is een nieuwe werkwinkel gepubliceerd in de werkwinkeldatabank. Hieronder vind je de link om hem te bekijken</p>
+
+<ul>
+    <li>Titel: {{ workshop.title }}</li>
+    <li>
+        <span>Thema(s):</span>
+        {% for theme in workshop.themes.all %}
+            <span style="margin-right: 1em;">{{ theme.title }}</span>
+        {% endfor %}
+    </li>
+</ul>
+
+<!-- <p>ingezonden door: {{ workshop.title }}</p> -->
+<!-- <a href="http://localhost:8040/#/werkwinkels/{{workshop.id}}">http://localhost:8040/#/werkwinkels/{{workshop.id}}</a> -->
+
+<p>Bedankt!</p>
+
+<p>Deze mail werd verzonden door de werkwinkeldatabank van Scouts en Gidsen Vlaanderen vzw.</p>
