@@ -64,7 +64,7 @@ class BuildingBlockInstance(BaseModel):
 
     @duration.setter
     def duration(self, value):
-        if not value:
+        if value is None:
             value = self.template.duration
         self._duration = value
 

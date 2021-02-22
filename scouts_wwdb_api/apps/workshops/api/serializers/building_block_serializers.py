@@ -201,7 +201,7 @@ class BuildingBlockInstanceNestedCreateInputSerializer(serializers.Serializer):
         if not data.get("linked_template_values", False):
             for field_name, field in self.fields.items():
                 required_fields = ["title", "description", "duration"]
-                if field_name in required_fields and not data.get(field_name, None):
+                if field_name in required_fields and data.get(field_name, None) is None:
                     raise serializers.ValidationError({field_name: ["This field is required."]})
         template = data.get("template")
         errors = get_theme_category_by_type_errors(
