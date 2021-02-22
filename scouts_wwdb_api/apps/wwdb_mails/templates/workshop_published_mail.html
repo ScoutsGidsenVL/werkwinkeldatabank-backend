@@ -7,12 +7,11 @@
     <li>
         <span>Thema(s):</span>
         {% for theme in workshop.themes.all %}
-            <span style="margin-right: 1em;">{{ theme.title }}</span>
+        <span style="margin-right: 1em;">{{ theme.title }}</span>
         {% endfor %}
     </li>
 </ul>
 
-<!-- <p>ingezonden door: {{ workshop.title }}</p> -->
 <!-- <a href="http://localhost:8040/#/werkwinkels/{{workshop.id}}">http://localhost:8040/#/werkwinkels/{{workshop.id}}</a> -->
 
 <p>Bedankt!</p>

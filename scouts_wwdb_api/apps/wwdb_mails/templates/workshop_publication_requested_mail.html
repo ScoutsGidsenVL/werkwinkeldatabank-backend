@@ -1,18 +1,21 @@
 <p>Beste Scouts medewerker,</p>
-<p>Er werd een werkwinkel ingestuurd voor publicatie in de werkwinkeldatabank. Hieronder vind je de link om hem goed te keuren.</p>
+<p>Er werd een werkwinkel ingestuurd voor publicatie in de werkwinkeldatabank. Hieronder vind je de link om hem goed te
+    keuren.</p>
 
 <ul>
     <li>Titel: {{ workshop.title }}</li>
     <li>
         <span>Thema(s):</span>
         {% for theme in workshop.themes.all %}
-            <span style="margin-right: 1em;">{{ theme.title }}</span>
+        <span style="margin-right: 1em;">{{ theme.title }}</span>
         {% endfor %}
     </li>
+    <li>ingezonden door: {{ workshop.created_by.first_name }}</li>
 </ul>
 
-<!-- <p>ingezonden door: {{ workshop.title }}</p> -->
-<!-- <a href="http://localhost:8040/#/werkwinkels/{{workshop.id}}/edit">http://localhost:8040/#/werkwinkels/{{workshop.id}}/edit</a> -->
+
+<!-- <a href="http://localhost:8040/#/werkwinkels/{{workshop.id}}">http://localhost:8040/#/werkwinkels/{{workshop.id}}</a> -->
+
 
 <p>Bedankt!</p>
 
