@@ -33,6 +33,7 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
     # Boolean that is only active for the special empty template that is generated in migration
     is_default_empty = models.BooleanField(default=False)
     status = models.CharField(max_length=30, choices=BuildingBlockStatus.choices, default=BuildingBlockStatus.PRIVATE)
+    last_edited = models.DateTimeField()
 
     # Related Many field
     # These are the related many fields that are opposites of ForeignKey or ManyToMany fields.

@@ -5,6 +5,7 @@ from ..models import BuildingBlockTemplate, Category, Theme
 from ..models.enums import BuildingBlockStatus
 from ..exceptions import InvalidWorkflowTransitionException
 from .history_service import history_create
+from datetime import datetime
 
 
 def building_block_template_create(
@@ -33,6 +34,7 @@ def building_block_template_create(
         is_sensitive=is_sensitive,
         is_disabled=is_disabled,
         created_by=created_by,
+        last_edited=datetime.now(),
     )
     template.full_clean()
     template.save()
@@ -52,6 +54,7 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
         "building_block_necessities", existing_template.building_block_necessities
     )
     existing_template.is_sensitive = fields.get("is_sensitive", existing_template.is_sensitive)
+    existing_template.last_edited = datetime.now()
     update_is_disabled_field(instance=existing_template, **fields)
 
     existing_template.full_clean()
