@@ -10,6 +10,7 @@ from .building_block_instance_service import building_block_instance_create, bui
 from .history_service import history_create
 from ..models.enums.workshop_status_type import WorkshopStatusType
 from ..exceptions import InvalidWorkflowTransitionException
+from django.conf import settings
 
 
 # Make atomic so database changes can be rolled back if error occurs
@@ -97,6 +98,15 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     return existing_workshop
 
 
+def get_base_url():
+    base_url = base_url = settings.BASE_URL
+
+    if base_url.endswith("/"):
+        base_url[:-1]
+
+    return base_url
+
+
 def workshop_request_publication(*, workshop: Workshop) -> Workshop:
     new_status = WorkshopStatusType.PUBLICATION_REQUESTED
     if not workshop.workshop_status_type == WorkshopStatusType.PRIVATE:
@@ -109,7 +119,10 @@ def workshop_request_publication(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(
             from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
         )
-    send_template_mail(template="workshop_publication_requested", title=workshop.title, workshop=workshop)
+
+    send_template_mail(
+        template="workshop_publication_requested", title=workshop.title, workshop=workshop, base_url=get_base_url()
+    )
     workshop.save()
     return workshop
 
@@ -127,7 +140,8 @@ def workshop_publish(*, workshop: Workshop) -> Workshop:
         raise InvalidWorkflowTransitionException(
             from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
         )
-    send_template_mail(template="workshop_published", title=workshop.title, workshop=workshop)
+
+    send_template_mail(template="workshop_published", title=workshop.title, workshop=workshop, base_url=get_base_url())
     workshop.save()
     return workshop
 
