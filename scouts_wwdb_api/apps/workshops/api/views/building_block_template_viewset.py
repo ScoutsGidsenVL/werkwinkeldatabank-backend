@@ -35,7 +35,6 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
     ordering = ["-updated_at"]
 
     def get_queryset(self):
-        # return BuildingBlockTemplate.objects.all().non_empty().allowed(self.request.user)
         return BuildingBlockTemplate.objects.all().order_by("last_edited").non_empty().allowed(self.request.user)
 
     def get_permissions(self):
