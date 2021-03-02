@@ -33,16 +33,59 @@
         }
     }
 
-    /* @font-face {
-        font-family: XanhMono;
-        src: url('/static/XanhMono-Regular.ttf');
-        font-weight: bold;
-    } */
     
+
+    @font-face {
+        font-family: Aglet-Slab;
+        src: url('/static/AgletSlab-Black.ttf');
+        font-weight: 800;
+        font-style: normal;
+    }
+
+
+    @font-face {
+        font-family: Museo-Sans;
+        src: url('/static/MuseoSans_300-webfont.ttf');
+        font-weight: 300;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: Museo-Sans;
+        src: url('/static/MuseoSans_300_Italic-webfont.ttf');
+        font-weight: 300;
+        font-style: italic;
+    }
+
+    @font-face {
+        font-family: Museo-Sans-500;
+        src: url('/static/MuseoSans_500-webfont.ttf');
+        font-weight: 500;
+        font-style: normal;
+    }
+
+
+    @font-face {
+        font-family: Museo-Sans-semi-bold;
+        src: url('/static/MuseoSans_700-webfont.ttf');
+        font-weight: 700;
+        font-style: normal;
+    }
+
+
+    @font-face {
+        font-family: Museo-Sans-bold;
+        src: url('/static/MuseoSans_900-webfont.ttf');
+        font-weight: bold;
+        font-style: normal;
+    }
+
 
     h1 {
         font-family: Aglet-Slab, sans-serif;        
-        font-size: 28px;
+        font-size: 40px;
+        line-height: 16px;
+        font-weight: 800;
     }
 
     img.logo{
@@ -50,46 +93,56 @@
     }
 
     h2 {
-        font-family: Museo-Sans;
-        font-size: 16px;
-        font-weight: 900;
+        font-family: Museo-Sans-bold;
+        font-size: 23px;
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-top: 20px;
     }
 
     h3 {
-        font-family: Museo-Sans;
-        font-size: 13px;
+        font-family: Museo-Sans-semi-bold;
+        font-size: 18px;
         font-weight: 700;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     h4 {
         font-family: Museo-Sans;
-        font-size: 9px;
-        font-weight: 900;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     h5{
-        font-family: Museo Sans;
-        font-size: 9px;
+        font-family: Museo-Sans-semi-bold;
+        font-size: 13px;
         text-decoration: underline;
         margin-bottom: 0;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     h6{
-        font-family: Museo Sans;
-        font-size: 9px;
+        font-family: Museo-Sans;
+        font-size: 13px;
         margin-bottom: 0;
         font-weight: 300;
+        margin-bottom: 0;
+        margin-top: 0;
     }
 
     .intro {
-        font-family: Museo-Sans, sans-serif;        
-        font-size: 10px;
+        font-family: Museo-Sans-500, sans-serif;        
+        font-size: 14px;
         font-weight: 500;
     }
 
     body{
         font-family: Museo-Sans, sans-serif;        
-        font-size: 9px;
+        font-size: 12px;
         font-weight: 300;
         color: #000000;
     }
@@ -100,7 +153,7 @@
 
     td{
         border-bottom: 1px solid #000000;
-        padding: 7px 5px 5px 5px;
+        padding: 5px 5px 0px 5px;
     }
 
     table {
@@ -125,7 +178,7 @@
         display: block;
         width: 100%;
         text-align: left;
-        font-size: 9px;
+        font-size: 13px;
     }
 
     figure{
@@ -134,6 +187,10 @@
 
     a{
         color: #E00A1E;
+    }
+
+    strong{
+        font-family: Museo-Sans-bold;
     }
 
     .nodig ul{
@@ -145,7 +202,7 @@
         width: 100%;
         text-align: left;
         font-family: Museo-Sans, sans-serif;        
-        font-size: 9px;
+        font-size: 13px;
         font-weight: 300;
         color: #000000;
     }
@@ -160,6 +217,7 @@
 
     .headertable td{
         border-bottom: none;
+        font-family: ;
     }
 
     .content-wrapper{
@@ -199,10 +257,9 @@
         <br/>
         {% for building_block in workshop.building_blocks.all %}
             <div>
-                <h3>{{ building_block.title }}</h3>
+                <h2>{{ building_block.title }}</h2>
                 <h5>Duur</h5>
                 <span>{{ building_block.duration }}</span>
-                <br/>
                 <br/>
                 <div>{{ building_block.description | safe }}</div>
             </div>
