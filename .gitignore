@@ -1,3 +1,5 @@
 scouts_wwdb_api.egg-info
 __pycache__
 .env
+/scouts_wwdb_api/static
+.DS_Store
