@@ -87,6 +87,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
             "workshop_status_type",
             "themes",
             "short_description",
+            "is_sensitive",
             "is_disabled",
             "created_at",
             "published_at",
