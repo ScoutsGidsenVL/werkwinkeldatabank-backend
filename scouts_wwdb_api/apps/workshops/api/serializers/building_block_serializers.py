@@ -82,6 +82,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
             "is_sensitive",
             "is_disabled",
             "last_edited",
+            "created_by"
         )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)
