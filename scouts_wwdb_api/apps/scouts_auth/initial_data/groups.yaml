@@ -15,15 +15,14 @@ role_admin:
   - workshops.change_category
   - workshops.add_theme
   - workshops.change_theme
-  - workshops.view_all_workshop
   - workshops.change_all_workshop
   - workshops.publish_workshop
   - workshops.unpublish_workshop
-  - workshops.view_all_buildingblocktemplate
+  - workshops.view_publication_requested_buildingblocktemplate
   - workshops.change_all_buildingblocktemplate
   - workshops.publish_buildingblocktemplate
   - workshops.unpublish_buildingblocktemplate
-  - workshops.view_to_be_published_workshops
+  - workshops.view_publication_requested_workshop
   - workshops.view_history
   - workshops.view_field_created_by_workshop
   - workshops.view_field_is_sensitive_workshop

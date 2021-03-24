@@ -68,7 +68,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
             ("request_publication_workshop", "Can request publication of workshops"),
             ("publish_workshop", "Can publish of workshops"),
             ("unpublish_workshop", "Can unpublish of workshops"),
-            ("view_to_be_published_workshops", "Can view the to be published workshops"),
+            ("view_publication_requested_workshop", "Can view the to workshop with the status publication requested"),
             ("view_field_created_by_workshop", "Can view created by field of workshops"),
             ("view_field_is_sensitive_workshop", "Can view is sensitive field of workshops"),
         ]

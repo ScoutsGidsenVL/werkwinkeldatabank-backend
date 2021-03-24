@@ -18,6 +18,16 @@ class BuildingBlockTemplateQuerySet(DisabledFieldQuerySetMixin, models.QuerySet)
         else:
             if user.has_perm("workshops.view_all_buildingblocktemplate"):
                 return self.filter()
+            elif user.has_perm("workshops.view_publication_requested_buildingblocktemplate"):
+                return self.filter(
+                    Q(
+                        status__in=(
+                            BuildingBlockStatus.PUBLISHED,
+                            BuildingBlockStatus.PUBLICATION_REQUESTED,
+                        )
+                    )
+                    | Q(created_by=user)
+                )
             else:
                 return self.filter(Q(status=BuildingBlockStatus.PUBLISHED) | Q(created_by=user))
 

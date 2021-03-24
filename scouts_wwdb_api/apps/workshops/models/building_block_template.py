@@ -48,6 +48,10 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
             ("request_publication_buildingblocktemplate", "Can request publication of buildingblocktemplate"),
             ("publish_buildingblocktemplate", "Can publish buildingblocktemplate"),
             ("unpublish_buildingblocktemplate", "Can unpublish buildingblocktemplate"),
+            (
+                "view_publication_requested_buildingblocktemplate",
+                "Can view the to building block template with the status publication requested",
+            ),
         ]
 
     def __str__(self):
