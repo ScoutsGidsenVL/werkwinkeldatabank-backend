@@ -19,6 +19,7 @@ def workshop_create(
     *,
     title: str,
     themes: list,
+    files: list,
     description: str,
     building_blocks: list,
     approving_team=None,
@@ -37,6 +38,7 @@ def workshop_create(
         is_disabled=is_disabled,
     )
     workshop.themes.set(themes)
+    workshop.files.set(files)
     workshop.save()
 
     for index, building_block_data in enumerate(building_blocks):
@@ -58,6 +60,7 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
     existing_workshop.title = fields.get("title", existing_workshop.title)
     existing_workshop.description = fields.get("description", existing_workshop.description)
     existing_workshop.themes.set(fields.get("themes", existing_workshop.themes.all()))
+    existing_workshop.files.set(fields.get("files", existing_workshop.files.all()))
     existing_workshop.necessities = fields.get("necessities", existing_workshop.necessities)
     existing_workshop.short_description = fields.get("short_description", existing_workshop.short_description)
     existing_workshop.approving_team = fields.get("approving_team", existing_workshop.approving_team)

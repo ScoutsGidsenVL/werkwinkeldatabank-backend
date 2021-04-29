@@ -34,6 +34,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
     #
     # building_blocks (BuildingBlockInstances)
     # historic_data (History)
+    # files (CKEditorFile)
 
     def __str__(self):
         return self.title

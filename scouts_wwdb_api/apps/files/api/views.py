@@ -28,7 +28,7 @@ class FileUploadView(views.APIView):
         except ValidationError as e:
             raise serializers.ValidationError("; ".join(e.messages))
         url = request.build_absolute_uri("/api/files/download/" + str(result.id))
-        output_serializer = UploadFileOutputSerializer({"url": url})
+        output_serializer = UploadFileOutputSerializer({"url": url, "id": str(result.id)})
 
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 

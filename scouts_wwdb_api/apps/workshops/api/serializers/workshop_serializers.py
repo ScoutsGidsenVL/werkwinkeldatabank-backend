@@ -3,10 +3,12 @@ from datetime import timedelta
 from drf_yasg2.utils import swagger_serializer_method
 from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField, PermissionRequiredField
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
+from apps.files.models import CKEditorFile
 from ...models import Workshop, Theme
 from ...models.enums.scouts_team import ScoutsTeam
 from ...helpers.enum_helper import parse_choice_to_tuple
 from .theme_serializers import ThemeDetailOutputSerializer
+from apps.files.api.serializers import FileDetailOutputSerializer
 from .enum_serializers import EnumOutputSerializer
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from .building_block_serializers import (
@@ -14,13 +16,13 @@ from .building_block_serializers import (
     BuildingBlockInstanceNestedUpdateInputSerializer,
     BuildingBlockInstanceNestedOutputSerializer,
 )
-from pprint import pprint
 
 # Output
 
 
 class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     themes = ThemeDetailOutputSerializer(read_only=True, many=True)
+    files = FileDetailOutputSerializer(read_only=True, many=True)
     duration = DurationField()
     building_blocks = BuildingBlockInstanceNestedOutputSerializer(many=True, read_only=True)
     created_by = UserNestedOutputSerializer(read_only=True)
@@ -37,6 +39,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             "necessities",
             "workshop_status_type",
             "themes",
+            "files",
             "duration",
             "building_blocks",
             "created_by",
@@ -100,6 +103,7 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
 class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200)
     themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), many=True)
+    files = serializers.PrimaryKeyRelatedField(queryset=CKEditorFile.objects.all(), many=True)
     description = serializers.CharField()
     necessities = serializers.CharField(required=False, allow_blank=True)
     building_blocks = serializers.ListField(child=BuildingBlockInstanceNestedCreateInputSerializer(), min_length=1)
@@ -117,6 +121,7 @@ class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, ser
 class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200, required=False)
     themes = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, many=True)
+    files = serializers.PrimaryKeyRelatedField(queryset=CKEditorFile.objects.all(), required=False, many=True)
     description = serializers.CharField(required=False)
     necessities = serializers.CharField(required=False, allow_blank=True)
     building_blocks = serializers.ListField(
