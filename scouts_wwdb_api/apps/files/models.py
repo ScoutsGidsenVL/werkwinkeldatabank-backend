@@ -8,7 +8,7 @@ class CKEditorFile(BaseModel):
     file = models.FileField(
         validators=[
             FileExtensionValidator(
-                allowed_extensions=["jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "odt", "doc", "docx", "pdf"]
+                allowed_extensions=["jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "odt", "pptx", "docx", "pdf"]
             )
         ]
     )
