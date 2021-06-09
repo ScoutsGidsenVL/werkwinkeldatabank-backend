@@ -4,7 +4,8 @@ from apps.serializer_extensions.serializers import PermissionRequiredField
 
 class DisabledFieldCreateInputSerializerMixin(metaclass=serializers.SerializerMetaclass):
     is_disabled = PermissionRequiredField(
-        permission="scouts_auth.access_disabled_entities", field=serializers.BooleanField(), default=False
+        permission="scouts_auth.access_disabled_entities",
+        field=serializers.BooleanField(default=False),
     )
 
 
