@@ -207,6 +207,17 @@ python-versions = ">=3.5"
 Django = ">=2.2"
 
 [[package]]
+name = "django-sql-middleware"
+version = "0.0.7"
+description = "Simple SQL Middleware for Django"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+django = "*"
+
+[[package]]
 name = "django-storages"
 version = "1.11.1"
 description = "Support for many storage backends in Django"
@@ -742,7 +753,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.3"
-content-hash = "bc249f4e04e0ebc78ebee254dd56c72b07d2de826b9c710546ddb294df77711e"
+content-hash = "f32542e3e2eb043d41419d10603da17d17bb109c194030c1a4165ca488a6608c"
 
 [metadata.files]
 arabic-reshaper = [
@@ -866,6 +877,10 @@ django-cors-headers = [
 django-filter = [
     {file = "django-filter-2.4.0.tar.gz", hash = "sha256:84e9d5bb93f237e451db814ed422a3a625751cbc9968b484ecc74964a8696b06"},
     {file = "django_filter-2.4.0-py3-none-any.whl", hash = "sha256:e00d32cebdb3d54273c48f4f878f898dced8d5dfaad009438fe61ebdf535ace1"},
+]
+django-sql-middleware = [
+    {file = "django-sql-middleware-0.0.7.tar.gz", hash = "sha256:884cb3c2ff44d6fc26494655d3bb24859a04c6b15f56a03b4498b2d950547075"},
+    {file = "django_sql_middleware-0.0.7-py3-none-any.whl", hash = "sha256:a10d849122694ddedb35f9b8cdd2e1755453626836b4863ee181bd90e2b4c564"},
 ]
 django-storages = [
     {file = "django-storages-1.11.1.tar.gz", hash = "sha256:c823dbf56c9e35b0999a13d7e05062b837bae36c518a40255d522fbe3750fbb4"},
