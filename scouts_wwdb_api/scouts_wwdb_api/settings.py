@@ -175,7 +175,7 @@ DEFAULT_EMAIL_RECIPIENTS = env.list("EMAIL_RECIPIENTS")
 # CORS
 
 #CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "http://localhost:8040",
     "https://wwdb-acc.scoutsengidsenvlaanderen.be",
