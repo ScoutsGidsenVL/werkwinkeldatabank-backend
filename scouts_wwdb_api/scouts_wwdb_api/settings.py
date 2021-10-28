@@ -31,6 +31,8 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 BASE_URL = env.str("BASE_URL")
 
+APPEND_SLASH = False
+
 
 # Application definition
 
