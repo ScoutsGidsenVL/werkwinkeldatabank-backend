@@ -174,7 +174,14 @@ DEFAULT_EMAIL_RECIPIENTS = env.list("EMAIL_RECIPIENTS")
 
 # CORS
 
-CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
+#CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8040",
+    "https://wwdb-acc.scoutsengidsenvlaanderen.be",
+    "https://becontent-acc.scoutsengidsenvlaanderen.be",
+    "https://werkwinkeldatabank.scoutsengidsenvlaanderen.be"
+]
 
 # OIDC
 AUTH_USER_MODEL = "scouts_auth.User"
