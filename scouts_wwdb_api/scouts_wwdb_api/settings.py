@@ -31,7 +31,7 @@ DEBUG = env.bool("DEBUG", default=False)
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 BASE_URL = env.str("BASE_URL")
 
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 
 # Application definition
@@ -143,7 +143,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATICFILES_DIRS = [env.str("STATICFILES_EXPORT_WWDB"),]
+STATICFILES_DIRS = [
+    env.str("STATICFILES_EXPORT_WWDB"),
+]
 
 STATIC_URL = "static/"
 STATIC_ROOT = env.str("STATIC_ROOT")
@@ -174,13 +176,13 @@ DEFAULT_EMAIL_RECIPIENTS = env.list("EMAIL_RECIPIENTS")
 
 # CORS
 
-#CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
+# CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:8080",
     "http://localhost:8040",
     "https://wwdb-acc.scoutsengidsenvlaanderen.be",
     "https://becontent-acc.scoutsengidsenvlaanderen.be",
-    "https://werkwinkeldatabank.scoutsengidsenvlaanderen.be"
+    "https://werkwinkeldatabank.scoutsengidsenvlaanderen.be",
 ]
 
 # OIDC
