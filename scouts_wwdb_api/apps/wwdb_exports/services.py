@@ -26,7 +26,7 @@ def link_callback(uri, rel):
         uri = ck_file.file.url
     elif sUrl  in uri:
         uri = os.path.join(sRoot, uri.replace(sUrl, ""))
-    
+    # https://stackoverflow.com/questions/2179958/django-pisa-adding-images-to-pdf-output
     return uri
 
 
@@ -42,6 +42,9 @@ def generate_pdf_response(*, template_path: str, context, filename: str) -> Http
         raise Exception(pisaStatus.err)
 
     return response
+
+
+
 
 
 def generate_workshop_pdf_response(*, workshop: Workshop) -> HttpResponse:
