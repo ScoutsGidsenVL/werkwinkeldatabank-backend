@@ -35,7 +35,6 @@ APPEND_SLASH = True
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "apps.workshops",
     "apps.files",
@@ -175,15 +174,7 @@ DEFAULT_EMAIL_RECIPIENTS = env.list("EMAIL_RECIPIENTS")
 
 
 # CORS
-
-# CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
-CORS_ORIGIN_WHITELIST = [
-    "http://localhost:8080",
-    "http://localhost:8040",
-    "https://wwdb-acc.scoutsengidsenvlaanderen.be",
-    "https://becontent-acc.scoutsengidsenvlaanderen.be",
-    "https://werkwinkeldatabank.scoutsengidsenvlaanderen.be",
-]
+CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
 
 # OIDC
 AUTH_USER_MODEL = "scouts_auth.User"
