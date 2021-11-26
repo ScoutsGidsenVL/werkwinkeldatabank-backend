@@ -9,11 +9,62 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import os
+import os, logging, logging.config
 from environs import Env
+
+# Get a pre-config logger
+logger = logging.getLogger(__name__)
 
 env = Env()
 env.read_env()
+
+LOGGING_CONFIG = None
+LOGGING_LEVEL = env.str("LOGGING_LEVEL", "INFO")
+LOGGING_LEVEL_ROOT = env.str("LOGGING_LEVEL_ROOT", "ERROR")
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "%(asctime)s - %(levelname)-7s - %(name)-12s - %(message)s",
+        },
+        "simple": {
+            "format": "%(levelname)-8s - %(message)s",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": LOGGING_LEVEL,
+            "formatter": "verbose",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "level": LOGGING_LEVEL,
+            "filename": "wwdb-api.debug.log",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": LOGGING_LEVEL_ROOT,
+    },
+    "loggers": {
+        "apps": {
+            "handlers": ["console"],
+            "level": LOGGING_LEVEL,
+            "propagate": False,
+        },
+        "xhtml2pdf": {
+            "handlers": ["console"],
+            "level": LOGGING_LEVEL,
+            "propagate": False,
+        },
+    },
+}
+logging.config.dictConfig(LOGGING)
+
+logging.info("LOGGING_LEVEL: %s", LOGGING_LEVEL)
+logging.info("LOGGING_LEVEL_ROOT: %s", LOGGING_LEVEL_ROOT)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
