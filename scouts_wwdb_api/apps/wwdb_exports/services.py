@@ -16,13 +16,13 @@ def link_callback(uri, rel):
     sUrl = settings.STATIC_URL  # Typically /static/
     sRoot = settings.STATIC_ROOT  # Typically /home/userX/project_static/
 
-    logger.debug("Received PISA callback for uri %s and rel %s", uri, rel)
+    logger.info("Received PISA callback for uri %s and rel %s", uri, rel)
 
     file_id = None
     if "/api/files/download/" in uri:
         file_id = uri.rpartition("/api/files/download/")[2].strip("\\ /")
 
-        logger.debug("Retrieving CKEditorFile instance with id %s", file_id)
+        logger.info("Retrieving CKEditorFile instance with id %s", file_id)
         ck_file = CKEditorFile.objects.get(pk=file_id)
         if not ck_file:
             raise Exception("Unable to retrieve CKEditorFile with id {}".format(file_id))
@@ -32,7 +32,7 @@ def link_callback(uri, rel):
         uri = os.path.join(sRoot, uri.replace(sUrl, ""))
 
     # https://stackoverflow.com/questions/2179958/django-pisa-adding-images-to-pdf-output
-    logger.debug("Returning file uri for CKEditorFile with id %s: %s", file_id, uri)
+    logger.info("Returning file uri for CKEditorFile with id %s: %s", file_id, uri)
 
     return uri
 
