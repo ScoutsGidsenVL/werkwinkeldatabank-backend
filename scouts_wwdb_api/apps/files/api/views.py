@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework.parsers import MultiPartParser
 from rest_framework import views, status, serializers, permissions
 from rest_framework.response import Response
@@ -8,6 +10,9 @@ from drf_yasg2.utils import swagger_auto_schema
 from .serializers import UploadFileInputSerializer, UploadFileOutputSerializer
 from ..services.file_service import store_ckeditor_file
 from ..models import CKEditorFile
+
+
+logger = logging.getLogger(__name__)
 
 
 class FileUploadView(views.APIView):
@@ -38,4 +43,5 @@ class FileDownloadView(views.APIView):
 
     def get(self, request, pk):
         ck_file = get_object_or_404(CKEditorFile.objects, pk=pk)
+        logger.debug("CK FILE: %s", ck_file.file)
         return HttpResponse(ck_file.file, content_type=ck_file.content_type)

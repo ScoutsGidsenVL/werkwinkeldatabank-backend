@@ -18,6 +18,7 @@ def link_callback(uri, rel):
 
     logger.debug("Received PISA callback for uri %s and rel %s", uri, rel)
 
+    file_id = None
     if "/api/files/download/" in uri:
         file_id = uri.rpartition("/api/files/download/")[2].strip("\\ /")
 
