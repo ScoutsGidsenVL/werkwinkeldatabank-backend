@@ -53,7 +53,28 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         roles = ["role_user"]
         # give admin role if in one of the scouts groups
         scouts_groups = claims.get("functies", [])
-        admin_scouts_groups = ["X0001G", "X0002G", "X0015G", "X1027G"]
+        admin_scouts_groups = [
+            "X0001G",
+            "X0002G",
+            "X0015G",
+            "X1027G",
+            "X0010G",
+            "X0011G",
+            "X0012G",
+            "X0013G",
+            "X0014G",
+            "X0017G",
+            "X0018G",
+            "X0019G",
+            "X0020G",
+            "X0021G",
+            "X0022G",
+            "X0025G",
+            "X0027G",
+            "X0028G",
+            "X0071G",
+            "X0053G",
+        ]
         for group in scouts_groups:
             if group.get("groep", "") in admin_scouts_groups and not group.get("einde", False):
                 roles.append("role_admin")
