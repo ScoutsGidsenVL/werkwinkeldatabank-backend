@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('deploy') {
       steps {
-        sh 'ssh lxc-deb-rundeck.vvksm.local sudo -u rundeck /opt/deploy-wwdb.sh backend ${BRANCH_NAME}'
+        sh 'ssh ad-deb-mgmt sudo -u ansible /opt/deploy-wwdb.sh backend ${BRANCH_NAME}'
       }
     }
   }
