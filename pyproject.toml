@@ -6,7 +6,7 @@ authors = ["Jonas Elst <jonas.elst@inuits.eu>"]
 
 [tool.poetry.dependencies]
 python = "^3.7.3"
-django = "3.1.*"
+django = "3.2.*"
 psycopg2-binary = "^2.8.5"
 djangorestframework = "^3.11.1"
 mozilla-django-oidc = "^1.2.3"
