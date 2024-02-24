@@ -48,7 +48,6 @@ ruff = ">=0.0"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
-# ipykernel = ">=6.9"
 ipython = ">=8.4"
 
 [tool.poetry.group.testing.dependencies]
@@ -70,5 +69,5 @@ tox = ">=4.0"
 [tool.ruff]
 # ruff searches for settings in the target-dir and up
 # https://docs.astral.sh/ruff/configuration
-cache-dir = "var/cache/ruff"  # relative to $PWD
+cache-dir = "var/cache/ruff"
 line-length = 120
