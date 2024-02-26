@@ -1,3 +1,7 @@
+# exclude toplevel var-directory with generated files
+/var/
+
+
 ################################
 # Varia                        #
 ################################

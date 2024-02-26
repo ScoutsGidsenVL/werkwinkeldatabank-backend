@@ -1,3 +1,5 @@
+import logging
+
 from rest_framework import views, status, permissions
 from rest_framework.response import Response
 from requests.exceptions import HTTPError
@@ -5,6 +7,10 @@ from .serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenO
 from ..services.token_request_service import get_tokens_by_auth_code, get_tokens_by_refresh_token
 from ..exceptions import TokenRequestException
 
+from scouts_auth.inuits.logging import InuitsLogger
+
+
+logger: InuitsLogger = logging.getLogger(__name__)
 
 class AuthCodeView(views.APIView):
     permission_classes = [permissions.AllowAny]
@@ -16,8 +22,9 @@ class AuthCodeView(views.APIView):
         data = serializer.validated_data
         try:
             tokens = get_tokens_by_auth_code(auth_code=data.get("authCode"), redirect_uri=data.get("redirectUri"))
-        except HTTPError as e:
-            raise TokenRequestException(e)
+        except HTTPError as exc:
+            logger.error("Failed to refresh tokens: {exc}")
+            raise TokenRequestException("Failed to refresh tokens.")
 
         output_serializer = TokenOutputSerializer(tokens)
 
@@ -34,8 +41,9 @@ class RefreshView(views.APIView):
         data = serializer.validated_data
         try:
             tokens = get_tokens_by_refresh_token(refresh_token=data.get("refreshToken"))
-        except HTTPError as e:
-            raise TokenRequestException(e)
+        except HTTPError as exc:
+            logger.error("Failed to refresh tokens: {exc}")
+            raise TokenRequestException("Failed to refresh tokens.")
 
         output_serializer = TokenOutputSerializer(tokens)
 
