@@ -1,14 +1,15 @@
 import logging
 
-from rest_framework import views, status, permissions
-from rest_framework.response import Response
+from app.scouts_auth.inuits.logging import InuitsLogger
 from requests.exceptions import HTTPError
-from .serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenOutputSerializer
-from ..services.token_request_service import get_tokens_by_auth_code, get_tokens_by_refresh_token
+from rest_framework import permissions, status, views
+from rest_framework.response import Response
+
 from ..exceptions import TokenRequestException
-
-from scouts_auth.inuits.logging import InuitsLogger
-
+from ..services.token_request_service import (get_tokens_by_auth_code,
+                                              get_tokens_by_refresh_token)
+from .serializers import (AuthCodeInputSerializer, RefreshInputSerializer,
+                          TokenOutputSerializer)
 
 logger: InuitsLogger = logging.getLogger(__name__)
 
