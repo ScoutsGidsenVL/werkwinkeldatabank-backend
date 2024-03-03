@@ -1,5 +1,6 @@
 from datetime import timedelta
-from ..models import BuildingBlockInstance, BuildingBlockTemplate, Workshop, Category, Theme
+
+from ..models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme, Workshop
 
 
 def building_block_instance_create(

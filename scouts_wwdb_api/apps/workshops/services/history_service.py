@@ -1,4 +1,4 @@
-from ..models import History, Workshop, BuildingBlockTemplate
+from ..models import BuildingBlockTemplate, History, Workshop
 
 
 def history_create(*, data: dict, workshop: Workshop = None, building_block: BuildingBlockTemplate = None) -> History:

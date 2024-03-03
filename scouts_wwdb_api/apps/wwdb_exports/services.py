@@ -1,11 +1,13 @@
-import logging, os
+import logging
+import os
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from apps.workshops.models import Workshop
-from apps.files.models import CKEditorFile
 
+from apps.files.models import CKEditorFile
+from apps.workshops.models import Workshop
 
 logger = logging.getLogger(__name__)
 

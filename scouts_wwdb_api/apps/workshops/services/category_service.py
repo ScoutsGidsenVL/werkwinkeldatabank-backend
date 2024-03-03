@@ -1,5 +1,6 @@
-from ..models import Category
 from apps.base.services.disabled_field_service import update_is_disabled_field
+
+from ..models import Category
 
 
 def category_create(*, title: str, is_disabled: bool = False) -> Category:

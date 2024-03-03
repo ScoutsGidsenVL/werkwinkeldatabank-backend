@@ -6,12 +6,11 @@ from rest_framework import permissions, status, views
 from rest_framework.response import Response
 
 from ..exceptions import TokenRequestException
-from ..services.token_request_service import (get_tokens_by_auth_code,
-                                              get_tokens_by_refresh_token)
-from .serializers import (AuthCodeInputSerializer, RefreshInputSerializer,
-                          TokenOutputSerializer)
+from ..services.token_request_service import get_tokens_by_auth_code, get_tokens_by_refresh_token
+from .serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenOutputSerializer
 
 logger: InuitsLogger = logging.getLogger(__name__)
+
 
 class AuthCodeView(views.APIView):
     permission_classes = [permissions.AllowAny]

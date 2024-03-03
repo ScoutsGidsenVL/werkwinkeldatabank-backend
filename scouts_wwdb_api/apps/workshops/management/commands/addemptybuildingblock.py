@@ -1,8 +1,10 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.db.models.query import QuerySet
-from django.core.paginator import Paginator
-from django.utils import timezone
 from datetime import timedelta
+
+from django.core.management.base import BaseCommand, CommandError
+from django.core.paginator import Paginator
+from django.db.models.query import QuerySet
+from django.utils import timezone
+
 from ...models import BuildingBlockTemplate
 from ...models.enums import BuildingBlockType
 

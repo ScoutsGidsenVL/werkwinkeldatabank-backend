@@ -1,4 +1,5 @@
 from django.core.files.base import File
+
 from ..models import CKEditorFile
 
 

@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from drf_yasg2.utils import swagger_serializer_method
+from rest_framework import serializers
+
 from ..models import CKEditorFile
 
 

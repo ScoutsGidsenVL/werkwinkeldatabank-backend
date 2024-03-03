@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0018_auto_20201007_0750'),
+        ("workshops", "0018_auto_20201007_0750"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='workshop',
-            options={'permissions': [('view_to_be_published_workshops', 'Can view the to be published workshops')]},
+            name="workshop",
+            options={"permissions": [("view_to_be_published_workshops", "Can view the to be published workshops")]},
         ),
     ]

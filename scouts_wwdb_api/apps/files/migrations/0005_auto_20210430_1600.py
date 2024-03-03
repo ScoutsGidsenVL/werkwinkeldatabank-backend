@@ -7,13 +7,32 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('files', '0004_auto_20210427_1506'),
+        ("files", "0004_auto_20210427_1506"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='ckeditorfile',
-            name='file',
-            field=models.FileField(upload_to='', validators=[django.core.validators.FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'odt', 'pptx', 'docx', 'pdf'])]),
+            model_name="ckeditorfile",
+            name="file",
+            field=models.FileField(
+                upload_to="",
+                validators=[
+                    django.core.validators.FileExtensionValidator(
+                        allowed_extensions=[
+                            "jpg",
+                            "jpeg",
+                            "png",
+                            "gif",
+                            "bmp",
+                            "webp",
+                            "tiff",
+                            "odt",
+                            "pptx",
+                            "docx",
+                            "pdf",
+                        ]
+                    )
+                ],
+            ),
         ),
     ]

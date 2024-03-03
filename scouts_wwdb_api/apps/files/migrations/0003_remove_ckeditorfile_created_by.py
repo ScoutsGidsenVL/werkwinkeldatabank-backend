@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('files', '0002_ckeditorfile_content_type'),
+        ("files", "0002_ckeditorfile_content_type"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='ckeditorfile',
-            name='created_by',
+            model_name="ckeditorfile",
+            name="created_by",
         ),
     ]

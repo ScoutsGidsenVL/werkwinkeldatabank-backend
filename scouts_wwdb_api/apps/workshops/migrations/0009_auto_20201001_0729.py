@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0008_remove_workshop_is_sensitive'),
+        ("workshops", "0008_remove_workshop_is_sensitive"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='workshop',
-            name='duration',
+            model_name="workshop",
+            name="duration",
             field=models.DurationField(blank=True, null=True),
         ),
     ]

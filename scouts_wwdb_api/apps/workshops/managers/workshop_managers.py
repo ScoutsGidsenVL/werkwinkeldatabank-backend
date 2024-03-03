@@ -1,8 +1,11 @@
+from pprint import pprint
+
 from django.db import models
 from django.db.models import Q
-from apps.base.managers import DisabledFieldQuerySetMixin, CreatedByQuerySetMixin
+
+from apps.base.managers import CreatedByQuerySetMixin, DisabledFieldQuerySetMixin
+
 from ..models.enums.workshop_status_type import WorkshopStatusType
-from pprint import pprint
 
 
 class WorkshopQuerySet(DisabledFieldQuerySetMixin, CreatedByQuerySetMixin, models.QuerySet):

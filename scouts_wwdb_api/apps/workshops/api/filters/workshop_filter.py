@@ -1,8 +1,10 @@
 import django_filters
+
+from apps.base.filters import ActiveFilterMixin
+from apps.filter_extensions.filters import MultipleUUIDFilter
+
 from ...models import Workshop
 from ...models.enums import WorkshopStatusType
-from apps.filter_extensions.filters import MultipleUUIDFilter
-from apps.base.filters import ActiveFilterMixin
 
 
 class WorkshopFilter(ActiveFilterMixin, django_filters.FilterSet):

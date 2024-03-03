@@ -1,9 +1,11 @@
 import django_filters
 from django.db.models import Q
-from ...models import BuildingBlockTemplate
-from ...models.enums import BuildingBlockType, BuildingBlockStatus
-from apps.filter_extensions.filters import MultipleUUIDFilter
+
 from apps.base.filters import ActiveFilterMixin
+from apps.filter_extensions.filters import MultipleUUIDFilter
+
+from ...models import BuildingBlockTemplate
+from ...models.enums import BuildingBlockStatus, BuildingBlockType
 
 
 class BuildingBlockTemplateFilter(ActiveFilterMixin, django_filters.FilterSet):

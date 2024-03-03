@@ -1,11 +1,12 @@
+from pprint import pprint
+
+from django.conf import settings
+from django.contrib.auth.models import Group
+from django.core.exceptions import ObjectDoesNotExist
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from mozilla_django_oidc.contrib.drf import OIDCAuthentication
-from django.conf import settings
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import Group
-from rest_framework import exceptions
 from requests.exceptions import HTTPError
-from pprint import pprint
+from rest_framework import exceptions
 
 
 class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
@@ -54,29 +55,29 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         # give admin role if in one of the scouts groups
         scouts_groups = claims.get("functies", [])
         admin_scouts_groups = [
-            "X0001G", # PCOM
-            "X0002G", # BCOM
-            "X0010G", # Kapoenen
-            "X0011G", # Welpen
-            "X0012G", # Jgvs
-            "X0013G", # Givers
-            "X0014G", # Jins
-            "X0015G", # Vorming
-            "X0017G", # Internationaal
-            "X0018G", # Akabe
-            "X0019G", # Zingeving
-            "X0020G", # Diversiteit
-            "X0021G", # Zeescouts
-            "X0022G", # Groepsleiding
-            "X0025G", # Jamboree
-            "X0027G", # Touwenparcours
-            "X0028G", # Technieken
-            "X0053G", # Vormingsbegeleiding
-            "X0056G", # Ecologie
-            "X0057G", # Lokalen
-            "X0059G", # Structurenteam
-            "X0071G", # Integriteam
-            "X1027G", # Personeel NS
+            "X0001G",  # PCOM
+            "X0002G",  # BCOM
+            "X0010G",  # Kapoenen
+            "X0011G",  # Welpen
+            "X0012G",  # Jgvs
+            "X0013G",  # Givers
+            "X0014G",  # Jins
+            "X0015G",  # Vorming
+            "X0017G",  # Internationaal
+            "X0018G",  # Akabe
+            "X0019G",  # Zingeving
+            "X0020G",  # Diversiteit
+            "X0021G",  # Zeescouts
+            "X0022G",  # Groepsleiding
+            "X0025G",  # Jamboree
+            "X0027G",  # Touwenparcours
+            "X0028G",  # Technieken
+            "X0053G",  # Vormingsbegeleiding
+            "X0056G",  # Ecologie
+            "X0057G",  # Lokalen
+            "X0059G",  # Structurenteam
+            "X0071G",  # Integriteam
+            "X1027G",  # Personeel NS
         ]
         for group in scouts_groups:
             if group.get("groep", "") in admin_scouts_groups and not group.get("einde", False):

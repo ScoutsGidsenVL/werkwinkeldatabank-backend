@@ -1,6 +1,8 @@
 import django_filters
-from ...models import Theme
+
 from apps.base.filters import ActiveFilterMixin
+
+from ...models import Theme
 
 
 class ThemeFilter(ActiveFilterMixin, django_filters.FilterSet):

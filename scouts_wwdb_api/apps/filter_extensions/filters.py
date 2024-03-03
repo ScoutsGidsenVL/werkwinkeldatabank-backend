@@ -1,6 +1,7 @@
 import django_filters
 from django.db.models import Q
 from django.db.models.constants import LOOKUP_SEP
+
 from .fields import BaseQueryArrayField
 
 

@@ -1,13 +1,17 @@
-from django.db import models
-from apps.base.models import BaseModel
 from datetime import timedelta
-from django.core.validators import MaxValueValidator, MinValueValidator
+
 from django.core.exceptions import ValidationError
-from .enums.building_block_type import BuildingBlockType
-from .building_block_template import BuildingBlockTemplate
-from .workshop import Workshop
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
+from apps.base.models import BaseModel
+
 from ..models.category import Category
 from ..models.theme import Theme
+from .building_block_template import BuildingBlockTemplate
+from .enums.building_block_type import BuildingBlockType
+from .workshop import Workshop
+
 
 # This model represents the actual instance of a building block and can overwrite many of the fields of the template
 class BuildingBlockInstance(BaseModel):
