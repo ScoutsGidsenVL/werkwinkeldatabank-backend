@@ -81,27 +81,27 @@ APPEND_SLASH = True
 
 
 # Application definition
-INSTALLED_APPS = [
-    "apps.workshops",
+INSTALLED_APPS = [  # order alphabetically
     "apps.files",
-    "apps.wwdb_mails",
+    "apps.scouts_auth",
+    "apps.workshops",
     "apps.wwdb_exports",
+    "apps.wwdb_mails",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
-    "apps.scouts_auth",
-    "mozilla_django_oidc",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.sessions",
     "django.contrib.staticfiles",
-    "rest_framework",
     "django_filters",
     "drf_yasg2",
-    "corsheaders",
+    "mozilla_django_oidc",
+    "rest_framework",
     "storages",
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = [  # actual ordering matters for middleware
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
