@@ -1,12 +1,15 @@
-from django.db import models
 from datetime import timedelta
-from django.core.validators import MaxValueValidator, MinValueValidator
+
 from django.core.exceptions import ValidationError
-from apps.base.models import BaseModel, DisabledFieldModelMixin, CreatedByMixin, AuditTimestampMixin
-from .enums import BuildingBlockType, BuildingBlockStatus
-from .category import Category
-from .theme import Theme
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
+from apps.base.models import AuditTimestampMixin, BaseModel, CreatedByMixin, DisabledFieldModelMixin
+
 from ..managers import BuildingBlockTemplateManager
+from .category import Category
+from .enums import BuildingBlockStatus, BuildingBlockType
+from .theme import Theme
 
 
 # This model represents a template for a building block that can be used by scouts admins to manage some predefined templates

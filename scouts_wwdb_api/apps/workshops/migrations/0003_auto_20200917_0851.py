@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0002_auto_20200910_1325'),
+        ("workshops", "0002_auto_20200910_1325"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='buildingblockinstance',
-            name='order',
+            model_name="buildingblockinstance",
+            name="order",
             field=models.IntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='buildingblocktemplate',
-            name='order',
+            model_name="buildingblocktemplate",
+            name="order",
             field=models.IntegerField(blank=True, null=True),
         ),
     ]

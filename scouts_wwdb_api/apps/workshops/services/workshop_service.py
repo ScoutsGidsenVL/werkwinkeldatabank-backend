@@ -1,16 +1,17 @@
-from ..models import Workshop, Theme
-from django.shortcuts import get_object_or_404
-from django.db import transaction
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db import transaction
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
+
 from apps.base.services.disabled_field_service import update_is_disabled_field
 from apps.wwdb_mails.services import send_template_mail
+
+from ..exceptions import InvalidWorkflowTransitionException
+from ..models import Theme, Workshop
+from ..models.enums.workshop_status_type import WorkshopStatusType
 from .building_block_instance_service import building_block_instance_create, building_block_instance_update
 from .history_service import history_create
-from ..models.enums.workshop_status_type import WorkshopStatusType
-from ..exceptions import InvalidWorkflowTransitionException
-from django.conf import settings
 
 
 # Make atomic so database changes can be rolled back if error occurs

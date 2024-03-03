@@ -6,21 +6,70 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0033_auto_20210222_0957'),
+        ("workshops", "0033_auto_20210222_0957"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='buildingblocktemplate',
-            options={'permissions': [('view_field_created_by_buildingblocktemplate', 'Can view created by field of templates'), ('view_all_buildingblocktemplate', 'Can view all buildingblocktemplates'), ('change_all_buildingblocktemplate', 'Can change all buildingblocktemplates'), ('request_publication_buildingblocktemplate', 'Can request publication of buildingblocktemplate'), ('publish_buildingblocktemplate', 'Can publish buildingblocktemplate'), ('unpublish_buildingblocktemplate', 'Can unpublish buildingblocktemplate'), ('view_publication_requested_buildingblocktemplate', 'Can view the to building block template with the status publication requested')]},
+            name="buildingblocktemplate",
+            options={
+                "permissions": [
+                    ("view_field_created_by_buildingblocktemplate", "Can view created by field of templates"),
+                    ("view_all_buildingblocktemplate", "Can view all buildingblocktemplates"),
+                    ("change_all_buildingblocktemplate", "Can change all buildingblocktemplates"),
+                    ("request_publication_buildingblocktemplate", "Can request publication of buildingblocktemplate"),
+                    ("publish_buildingblocktemplate", "Can publish buildingblocktemplate"),
+                    ("unpublish_buildingblocktemplate", "Can unpublish buildingblocktemplate"),
+                    (
+                        "view_publication_requested_buildingblocktemplate",
+                        "Can view the to building block template with the status publication requested",
+                    ),
+                ]
+            },
         ),
         migrations.AlterModelOptions(
-            name='workshop',
-            options={'permissions': [('view_all_workshop', 'Can view all workshops'), ('change_all_workshop', 'Can change all workshops'), ('request_publication_workshop', 'Can request publication of workshops'), ('publish_workshop', 'Can publish of workshops'), ('unpublish_workshop', 'Can unpublish of workshops'), ('view_publication_requested_workshop', 'Can view the to workshop with the status publication requested'), ('view_field_created_by_workshop', 'Can view created by field of workshops'), ('view_field_is_sensitive_workshop', 'Can view is sensitive field of workshops')]},
+            name="workshop",
+            options={
+                "permissions": [
+                    ("view_all_workshop", "Can view all workshops"),
+                    ("change_all_workshop", "Can change all workshops"),
+                    ("request_publication_workshop", "Can request publication of workshops"),
+                    ("publish_workshop", "Can publish of workshops"),
+                    ("unpublish_workshop", "Can unpublish of workshops"),
+                    (
+                        "view_publication_requested_workshop",
+                        "Can view the to workshop with the status publication requested",
+                    ),
+                    ("view_field_created_by_workshop", "Can view created by field of workshops"),
+                    ("view_field_is_sensitive_workshop", "Can view is sensitive field of workshops"),
+                ]
+            },
         ),
         migrations.AlterField(
-            model_name='workshop',
-            name='approving_team',
-            field=models.CharField(blank=True, choices=[('GROUP1', 'Vorming'), ('GROUP2', 'Diversiteit'), ('GROUP3', 'Ecologie'), ('GROUP4', 'Internationaal'), ('GROUP5', 'IT'), ('GROUP6', 'Lokalen'), ('GROUP7', 'Technieken'), ('GROUP8', 'Zingeving'), ('GROUP9', 'Kapoenen'), ('GROUP10', 'Kabouters & Welpen'), ('GROUP11', 'Jonggivers'), ('GROUP12', 'Givers'), ('GROUP13', 'Jins'), ('GROUP14', 'Groepsleiding'), ('GROUP15', 'Akabe'), ('GROUP16', 'Zeescouting')], max_length=30, null=True),
+            model_name="workshop",
+            name="approving_team",
+            field=models.CharField(
+                blank=True,
+                choices=[
+                    ("GROUP1", "Vorming"),
+                    ("GROUP2", "Diversiteit"),
+                    ("GROUP3", "Ecologie"),
+                    ("GROUP4", "Internationaal"),
+                    ("GROUP5", "IT"),
+                    ("GROUP6", "Lokalen"),
+                    ("GROUP7", "Technieken"),
+                    ("GROUP8", "Zingeving"),
+                    ("GROUP9", "Kapoenen"),
+                    ("GROUP10", "Kabouters & Welpen"),
+                    ("GROUP11", "Jonggivers"),
+                    ("GROUP12", "Givers"),
+                    ("GROUP13", "Jins"),
+                    ("GROUP14", "Groepsleiding"),
+                    ("GROUP15", "Akabe"),
+                    ("GROUP16", "Zeescouting"),
+                ],
+                max_length=30,
+                null=True,
+            ),
         ),
     ]

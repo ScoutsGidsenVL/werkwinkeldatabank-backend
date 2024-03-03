@@ -1,21 +1,24 @@
-from rest_framework import serializers
 from datetime import timedelta
+
 from drf_yasg2.utils import swagger_serializer_method
-from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField, PermissionRequiredField
+from rest_framework import serializers
+
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
-from apps.files.models import CKEditorFile
-from ...models import Workshop, Theme
-from ...models.enums.scouts_team import ScoutsTeam
-from ...helpers.enum_helper import parse_choice_to_tuple
-from .theme_serializers import ThemeDetailOutputSerializer
 from apps.files.api.serializers import FileDetailOutputSerializer
-from .enum_serializers import EnumOutputSerializer
+from apps.files.models import CKEditorFile
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
+from apps.serializer_extensions.serializers import DurationField, PermissionRequiredField, SerializerSwitchField
+
+from ...helpers.enum_helper import parse_choice_to_tuple
+from ...models import Theme, Workshop
+from ...models.enums.scouts_team import ScoutsTeam
 from .building_block_serializers import (
     BuildingBlockInstanceNestedCreateInputSerializer,
-    BuildingBlockInstanceNestedUpdateInputSerializer,
     BuildingBlockInstanceNestedOutputSerializer,
+    BuildingBlockInstanceNestedUpdateInputSerializer,
 )
+from .enum_serializers import EnumOutputSerializer
+from .theme_serializers import ThemeDetailOutputSerializer
 
 # Output
 

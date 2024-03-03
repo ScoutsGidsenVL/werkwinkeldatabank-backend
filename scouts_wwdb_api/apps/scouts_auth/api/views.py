@@ -1,6 +1,7 @@
-from rest_framework import views, status
-from rest_framework.response import Response
 from drf_yasg2.utils import swagger_auto_schema
+from rest_framework import status, views
+from rest_framework.response import Response
+
 from .serializers import UserDetailOutputSerializer
 
 

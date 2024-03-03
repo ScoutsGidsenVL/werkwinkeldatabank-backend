@@ -1,8 +1,9 @@
-from rest_framework import viewsets, status, permissions
-from rest_framework.response import Response
 from drf_yasg2.utils import swagger_auto_schema
-from ...serializers.enum_serializers import EnumOutputSerializer
+from rest_framework import permissions, status, viewsets
+from rest_framework.response import Response
+
 from ....models.enums.workshop_status_type import WorkshopStatusType
+from ...serializers.enum_serializers import EnumOutputSerializer
 
 
 class WorkshopStatusTypeViewSet(viewsets.ViewSet):

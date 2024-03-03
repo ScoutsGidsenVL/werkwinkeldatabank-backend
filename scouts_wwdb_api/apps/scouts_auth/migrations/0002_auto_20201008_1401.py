@@ -6,12 +6,12 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('scouts_auth', '0001_initial'),
+        ("scouts_auth", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='user',
-            options={'permissions': (('access_disabled_entities', 'Access disabled entities'),)},
+            name="user",
+            options={"permissions": (("access_disabled_entities", "Access disabled entities"),)},
         ),
     ]

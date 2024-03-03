@@ -1,10 +1,25 @@
-from rest_framework import viewsets, status, permissions, filters
-from rest_framework.response import Response
-from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
-from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
-from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
+from drf_yasg2.utils import swagger_auto_schema
+from rest_framework import filters, permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
+
+from ...exceptions import InvalidWorkflowTransitionException
+from ...models import BuildingBlockTemplate
+from ...services.building_block_template_service import (
+    building_block_template_add_history,
+    building_block_template_create,
+    building_block_template_publish,
+    building_block_template_request_publication,
+    building_block_template_unpublish,
+    building_block_template_update,
+)
+from ..exceptions import InvalidWorkflowTransitionAPIException
+from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
+from ..permissions import BuildingBlockTemplateChangePermission
 from ..serializers.building_block_serializers import (
     BuildingBlockTemplateCreateInputSerializer,
     BuildingBlockTemplateDetailOutputSerializer,
@@ -12,19 +27,6 @@ from ..serializers.building_block_serializers import (
     BuildingBlockTemplateUpdateInputSerializer,
 )
 from ..serializers.history_serializers import HistoryOutputSerializer
-from ...services.building_block_template_service import (
-    building_block_template_create,
-    building_block_template_update,
-    building_block_template_add_history,
-    building_block_template_request_publication,
-    building_block_template_publish,
-    building_block_template_unpublish,
-)
-from ...models import BuildingBlockTemplate
-from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
-from ...exceptions import InvalidWorkflowTransitionException
-from ..exceptions import InvalidWorkflowTransitionAPIException
-from ..permissions import BuildingBlockTemplateChangePermission
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):

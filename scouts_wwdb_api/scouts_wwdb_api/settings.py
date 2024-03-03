@@ -9,7 +9,11 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import os, logging, logging.config
+
+import logging
+import logging.config
+import os
+
 from environs import Env
 
 # Get a pre-config logger

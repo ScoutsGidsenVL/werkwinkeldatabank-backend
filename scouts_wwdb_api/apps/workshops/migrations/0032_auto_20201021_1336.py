@@ -6,12 +6,21 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0031_buildingblocktemplate_status'),
+        ("workshops", "0031_buildingblocktemplate_status"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='buildingblocktemplate',
-            options={'permissions': [('view_field_created_by_buildingblocktemplate', 'Can view created by field of templates'), ('view_all_buildingblocktemplate', 'Can view all buildingblocktemplates'), ('change_all_buildingblocktemplate', 'Can change all buildingblocktemplates'), ('request_publication_buildingblocktemplate', 'Can request publication of buildingblocktemplate'), ('publish_buildingblocktemplate', 'Can publish buildingblocktemplate'), ('unpublish_buildingblocktemplate', 'Can unpublish buildingblocktemplate')]},
+            name="buildingblocktemplate",
+            options={
+                "permissions": [
+                    ("view_field_created_by_buildingblocktemplate", "Can view created by field of templates"),
+                    ("view_all_buildingblocktemplate", "Can view all buildingblocktemplates"),
+                    ("change_all_buildingblocktemplate", "Can change all buildingblocktemplates"),
+                    ("request_publication_buildingblocktemplate", "Can request publication of buildingblocktemplate"),
+                    ("publish_buildingblocktemplate", "Can publish buildingblocktemplate"),
+                    ("unpublish_buildingblocktemplate", "Can unpublish buildingblocktemplate"),
+                ]
+            },
         ),
     ]

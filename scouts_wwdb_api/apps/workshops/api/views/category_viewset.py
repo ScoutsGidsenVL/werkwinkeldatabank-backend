@@ -1,18 +1,20 @@
-from rest_framework import viewsets, status, permissions
-from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from drf_yasg2.utils import swagger_auto_schema
 from django_filters.rest_framework import DjangoFilterBackend
-from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
+from drf_yasg2.utils import swagger_auto_schema
+from rest_framework import permissions, status, viewsets
+from rest_framework.response import Response
+
+from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
+
+from ...models import Category
+from ...services.category_service import category_create, category_update
+from ..filters.category_filter import CategoryFilter
 from ..serializers.category_serializers import (
     CategoryCreateInputSerializer,
     CategoryDetailOutputSerializer,
     CategoryListOutputSerializer,
     CategoryUpdateInputSerializer,
 )
-from ...services.category_service import category_create, category_update
-from ...models import Category
-from ..filters.category_filter import CategoryFilter
 
 
 class CategoryViewSet(viewsets.GenericViewSet):

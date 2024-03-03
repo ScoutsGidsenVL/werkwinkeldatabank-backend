@@ -1,8 +1,10 @@
-from django.db import models
 from django.core.exceptions import ValidationError
-from apps.base.models import BaseModel, AuditTimestampMixin
-from .workshop import Workshop
+from django.db import models
+
+from apps.base.models import AuditTimestampMixin, BaseModel
+
 from .building_block_template import BuildingBlockTemplate
+from .workshop import Workshop
 
 
 class History(AuditTimestampMixin, BaseModel):

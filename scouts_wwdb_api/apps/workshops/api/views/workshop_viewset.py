@@ -1,36 +1,39 @@
-from rest_framework import viewsets, status, serializers, filters, permissions
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from django.db.models import F
+from functools import partial
+
 from django.core.exceptions import PermissionDenied
-from rest_framework.exceptions import APIException
-from rest_framework.decorators import action
-from drf_yasg2.utils import swagger_auto_schema
+from django.db.models import F
+from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions, CustomDjangoPermission
+from drf_yasg2.utils import swagger_auto_schema
+from rest_framework import filters, permissions, serializers, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.exceptions import APIException
+from rest_framework.response import Response
+
+from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
 from apps.wwdb_exports.services import generate_workshop_pdf_response
-from ..serializers.workshop_serializers import (
-    WorkshopDetailOutputSerializer,
-    WorkshopListOutputSerializer,
-    WorkshopCreateInputSerializer,
-    WorkshopUpdateInputSerializer,
-)
-from ..serializers.history_serializers import HistoryOutputSerializer
-from ...services.workshop_service import (
-    workshop_create,
-    workshop_update,
-    workshop_request_publication,
-    workshop_publish,
-    workshop_unpublish,
-    workshop_add_history,
-)
+
+from ...exceptions import InvalidWorkflowTransitionException
 from ...models import Workshop
 from ...models.enums.workshop_status_type import WorkshopStatusType
-from ..filters.workshop_filter import WorkshopFilter
-from ...exceptions import InvalidWorkflowTransitionException
+from ...services.workshop_service import (
+    workshop_add_history,
+    workshop_create,
+    workshop_publish,
+    workshop_request_publication,
+    workshop_unpublish,
+    workshop_update,
+)
 from ..exceptions import InvalidWorkflowTransitionAPIException
+from ..filters.workshop_filter import WorkshopFilter
 from ..permissions import WorkshopChangePermission
-from functools import partial
+from ..serializers.history_serializers import HistoryOutputSerializer
+from ..serializers.workshop_serializers import (
+    WorkshopCreateInputSerializer,
+    WorkshopDetailOutputSerializer,
+    WorkshopListOutputSerializer,
+    WorkshopUpdateInputSerializer,
+)
 
 
 class WorkshopViewSet(viewsets.GenericViewSet):

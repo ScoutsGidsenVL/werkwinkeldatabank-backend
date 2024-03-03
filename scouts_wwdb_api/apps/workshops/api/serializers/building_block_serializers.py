@@ -1,16 +1,19 @@
-from rest_framework import serializers
 from datetime import timedelta
-from drf_yasg2.utils import swagger_serializer_method
-from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
-from ...models import BuildingBlockTemplate, BuildingBlockInstance, Category, Theme
-from ...models.enums import BuildingBlockType, BuildingBlockStatus
-from .enum_serializers import EnumOutputSerializer
-from .category_serializers import CategoryDetailOutputSerializer
-from ...helpers.enum_helper import parse_choice_to_tuple
-from apps.serializer_extensions.serializers import DurationField
-from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
-from .theme_serializers import ThemeDetailOutputSerializer
 from pprint import pprint
+
+from drf_yasg2.utils import swagger_serializer_method
+from rest_framework import serializers
+
+from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
+from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
+from apps.serializer_extensions.serializers import DurationField
+
+from ...helpers.enum_helper import parse_choice_to_tuple
+from ...models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme
+from ...models.enums import BuildingBlockStatus, BuildingBlockType
+from .category_serializers import CategoryDetailOutputSerializer
+from .enum_serializers import EnumOutputSerializer
+from .theme_serializers import ThemeDetailOutputSerializer
 
 # Output
 
@@ -82,7 +85,7 @@ class BuildingBlockTemplateListOutputSerializer(serializers.ModelSerializer):
             "is_sensitive",
             "is_disabled",
             "last_edited",
-            "created_by"
+            "created_by",
         )
 
     @swagger_serializer_method(serializer_or_field=EnumOutputSerializer)

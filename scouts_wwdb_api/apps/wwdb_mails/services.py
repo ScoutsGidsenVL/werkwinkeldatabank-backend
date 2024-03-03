@@ -1,8 +1,9 @@
-from django.core.mail import send_mail
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+
 from .mails import mails
 
 
@@ -29,5 +30,8 @@ def send_template_mail(*, template: str, title: str = None, from_email: str = No
     subject_message = get_mail_subject_and_message(template=template, **kwargs)
 
     send_wwdb_mail(
-        subject=subject_message[0] + ': ' + title, html_message=subject_message[1], from_email=from_email, recipients=recipients
+        subject=subject_message[0] + ": " + title,
+        html_message=subject_message[1],
+        from_email=from_email,
+        recipients=recipients,
     )

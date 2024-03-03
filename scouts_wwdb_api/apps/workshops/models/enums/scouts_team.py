@@ -18,4 +18,3 @@ class ScoutsTeam(models.TextChoices):
     GROUP14 = "GROUP14", "Groepsleiding"
     GROUP15 = "GROUP15", "Akabe"
     GROUP16 = "GROUP16", "Zeescouting"
-    

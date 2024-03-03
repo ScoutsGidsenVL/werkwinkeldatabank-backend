@@ -1,6 +1,8 @@
 import django_filters
-from ...models import Category
+
 from apps.base.filters import ActiveFilterMixin
+
+from ...models import Category
 
 
 class CategoryFilter(ActiveFilterMixin, django_filters.FilterSet):

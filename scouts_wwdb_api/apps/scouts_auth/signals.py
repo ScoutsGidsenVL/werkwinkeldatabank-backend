@@ -1,8 +1,9 @@
+import os
+
+import yaml
+from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
-import os
-import yaml
 
 
 def _add_permission_by_name(group, permission_name):

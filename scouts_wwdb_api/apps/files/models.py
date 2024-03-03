@@ -1,5 +1,6 @@
-from django.db import models
 from django.core.validators import FileExtensionValidator
+from django.db import models
+
 from apps.base.models import BaseModel
 from apps.workshops.models import Workshop
 

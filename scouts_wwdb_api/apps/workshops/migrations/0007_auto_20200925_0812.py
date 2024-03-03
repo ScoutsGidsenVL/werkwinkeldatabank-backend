@@ -6,23 +6,23 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workshops', '0006_workshop_short_description'),
+        ("workshops", "0006_workshop_short_description"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='buildingblockinstance',
-            name='is_sensitive',
+            model_name="buildingblockinstance",
+            name="is_sensitive",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='buildingblocktemplate',
-            name='is_sensitive',
+            model_name="buildingblocktemplate",
+            name="is_sensitive",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='workshop',
-            name='duration',
+            model_name="workshop",
+            name="duration",
             field=models.DurationField(),
         ),
     ]

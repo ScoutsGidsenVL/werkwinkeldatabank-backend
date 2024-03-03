@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
-from ...models import Theme
 
+from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
+
+from ...models import Theme
 
 # Output
 

@@ -1,15 +1,16 @@
-from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
-from django.core.exceptions import ValidationError
-from django.conf import settings
 from datetime import timedelta
-from .theme import Theme
-from apps.base.models import BaseModel, DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin
-from .theme import Theme
-from .enums.workshop_status_type import WorkshopStatusType
-from .enums.scouts_team import ScoutsTeam
-from ..managers import WorkshopManager
+
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+
+from apps.base.models import AuditTimestampMixin, BaseModel, CreatedByMixin, DisabledFieldModelMixin
+
+from ..managers import WorkshopManager
+from .enums.scouts_team import ScoutsTeam
+from .enums.workshop_status_type import WorkshopStatusType
+from .theme import Theme
 
 
 class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, BaseModel):
