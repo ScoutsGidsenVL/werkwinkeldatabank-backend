@@ -99,7 +99,7 @@ INSTALLED_APPS = [  # order alphabetically
     "django.contrib.sessions",
     "django.contrib.staticfiles",
     "django_filters",
-    "drf_yasg2",
+    "drf_yasg",
     "mozilla_django_oidc",
     "rest_framework",
     "storages",

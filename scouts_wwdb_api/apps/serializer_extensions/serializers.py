@@ -2,7 +2,7 @@ import copy
 import inspect
 from pprint import pprint
 
-from drf_yasg2 import openapi
+from drf_yasg import openapi
 from rest_framework import serializers
 from rest_framework.fields import empty
 
