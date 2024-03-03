@@ -1,10 +1,10 @@
 import logging
 
-from app.scouts_auth.inuits.logging import InuitsLogger
 from requests.exceptions import HTTPError
 from rest_framework import permissions, status, views
 from rest_framework.response import Response
 
+from apps.scouts_auth.inuits.logging import InuitsLogger
 from ..exceptions import TokenRequestException
 from ..services.token_request_service import get_tokens_by_auth_code, get_tokens_by_refresh_token
 from .serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenOutputSerializer
