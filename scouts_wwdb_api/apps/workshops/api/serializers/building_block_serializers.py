@@ -1,7 +1,7 @@
 from datetime import timedelta
 from pprint import pprint
 
-from drf_yasg2.utils import swagger_serializer_method
+from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
