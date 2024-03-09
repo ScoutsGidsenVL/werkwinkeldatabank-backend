@@ -20,6 +20,10 @@ maintainers = [
 homepage = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 repository = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 keywords = ["django", "scouts", "werkwinkel"]
+packages = [
+    { include = "apps", from = "scouts_wwdb_api" },
+    { include = "scouts_wwdb_api", from = "scouts_wwdb_api" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
@@ -46,6 +50,7 @@ urllib3= ">=1.26.18"
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.0"
 autoread-dotenv = ">=1.0.2"
+django-extensions = "^3.2.3"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
