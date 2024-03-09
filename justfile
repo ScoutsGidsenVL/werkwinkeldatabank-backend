@@ -21,13 +21,23 @@ help:
     @ just --list --unsorted
 
 
-# create directiries
+
+# remove generated files & dirs
+clean-venv:
+    @ rm -fr bin lib lib64 pyvenv.cfg
+    @ rm -fr .venv
+
+alias clear-venv := clean-venv
+
+
+# create directories
 ensure-dirs:
     @ mkdir -p var/cache
     @ mkdir -p var/log
     @ mkdir -p var/run
     @ mkdir -p var/static
     @ mkdir -p var/tmp
+
 
 
 # full initial pythondev-installation
@@ -53,7 +63,7 @@ symlink-ipython:
 
 # upgrade pip itself
 upgrade-pip:
-    bin/pip install -U pip
+    .venv/bin/pip install -U pip
 
 
 # run poetry install
@@ -67,9 +77,20 @@ poetry-lock:
 
 # export poetry-defined requirements to a pip-installable requirements-file
 [linux]
-poetry-export-requirements:
-    @ poetry lock
+poetry-export-requirements: poetry-lock
     @ poetry export -f requirements.txt --output etc/requirements.txt
     @ cat etc/requirements-header.txt <(echo "") etc/requirements.txt > etc/temp.txt && mv etc/temp.txt etc/requirements.txt
     @ cp etc/requirements.txt requirements.txt
     @ echo -e "Updated etc/requirements.txt"
+
+
+# run pytest
+pytest:
+    bin/pytest tests
+
+# run pytest with coverage
+pytest-coverage:  
+    bin/pytest tests --color=yes --cov=tsc_sphinx --cov-report term-missing --cov-report html --cov-report xml --junit-xml='var/cache/coverage/pytest.xml'
+
+alias pytest-cov := pytest-coverage
+
