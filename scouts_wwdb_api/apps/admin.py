@@ -1,6 +1,7 @@
 """apps.admin."""
-from django.contrib import admin
-from models import Theme, Workshop
+import django
 
-admin.site.register(Workshop)
-admin.site.register(Theme)
+import apps.workshops.models as workshops_models
+
+django.contrib.admin.site.register(workshops_models.Workshop)
+django.contrib.admin.site.register(workshops_models.Theme)
