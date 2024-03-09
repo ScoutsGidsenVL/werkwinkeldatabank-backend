@@ -14,7 +14,6 @@ class UploadFileOutputSerializer(serializers.Serializer):
 
 
 class FileDetailOutputSerializer(serializers.ModelSerializer):
-
     name = serializers.SerializerMethodField()
     size = serializers.SerializerMethodField()
 

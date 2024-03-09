@@ -1,4 +1,5 @@
-from datetime import timedelta
+"""apps.workshops.models.building_block_template."""
+import datetime as dt
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -21,7 +22,7 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
     title = models.CharField(max_length=200)
     description = models.TextField()
     duration = models.DurationField(
-        validators=[MinValueValidator(timedelta(minutes=0)), MaxValueValidator(timedelta(days=1))]
+        validators=[MinValueValidator(dt.timedelta(minutes=0)), MaxValueValidator(dt.timedelta(days=1))]
     )
     category = models.ForeignKey(Category, on_delete=models.RESTRICT, null=True, blank=True)
     # Its django best practice to not set charfields nullable, an empty string will be used as empty field

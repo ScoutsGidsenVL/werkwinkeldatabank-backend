@@ -1,3 +1,4 @@
+"""apps.workshops.models.enums.workshop_status_type."""
 from django.db import models
 
 

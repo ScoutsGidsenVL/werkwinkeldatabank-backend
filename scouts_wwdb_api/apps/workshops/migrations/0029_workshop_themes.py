@@ -11,7 +11,6 @@ def make_many_workshops(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("workshops", "0028_auto_20201015_2002"),
     ]

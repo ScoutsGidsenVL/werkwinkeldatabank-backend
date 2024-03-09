@@ -1,4 +1,5 @@
-"""
+"""scouts_wwdb_api.asgi. 
+
 ASGI config for scouts_wwdb_api project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.

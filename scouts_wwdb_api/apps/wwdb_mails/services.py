@@ -1,10 +1,11 @@
+"""apps.wwdb_mails.services."""
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
-from .mails import mails
+from apps.wwdb_mails.mails import mails
 
 
 def send_wwdb_mail(*, subject: str, html_message: str, from_email: str = None, recipients: list = []):

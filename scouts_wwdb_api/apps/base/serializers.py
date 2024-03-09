@@ -1,3 +1,4 @@
+"""apps.base.serializers."""
 from rest_framework import serializers
 
 from apps.serializer_extensions.serializers import PermissionRequiredField

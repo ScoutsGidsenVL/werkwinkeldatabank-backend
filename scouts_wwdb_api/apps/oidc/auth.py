@@ -46,7 +46,6 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         return user
 
     def map_user_with_groepsadmin_claims(self, user, claims):
-
         user.first_name = claims.get("vgagegevens", {}).get("voornaam", user.first_name)
         user.last_name = claims.get("vgagegevens", {}).get("achternaam", user.last_name)
 

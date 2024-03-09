@@ -1,4 +1,5 @@
-"""
+"""scouts_wwdb_api.wsgi. 
+
 WSGI config for scouts_wwdb_api project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.

@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("workshops", "0034_auto_20210324_1514"),
         ("files", "0003_remove_ckeditorfile_created_by"),

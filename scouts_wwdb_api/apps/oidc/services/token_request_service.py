@@ -11,7 +11,6 @@ def post_token_request(payload: dict) -> dict:
 
 
 def get_tokens_by_auth_code(auth_code: str, redirect_uri: str) -> dict:
-
     payload = {
         "code": auth_code,
         "grant_type": "authorization_code",
@@ -24,7 +23,6 @@ def get_tokens_by_auth_code(auth_code: str, redirect_uri: str) -> dict:
 
 
 def get_tokens_by_refresh_token(refresh_token: str) -> dict:
-
     payload = {
         "refresh_token": refresh_token,
         "grant_type": "refresh_token",

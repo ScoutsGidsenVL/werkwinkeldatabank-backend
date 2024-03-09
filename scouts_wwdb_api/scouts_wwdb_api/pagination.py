@@ -1,3 +1,4 @@
+"""scouts_wwdb_api.pagination."""
 from rest_framework import pagination
 
 

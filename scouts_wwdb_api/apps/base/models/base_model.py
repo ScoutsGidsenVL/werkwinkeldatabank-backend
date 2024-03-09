@@ -1,6 +1,6 @@
+"""apps.base.models.base_model."""
 import uuid
 
-from django.conf import settings
 from django.db import models
 
 
