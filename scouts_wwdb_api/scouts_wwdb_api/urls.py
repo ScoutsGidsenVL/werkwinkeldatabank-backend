@@ -16,22 +16,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.conf import settings
-from django.contrib import admin
+import django
 from django.urls import include, path
-from drf_yasg import openapi
-from drf_yasg.views import get_schema_view
-from rest_framework import permissions
+
+import drf_yasg.openapi
+import drf_yasg.views
+import rest_framework.permissions
 
 # Open api schema
-schema_view = get_schema_view(
-    openapi.Info(
+schema_view = drf_yasg.views.get_schema_view(
+    drf_yasg.openapi.Info(
         title="Scouts WWDB API",
         default_version="v1",
         description="This is the api documentation for the Scouts WerkWinkelDataBank API",
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,),
+    permission_classes=(rest_framework.permissions.AllowAny,),
 )
 
 urlpatterns = [
@@ -39,7 +39,7 @@ urlpatterns = [
     path("api/auth/", include("apps.scouts_auth.urls")),
     path("api/oidc/", include("apps.oidc.urls")),
     path("api/files/", include("apps.files.urls")),
-    path("admin/", admin.site.urls),
+    path("admin/", django.contrib.admin.site.urls),
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]
