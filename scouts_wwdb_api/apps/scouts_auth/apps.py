@@ -8,6 +8,6 @@ class AuthConfig(AppConfig):
 
     def ready(self):
         # Need to import here because importing above will lead to AppRegistryNotReady exception
-        from apps.scouts_auth.signals import populate_groups
+        from apps.scouts_auth.signals import populate_groups  # pylint: disable=import-outside-toplevel
 
         post_migrate.connect(populate_groups, sender=self)

@@ -87,12 +87,11 @@ good-names = [
 ]
 
 [tool.pylint.linters]
-ignored-modules = [
-    "apps.files.migrations.*",
-    "scouts_wwdb_api.apps.files.migrations",
-    "migrations",
-    ".*/migrations",
-    ]
+ignored-modules = []
+ignore-paths=[
+    "src/.*/migrations/",
+    "scouts_wwdb_api/.*/migrations/",
+]
 
 [tool.pylint.messages_control]
 disable = [
@@ -103,6 +102,9 @@ disable = [
     "W0223",  # abstract-method
     "W1203",  # logging-fstring-interpolation
 ]
+
+[tool.pylint.typecheck]
+generated-members= ["save"] #REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
 
 
 [tool.pytest.ini_options]

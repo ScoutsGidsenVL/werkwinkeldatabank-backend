@@ -1,3 +1,5 @@
+"""apps.scouts_auth.models.user."""
+
 import uuid
 
 from django.contrib.auth.models import AbstractUser
