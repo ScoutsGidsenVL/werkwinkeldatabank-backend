@@ -44,15 +44,15 @@ psycopg2-binary = ">=2.8.5"
 pyyaml = ">=6.0.1"
 requests = ">=2.24.0"
 urllib3= ">=1.26.18"
-# xhtml2pdf = ">=0.2.5"
-xhtml2pdf = "^0.2.15"
+xhtml2pdf = ">=0.2.15"
 
 
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.0"
 autoread-dotenv = ">=1.0.2"
-django-extensions = "^3.2.3"
-pylint = "^3.1.0"
+django-extensions = ">=3.2.3"
+pylint = ">=3.1.0"
+pylint-django = ">=2.5.5"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
@@ -73,6 +73,9 @@ pytest-mock = ">=3.6"
 pytest-xdist = ">=3.2"
 tox = ">=4.0"
 
+[tool.poetry.group.typing.dependencies]
+django-stubs = ">=4.2.7"
+mypy = ">=1.9"
 
 [tool.pylint.format]
 max-line-length = 120
@@ -81,6 +84,14 @@ good-names = [
     # "i",   # counter in loop
     # "ok",  # status
 ]
+
+[tool.pylint.linters]
+ignored-modules = [
+    "apps.files.migrations.*",
+    "scouts_wwdb_api.apps.files.migrations",
+    "migrations",
+    ".*/migrations",
+    ]
 
 [tool.pylint.messages_control]
 disable = [
@@ -106,4 +117,5 @@ pythonpath = [".", "scouts_wwdb_api"]
 # ruff searches for settings in the target-dir and up
 # https://docs.astral.sh/ruff/configuration
 cache-dir = "var/cache/ruff"
+exclude = ["**/migrations/*.py"]
 line-length = 120
