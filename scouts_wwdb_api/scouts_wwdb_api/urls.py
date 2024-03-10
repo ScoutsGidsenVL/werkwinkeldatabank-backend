@@ -17,14 +17,13 @@ Including another URLconf
 """
 
 import django
-from django.urls import include, path
-
 import drf_yasg.openapi
 import drf_yasg.views
 import rest_framework.permissions
+from django.urls import include, path
 
 # Open api schema
-schema_view = drf_yasg.views.get_schema_view(
+SchemaView = drf_yasg.views.get_schema_view(
     drf_yasg.openapi.Info(
         title="Scouts WWDB API",
         default_version="v1",
@@ -40,6 +39,6 @@ urlpatterns = [
     path("api/oidc/", include("apps.oidc.urls")),
     path("api/files/", include("apps.files.urls")),
     path("admin/", django.contrib.admin.site.urls),
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-    path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("swagger/", SchemaView.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+    path("redoc/", SchemaView.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 ]

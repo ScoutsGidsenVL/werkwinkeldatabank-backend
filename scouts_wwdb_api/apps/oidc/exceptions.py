@@ -1,3 +1,4 @@
+"""apps.oidc.exceptions."""
 from requests.exceptions import HTTPError
 from rest_framework.exceptions import APIException
 

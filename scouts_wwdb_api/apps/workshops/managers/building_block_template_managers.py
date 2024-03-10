@@ -7,7 +7,6 @@ from apps.workshops.models.enums import BuildingBlockStatus
 
 
 class BuildingBlockTemplateQuerySet(DisabledFieldQuerySetMixin, models.QuerySet):
-    
     def non_empty(self):
         return self.filter(is_default_empty=False)
 

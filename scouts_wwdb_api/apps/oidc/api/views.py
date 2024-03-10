@@ -1,3 +1,4 @@
+"""apps.oidc.api.views."""
 import logging
 
 from requests.exceptions import HTTPError

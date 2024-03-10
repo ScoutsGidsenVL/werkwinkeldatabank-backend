@@ -1,3 +1,4 @@
+"""apps.scouts_auth.signals."""
 import os
 
 import yaml
@@ -12,7 +13,7 @@ def _add_permission_by_name(group, permission_name):
         permission = Permission.objects.get(codename=permission_name[1], content_type__app_label=permission_name[0])
         group.permissions.add(permission)
     except ObjectDoesNotExist as exc:
-        print("Permission %s doesn't exist" % permission_name)
+        print(f"Permission {permission_name} doesn't exist")
 
 
 def populate_groups(sender, **kwargs):
@@ -24,6 +25,7 @@ def populate_groups(sender, **kwargs):
             groups = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
+
     for group_name, permissions in groups.items():
         group = Group.objects.get_or_create(name=group_name)[0]
         group.permissions.clear()

@@ -8,5 +8,4 @@ class ActiveFilterMixin(django_filters.FilterSet):
     def active_filter(self, queryset, name, value):
         if value:
             return queryset.active()
-        else:
-            return queryset.inactive()
+        return queryset.inactive()

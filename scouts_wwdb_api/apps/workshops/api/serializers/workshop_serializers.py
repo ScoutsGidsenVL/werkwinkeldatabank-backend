@@ -1,5 +1,4 @@
-from datetime import timedelta
-
+"""apps.workshops.api.serializers.workshop_serializers."""
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
@@ -8,19 +7,16 @@ from apps.files.api.serializers import FileDetailOutputSerializer
 from apps.files.models import CKEditorFile
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from apps.serializer_extensions.serializers import DurationField, PermissionRequiredField, SerializerSwitchField
-
-from ...helpers.enum_helper import parse_choice_to_tuple
-from ...models import Theme, Workshop
-from ...models.enums.scouts_team import ScoutsTeam
-from .building_block_serializers import (
+from apps.workshops.api.serializers.building_block_serializers import (
     BuildingBlockInstanceNestedCreateInputSerializer,
     BuildingBlockInstanceNestedOutputSerializer,
     BuildingBlockInstanceNestedUpdateInputSerializer,
 )
-from .enum_serializers import EnumOutputSerializer
-from .theme_serializers import ThemeDetailOutputSerializer
-
-# Output
+from apps.workshops.api.serializers.enum_serializers import EnumOutputSerializer
+from apps.workshops.api.serializers.theme_serializers import ThemeDetailOutputSerializer
+from apps.workshops.helpers.enum_helper import parse_choice_to_tuple
+from apps.workshops.models import Theme, Workshop
+from apps.workshops.models.enums.scouts_team import ScoutsTeam
 
 
 class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
@@ -98,9 +94,6 @@ class WorkshopListOutputSerializer(serializers.ModelSerializer):
             "created_at",
             "published_at",
         )
-
-
-# Input
 
 
 class WorkshopCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):

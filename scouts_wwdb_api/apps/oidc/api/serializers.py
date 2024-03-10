@@ -1,3 +1,4 @@
+"""apps.oidc.api.serializers."""
 from rest_framework import serializers
 
 

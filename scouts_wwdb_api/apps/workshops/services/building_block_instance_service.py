@@ -1,13 +1,14 @@
-from datetime import timedelta
+"""apps.workshops.services.building_block_instance_service."""
+import datetime as dt
 
-from ..models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme, Workshop
+from apps.workshops.models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme, Workshop
 
 
 def building_block_instance_create(
     *,
     title: str = "",
     description: str = "",
-    duration: timedelta = None,
+    duration: dt.timedelta = None,
     template: BuildingBlockTemplate,
     workshop: Workshop,
     short_description: str = "",

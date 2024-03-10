@@ -3,7 +3,6 @@ from django.db import models
 from django.db.models import Q
 
 from apps.base.managers import CreatedByQuerySetMixin, DisabledFieldQuerySetMixin
-
 from apps.workshops.models.enums.workshop_status_type import WorkshopStatusType
 
 

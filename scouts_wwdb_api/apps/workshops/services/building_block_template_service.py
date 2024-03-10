@@ -1,20 +1,21 @@
-from datetime import datetime, timedelta
+"""apps.workshops.services.building_block_template_service."""
+import datetime as dt
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 
 from apps.base.services.disabled_field_service import update_is_disabled_field
-
-from ..exceptions import InvalidWorkflowTransitionException
-from ..models import BuildingBlockTemplate, Category, Theme
-from ..models.enums import BuildingBlockStatus
-from .history_service import history_create
+from apps.workshops.exceptions import InvalidWorkflowTransitionException
+from apps.workshops.models import BuildingBlockTemplate, Category, Theme
+from apps.workshops.models.enums import BuildingBlockStatus
+from apps.workshops.services.history_service import history_create
 
 
 def building_block_template_create(
     *,
     title: str,
     description: str,
-    duration: timedelta,
+    duration: dt.timedelta,
     created_by: settings.AUTH_USER_MODEL,
     category: Category = None,
     building_block_type,
@@ -36,7 +37,7 @@ def building_block_template_create(
         is_sensitive=is_sensitive,
         is_disabled=is_disabled,
         created_by=created_by,
-        last_edited=datetime.now(),
+        last_edited=dt.datetime.now(),
     )
     template.full_clean()
     template.save()
@@ -56,7 +57,7 @@ def building_block_template_update(*, existing_template: BuildingBlockTemplate, 
         "building_block_necessities", existing_template.building_block_necessities
     )
     existing_template.is_sensitive = fields.get("is_sensitive", existing_template.is_sensitive)
-    existing_template.last_edited = datetime.now()
+    existing_template.last_edited = dt.datetime.now()
     update_is_disabled_field(instance=existing_template, **fields)
 
     existing_template.full_clean()

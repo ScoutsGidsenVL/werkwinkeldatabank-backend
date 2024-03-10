@@ -1,8 +1,7 @@
+"""apps.workshops.api.serializers.history_serializers."""
 from rest_framework import serializers
 
 from ...models import History
-
-# Output
 
 
 class HistoryOutputSerializer(serializers.ModelSerializer):

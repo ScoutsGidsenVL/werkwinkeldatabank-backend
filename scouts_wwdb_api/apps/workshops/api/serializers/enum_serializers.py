@@ -1,6 +1,5 @@
+"""apps.workshops.api.serializers."""
 from rest_framework import serializers
-
-# Output
 
 
 class EnumOutputSerializer(serializers.Serializer):
