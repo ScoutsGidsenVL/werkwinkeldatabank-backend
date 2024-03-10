@@ -8,7 +8,7 @@ from django.utils.html import strip_tags
 from apps.wwdb_mails.mails import mails
 
 
-def send_wwdb_mail(*, subject: str, html_message: str, from_email: str = None, recipients: list = []):
+def send_wwdb_mail(*, subject: str, html_message: str, from_email: str = None, recipients: list = None):
     if not recipients:
         if not settings.DEFAULT_EMAIL_RECIPIENTS:
             raise ImproperlyConfigured("DEFAULT_EMAIL_RECIPIENTS setting is not set or empty")
@@ -22,12 +22,15 @@ def send_wwdb_mail(*, subject: str, html_message: str, from_email: str = None, r
 def get_mail_subject_and_message(*, template: str, **kwargs):
     mail = mails.get(template)
     if not mail:
-        raise Exception("Calling unknown mail template: %s" % template)
+        raise Exception(f"Calling unknown mail template: {template}")
 
     return (mail.get("subject"), render_to_string(mail.get("template"), kwargs))
 
 
-def send_template_mail(*, template: str, title: str = None, from_email: str = None, recipients: list = [], **kwargs):
+def send_template_mail(*, template: str, title: str = None, from_email: str = None, recipients: list = None, **kwargs):
+    if not recipients:
+        recipients = []
+
     subject_message = get_mail_subject_and_message(template=template, **kwargs)
 
     send_wwdb_mail(

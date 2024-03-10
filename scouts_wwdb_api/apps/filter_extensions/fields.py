@@ -1,4 +1,4 @@
-"""apps.base.filter_extensions.fields"""
+"""apps.filter_extensions.fields"""
 import django_filters
 
 

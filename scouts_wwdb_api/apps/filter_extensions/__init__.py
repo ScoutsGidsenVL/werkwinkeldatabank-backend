@@ -1,1 +1,1 @@
-"""apps.base.filter_extensions."""
+"""apps.filter_extensions."""
