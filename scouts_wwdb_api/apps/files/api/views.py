@@ -1,3 +1,4 @@
+"""apps.files.api.views."""
 import logging
 
 from django.core.exceptions import ValidationError

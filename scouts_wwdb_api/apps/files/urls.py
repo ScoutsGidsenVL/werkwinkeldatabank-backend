@@ -1,3 +1,4 @@
+"""apps.files.urls."""
 from django.urls import path
 
 from .api.views import FileDownloadView, FileUploadView

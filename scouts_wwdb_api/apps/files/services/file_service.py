@@ -1,6 +1,7 @@
+"""apps.files.file_service."""
 from django.core.files.base import File
 
-from ..models import CKEditorFile
+from apps.files.models import CKEditorFile
 
 
 def store_ckeditor_file(*, uploaded_file: File) -> CKEditorFile:
