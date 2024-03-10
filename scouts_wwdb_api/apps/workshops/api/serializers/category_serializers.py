@@ -19,7 +19,6 @@ class CategoryListOutputSerializer(serializers.ModelSerializer):
         fields = ("id", "title", "is_disabled")
 
 
-
 class CategoryCreateInputSerializer(DisabledFieldCreateInputSerializerMixin, serializers.Serializer):
     title = serializers.CharField(max_length=200, validators=[UniqueValidator(queryset=Category.objects.all())])
 

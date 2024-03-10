@@ -98,8 +98,12 @@ ignored-modules = [
 disable = [
     "C0115",  # missing-class-docstring
     "C0116",  # missing-function-docstring
+    # "E1101",  # no-member
     "R0903",  # too-few-public-methods
+    "W0223",  # abstract-method
+    "W1203",  # logging-fstring-interpolation
 ]
+
 
 [tool.pytest.ini_options]
 # cache_dir = "var/cache/pytest"  # unfortunately relative to $PWD, use PYTEST_CACHE_DIR instead

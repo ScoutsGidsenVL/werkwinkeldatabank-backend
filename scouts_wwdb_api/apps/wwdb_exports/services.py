@@ -5,6 +5,9 @@ import os
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
+
+# from django.core.exceptions import ObjectDoesNotExist
+
 import xhtml2pdf.pisa
 
 from apps.files.models import CKEditorFile
@@ -26,9 +29,12 @@ def link_callback(uri, rel):
         file_id = uri.rpartition("/api/files/download/")[2].strip("\\ /")
 
         logger.info(f"Retrieving CKEditorFile instance with id {file_id}")
-        ck_file = CKEditorFile.objects.get(pk=file_id)
+        ck_file = CKEditorFile.objects.get(pk=file_id)  # pylint: disable=no-member
         if not ck_file:
-            raise Exception(f"Unable to retrieve CKEditorFile with id {file_id}")
+            raise Exception(
+                f"Unable to retrieve CKEditorFile with id {file_id}"
+            )  # pylint: disable=broad-exception-raised
+            # raise ObjectDoesNotExist(f"CKEditorFile with id {file_id} does not exist")
 
         uri = ck_file.file.url
 
@@ -37,7 +43,6 @@ def link_callback(uri, rel):
 
     # https://stackoverflow.com/questions/2179958/django-pisa-adding-images-to-pdf-output
     logger.info(f"Returning file uri for CKEditorFile with id {file_id}: {uri}")
-
     return uri
 
 
@@ -50,7 +55,7 @@ def generate_pdf_response(*, template_path: str, context, filename: str) -> Http
 
     pisa_status = xhtml2pdf.pisa.CreatePDF(html, dest=response, link_callback=link_callback)
     if pisa_status.err:
-        raise Exception(pisa_status.err)
+        raise Exception(pisa_status.err)  # pylint: disable=broad-exception-raised
 
     return response
 

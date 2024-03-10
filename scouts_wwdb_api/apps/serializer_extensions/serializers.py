@@ -34,14 +34,15 @@ class PermissionRequiredField(serializers.Field):
     def to_internal_value(self, data):
         request = self.context.get("request")
         if not request:
-            raise Exception(
+            raise Exception(   # pylint: disable=broad-exception-raised
                 "Make sure request has been given to the context of the serializer,"
                 "otherwise PermissionRequiredField won't work"
             )
+
         # If have permission just act as if you are the given field with data
         if request.user.has_perm(self.permission):
             return self.field.run_validation(data)
-        
+
         # Else act as if no value given
         return self.field.run_validation(empty)
 

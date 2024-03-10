@@ -95,7 +95,7 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
                 # Set user super admin if role is super_admin
                 if group.name == "role_super_admin":
                     user.is_superuser = True
-            except ObjectDoesNotExist as exc:
+            except ObjectDoesNotExist:
                 pass
         return user
 
@@ -111,6 +111,6 @@ class InuitsOIDCAuthentication(OIDCAuthentication):
             response = exc.response
             # If oidc returns 401 return auth failed error
             if response.status_code == 401:
-                raise exceptions.AuthenticationFailed(response.json().get("error_description", response.text))
+                raise exceptions.AuthenticationFailed(response.json().get("error_description", response.text)) from exc
 
             raise

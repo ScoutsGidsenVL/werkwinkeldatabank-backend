@@ -22,7 +22,7 @@ def send_wwdb_mail(*, subject: str, html_message: str, from_email: str = None, r
 def get_mail_subject_and_message(*, template: str, **kwargs):
     mail = mails.get(template)
     if not mail:
-        raise Exception(f"Calling unknown mail template: {template}")
+        raise Exception(f"Calling unknown mail template: {template}")  # pylint: disable=broad-exception-raised
 
     return (mail.get("subject"), render_to_string(mail.get("template"), kwargs))
 
