@@ -94,3 +94,8 @@ pytest-coverage:
 
 alias pytest-cov := pytest-coverage
 
+# open an ipython-shell
+ipython:
+    bin/ipython
+
+alias ip := ipython

@@ -29,7 +29,7 @@ packages = [
 python = ">=3.9,<3.10"
 
 boto3 = "^1.34.39"
-Django = ">=3.2,<5.0"
+django = ">=3.2,<5.0"
 django-cors-headers = ">=3.0"
 dj-email-url = ">=1.0.1"
 django-filter = ">=23.5"
@@ -110,7 +110,7 @@ testpaths = ["tests"]
 # the junit-report is used to report coverage in gitlab
 addopts = "--color=yes --junit-xml='var/coverage/pytest.xml'"
 DJANGO_SETTINGS_MODULE = "scouts_wwdb_api.settings"
-pythonpath = [".", "scouts_wwdb_api"]
+#pythonpath = [".", "scouts_wwdb_api"]
 
 
 [tool.ruff]
