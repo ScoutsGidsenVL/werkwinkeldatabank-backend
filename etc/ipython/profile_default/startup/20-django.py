@@ -23,6 +23,11 @@ from django.conf import settings
 django.setup()
 
 # Now this script or any imported module can use any part of Django it needs.
+import django.db as db
+import django.db.models as models
+
 import apps.base.models as base_models
 import apps.scouts_auth.models as scouts_auth_models
 import apps.workshops.models as workshops_models
+
+
