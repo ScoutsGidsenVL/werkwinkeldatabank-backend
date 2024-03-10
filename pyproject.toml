@@ -45,12 +45,14 @@ pyyaml = ">=6.0.1"
 requests = ">=2.24.0"
 urllib3= ">=1.26.18"
 # xhtml2pdf = ">=0.2.5"
+xhtml2pdf = "^0.2.15"
 
 
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.0"
 autoread-dotenv = ">=1.0.2"
 django-extensions = "^3.2.3"
+pylint = "^3.1.0"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
@@ -71,6 +73,21 @@ pytest-mock = ">=3.6"
 pytest-xdist = ">=3.2"
 tox = ">=4.0"
 
+
+[tool.pylint.format]
+max-line-length = 120
+good-names = [
+    # "foo", # dummy variable
+    # "i",   # counter in loop
+    # "ok",  # status
+]
+
+[tool.pylint.messages_control]
+disable = [
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    "R0903",  # too-few-public-methods
+]
 
 [tool.pytest.ini_options]
 # cache_dir = "var/cache/pytest"  # unfortunately relative to $PWD, use PYTEST_CACHE_DIR instead
