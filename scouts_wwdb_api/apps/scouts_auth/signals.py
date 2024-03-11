@@ -22,7 +22,7 @@ def populate_groups(sender, **kwargs):  # pylint: disable=unused-argument
     # Will populate groups and add permissions to it, won't create permissions these need to be created in models
     yaml_path = os.path.join(settings.BASE_DIR, "apps/scouts_auth/initial_data/groups.yaml")
 
-    with open(yaml_path, "r", encoding="uft8") as stream:
+    with open(yaml_path, "r", encoding="utf8") as stream:
         try:
             groups = yaml.safe_load(stream)
         except yaml.YAMLError as exc:
