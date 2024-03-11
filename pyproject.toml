@@ -87,6 +87,12 @@ good-names = [
 ]
 
 [tool.pylint.linters]
+max-line-length = 120
+good-names = [
+    # "foo", # dummy variable
+    # "i",   # counter in loop
+    # "ok",  # status
+]
 ignored-modules = []
 ignore-paths=[
     "src/.*/migrations/",
