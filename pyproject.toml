@@ -24,7 +24,7 @@ keywords = ["django", "scouts", "werkwinkel"]
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
 
-boto3 = "^1.34.39"
+boto3 = "^1.34.59"
 Django = ">=3.2,<5.0"
 django-cors-headers = ">=3.0"
 dj-email-url = ">=1.0.1"
