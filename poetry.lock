@@ -110,17 +110,17 @@ sitecustomize-entrypoints = ">=1.1.0"
 
 [[package]]
 name = "boto3"
-version = "1.34.59"
+version = "1.34.60"
 description = "The AWS SDK for Python"
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "boto3-1.34.59-py3-none-any.whl", hash = "sha256:004e67b078be58d34469406f93cc8b95bc43becef4bbe44523a0b8e51f84c668"},
-    {file = "boto3-1.34.59.tar.gz", hash = "sha256:162edf182e53c198137a28432a626dba103f787a8f5000ed4758b73ccd203fa0"},
+    {file = "boto3-1.34.60-py3-none-any.whl", hash = "sha256:199f11518b370e2ec1f6d5ec0c647eca967b6eb2cf6a332d9fc01a2144ea3690"},
+    {file = "boto3-1.34.60.tar.gz", hash = "sha256:f78f30f4d6b1d5839ec20da9ffe0f3b36c1b404a415d208459a0b88c202a05e9"},
 ]
 
 [package.dependencies]
-botocore = ">=1.34.59,<1.35.0"
+botocore = ">=1.34.60,<1.35.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.10.0,<0.11.0"
 
@@ -129,13 +129,13 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.34.59"
+version = "1.34.60"
 description = "Low-level, data-driven core of boto 3."
 optional = false
 python-versions = ">= 3.8"
 files = [
-    {file = "botocore-1.34.59-py3-none-any.whl", hash = "sha256:4bc112dafb1679ab571117593f7656604726a3da0e5ae5bad00ea772fa40e75c"},
-    {file = "botocore-1.34.59.tar.gz", hash = "sha256:24edb4d21d7c97dea0c6c4a80d36b3809b1443a30b0bd5e317d6c319dfac823f"},
+    {file = "botocore-1.34.60-py3-none-any.whl", hash = "sha256:6e5317aab5dea19579e7c33528d53761bfb02f3fac5da2de01d1686a25f116a5"},
+    {file = "botocore-1.34.60.tar.gz", hash = "sha256:4101494f0b692c95c592cba2719a61854e1c2923d89c60eaddf0e0d986442562"},
 ]
 
 [package.dependencies]
@@ -864,13 +864,13 @@ lxml = ["lxml"]
 
 [[package]]
 name = "hypothesis"
-version = "6.99.1"
+version = "6.99.4"
 description = "A library for property-based testing"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "hypothesis-6.99.1-py3-none-any.whl", hash = "sha256:6521173a51a3b4b3970aa96669df44443c6b742fbd56a478af8cd1eb925114a1"},
-    {file = "hypothesis-6.99.1.tar.gz", hash = "sha256:bc58739b5bc57503d43060568a3179be605df736cc7d1a6422c5253d5d51b039"},
+    {file = "hypothesis-6.99.4-py3-none-any.whl", hash = "sha256:20ca59622b002b3b4d6c5913c37149e233240e7d7ea632e8da7f77629b2f7040"},
+    {file = "hypothesis-6.99.4.tar.gz", hash = "sha256:edc8f984dba5d1b69a6a4564246b7850fa7ec351d2b27c9e7a43c91deab8d45c"},
 ]
 
 [package.dependencies]
@@ -1618,13 +1618,13 @@ windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
 name = "pyhanko"
-version = "0.22.0"
+version = "0.23.0"
 description = "Tools for stamping and signing PDF files"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pyHanko-0.22.0-py3-none-any.whl", hash = "sha256:af2350222d011995668f462ac03378854c4d56bb684910fe9065e634dd7a6908"},
-    {file = "pyHanko-0.22.0.tar.gz", hash = "sha256:7a8d50889440c435ba5e41f46c633518effa218dc76e2f88869c9e8a731b7234"},
+    {file = "pyHanko-0.23.0-py3-none-any.whl", hash = "sha256:e500754e901a9bdd50a92d3ab0e91751ab32f5b69f449a1aa45ac65d01b19d81"},
+    {file = "pyHanko-0.23.0.tar.gz", hash = "sha256:dc918b7652837413713f80bde432b9209c15105c03bd1b8a7fd370f02e73d430"},
 ]
 
 [package.dependencies]
@@ -2362,13 +2362,13 @@ files = [
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.12.12"
+version = "6.0.12.20240311"
 description = "Typing stubs for PyYAML"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8"
 files = [
-    {file = "types-PyYAML-6.0.12.12.tar.gz", hash = "sha256:334373d392fde0fdf95af5c3f1661885fa10c52167b14593eb856289e1855062"},
-    {file = "types_PyYAML-6.0.12.12-py3-none-any.whl", hash = "sha256:c05bc6c158facb0676674b7f11fe3960db4f389718e19e62bd2b84d6205cfd24"},
+    {file = "types-PyYAML-6.0.12.20240311.tar.gz", hash = "sha256:a9e0f0f88dc835739b0c1ca51ee90d04ca2a897a71af79de9aec5f38cb0a5342"},
+    {file = "types_PyYAML-6.0.12.20240311-py3-none-any.whl", hash = "sha256:b845b06a1c7e54b8e5b4c683043de0d9caf205e7434b3edc678ff2411979b8f6"},
 ]
 
 [[package]]
