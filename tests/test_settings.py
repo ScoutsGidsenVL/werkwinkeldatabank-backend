@@ -6,6 +6,9 @@
 
 def test_settings():
     # from scouts_wwdb_api import settings
+    import django
+    django.setup()
+
     from django.conf import settings
 
     assert settings.DEBUG is True
