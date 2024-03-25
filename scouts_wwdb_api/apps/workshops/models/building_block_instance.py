@@ -1,4 +1,4 @@
-from datetime import timedelta
+import datetime as dt
 
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -24,7 +24,7 @@ class BuildingBlockInstance(BaseModel):
     _description = models.TextField(blank=True)
     _title = models.CharField(max_length=200, blank=True)
     _duration = models.DurationField(
-        validators=[MinValueValidator(timedelta(minutes=0)), MaxValueValidator(timedelta(days=1))],
+        validators=[MinValueValidator(dt.timedelta(minutes=0)), MaxValueValidator(dt.timedelta(days=1))],
         null=True,
         blank=True,
     )

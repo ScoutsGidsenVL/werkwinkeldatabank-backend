@@ -1,3 +1,4 @@
+"""apps.base.model.auth_timestamp_mixin."""
 from django.db import models
 
 

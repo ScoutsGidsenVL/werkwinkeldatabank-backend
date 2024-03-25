@@ -1,8 +1,9 @@
+"""apps.filter_extensions.filters."""
 import django_filters
 from django.db.models import Q
 from django.db.models.constants import LOOKUP_SEP
 
-from .fields import BaseQueryArrayField
+from apps.filter_extensions.fields import BaseQueryArrayField
 
 
 class MultipleUUIDFilter(django_filters.BaseCSVFilter, django_filters.UUIDFilter):
@@ -27,11 +28,11 @@ class MultipleUUIDFilter(django_filters.BaseCSVFilter, django_filters.UUIDFilter
         values = value or []
         # Combine uuid filter calls with OR
         q = Q()
-        for value in values:
-            if value in django_filters.constants.EMPTY_VALUES:
+        for val in values:
+            if val in django_filters.constants.EMPTY_VALUES:
                 break
             lookup = LOOKUP_SEP.join([self.field_name, self.lookup_expr])
-            q |= Q(**{lookup: value})
+            q |= Q(**{lookup: val})
 
         qs = qs.filter(q)
         return qs

@@ -1,11 +1,9 @@
-from pprint import pprint
-
+"""apps.workshops.managers.workshop_managers."""
 from django.db import models
 from django.db.models import Q
 
 from apps.base.managers import CreatedByQuerySetMixin, DisabledFieldQuerySetMixin
-
-from ..models.enums.workshop_status_type import WorkshopStatusType
+from apps.workshops.models.enums.workshop_status_type import WorkshopStatusType
 
 
 class WorkshopQuerySet(DisabledFieldQuerySetMixin, CreatedByQuerySetMixin, models.QuerySet):

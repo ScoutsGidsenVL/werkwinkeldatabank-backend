@@ -1,12 +1,11 @@
-from datetime import timedelta
+"""apps.workshops.management.commands.addemptybuildingblock."""
+import datetime as dt
 
-from django.core.management.base import BaseCommand, CommandError
-from django.core.paginator import Paginator
-from django.db.models.query import QuerySet
+from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from ...models import BuildingBlockTemplate
-from ...models.enums import BuildingBlockType
+from apps.workshops.models import BuildingBlockTemplate
+from apps.workshops.models.enums import BuildingBlockType
 
 
 class Command(BaseCommand):
@@ -15,16 +14,18 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         template = BuildingBlockTemplate.objects.get_empty_default()
-        if not template:
-            template = BuildingBlockTemplate(
-                title="Empty template",
-                description="The empty building block template",
-                duration=timedelta(hours=1),
-                building_block_type=BuildingBlockType.THEMATIC,
-                is_default_empty=True,
-                last_edited=timezone.now(),
-            )
-            template.save()
-            self.stdout.write(self.style.SUCCESS("Empty building block template created"))
-        else:
+
+        if template:
             self.stdout.write(self.style.SUCCESS("Empty building block template already existis"))
+            return
+
+        template = BuildingBlockTemplate(
+            title="Empty template",
+            description="The empty building block template",
+            duration=dt.timedelta(hours=1),
+            building_block_type=BuildingBlockType.THEMATIC,
+            is_default_empty=True,
+            last_edited=timezone.now(),
+        )
+        template.save()
+        self.stdout.write(self.style.SUCCESS("Empty building block template created"))

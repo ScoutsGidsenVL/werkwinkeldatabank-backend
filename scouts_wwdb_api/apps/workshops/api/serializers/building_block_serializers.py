@@ -1,5 +1,5 @@
-from datetime import timedelta
-from pprint import pprint
+"""apps.workshops.serializers.building_block_serializers."""
+import datetime as dt
 
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
@@ -150,7 +150,7 @@ class BuildingBlockTemplateCreateInputSerializer(DisabledFieldCreateInputSeriali
     type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices)
     title = serializers.CharField(max_length=200)
     description = serializers.CharField()
-    duration = DurationField(min_value=timedelta(minutes=0), max_value=timedelta(days=1))
+    duration = DurationField(min_value=dt.timedelta(minutes=0), max_value=dt.timedelta(days=1))
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
     short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
@@ -170,7 +170,7 @@ class BuildingBlockTemplateUpdateInputSerializer(DisabledFieldUpdateInputSeriali
     type = serializers.ChoiceField(source="building_block_type", choices=BuildingBlockType.choices, required=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
-    duration = DurationField(min_value=timedelta(minutes=0), max_value=timedelta(days=1), required=False)
+    duration = DurationField(min_value=dt.timedelta(minutes=0), max_value=dt.timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
     short_description = serializers.CharField(max_length=500, required=False, allow_blank=True)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
@@ -194,7 +194,7 @@ class BuildingBlockInstanceNestedCreateInputSerializer(serializers.Serializer):
     linked_template_values = serializers.BooleanField(default=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
-    duration = DurationField(min_value=timedelta(minutes=0), max_value=timedelta(days=1), required=False)
+    duration = DurationField(min_value=dt.timedelta(minutes=0), max_value=dt.timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
@@ -223,7 +223,7 @@ class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
     linked_template_values = serializers.BooleanField(required=False)
     title = serializers.CharField(max_length=200, required=False)
     description = serializers.CharField(required=False)
-    duration = DurationField(min_value=timedelta(minutes=0), max_value=timedelta(days=1), required=False)
+    duration = DurationField(min_value=dt.timedelta(minutes=0), max_value=dt.timedelta(days=1), required=False)
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), required=False, allow_null=True)
     short_description = serializers.CharField(max_length=500, required=False)
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)

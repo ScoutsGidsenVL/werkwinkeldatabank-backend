@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("workshops", "0008_remove_workshop_is_sensitive"),
     ]

@@ -1,3 +1,4 @@
+"""apps.oidc.exceptions."""
 from requests.exceptions import HTTPError
 from rest_framework.exceptions import APIException
 
@@ -8,8 +9,5 @@ class TokenRequestException(APIException):
     default_code = "token_request_failed"
 
     def __init__(self, http_exception: HTTPError):
-        detail = "Token request failed with error: %s with message: %s" % (
-            http_exception,
-            http_exception.response.text,
-        )
-        return super().__init__(detail)
+        detail = f"Token request failed with error: {http_exception} with message: {http_exception.response.text}"
+        super().__init__(detail)

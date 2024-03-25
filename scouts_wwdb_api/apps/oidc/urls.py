@@ -1,6 +1,7 @@
+"""apps.oidc.urls."""
 from django.urls import path
 
-from .api.views import AuthCodeView, RefreshView
+from apps.oidc.api.views import AuthCodeView, RefreshView
 
 urlpatterns = [
     path("token/", AuthCodeView.as_view()),

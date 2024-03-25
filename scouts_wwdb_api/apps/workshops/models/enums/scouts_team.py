@@ -1,3 +1,4 @@
+"""apps.workshops.models.enums.scouts_team."""
 from django.db import models
 
 

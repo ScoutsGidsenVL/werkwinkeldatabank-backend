@@ -1,10 +1,7 @@
-"""
-ASGI config for scouts_wwdb_api project.
+"""scouts_wwdb_api.asgi - ASGI config.
 
-It exposes the ASGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/3.0/howto/deployment/asgi/
+This module exposes the ASGI callable as a module-level variable named ``application``.
+For more information on this file, see https://docs.djangoproject.com/en/4.2/howto/deployment/asgi/
 """
 
 import os

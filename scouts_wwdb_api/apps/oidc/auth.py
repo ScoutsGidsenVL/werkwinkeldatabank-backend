@@ -1,5 +1,4 @@
-from pprint import pprint
-
+"""apps.oidc.auth."""
 from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.exceptions import ObjectDoesNotExist
@@ -34,8 +33,8 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
     def map_user_with_claims(self, user, claims):
         if settings.OIDC_OP_USER_ENDPOINT.startswith("https://groepsadmin.scoutsengidsenvlaanderen.be"):
             return self.map_user_with_groepsadmin_claims(user, claims)
-        else:
-            return self.map_user_with_userinfo_claims(user, claims)
+
+        return self.map_user_with_userinfo_claims(user, claims)
 
     def map_user_with_userinfo_claims(self, user, claims):
         user.first_name = claims.get("given_name", user.first_name)
@@ -46,7 +45,6 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         return user
 
     def map_user_with_groepsadmin_claims(self, user, claims):
-
         user.first_name = claims.get("vgagegevens", {}).get("voornaam", user.first_name)
         user.last_name = claims.get("vgagegevens", {}).get("achternaam", user.last_name)
 
@@ -97,7 +95,7 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
                 # Set user super admin if role is super_admin
                 if group.name == "role_super_admin":
                     user.is_superuser = True
-            except ObjectDoesNotExist as exc:
+            except ObjectDoesNotExist:
                 pass
         return user
 
@@ -113,6 +111,6 @@ class InuitsOIDCAuthentication(OIDCAuthentication):
             response = exc.response
             # If oidc returns 401 return auth failed error
             if response.status_code == 401:
-                raise exceptions.AuthenticationFailed(response.json().get("error_description", response.text))
+                raise exceptions.AuthenticationFailed(response.json().get("error_description", response.text)) from exc
 
             raise

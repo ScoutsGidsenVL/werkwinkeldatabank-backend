@@ -20,18 +20,22 @@ maintainers = [
 homepage = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 repository = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 keywords = ["django", "scouts", "werkwinkel"]
+packages = [
+    { include = "apps", from = "scouts_wwdb_api" },
+    { include = "scouts_wwdb_api", from = "scouts_wwdb_api" },
+]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.10"
 
-boto3 = "^1.34.39"
-Django = ">=3.2,<5.0"
+boto3 = ">=1.34.39"
+django = ">=3.2,<5.0"
 django-cors-headers = ">=3.0"
 dj-email-url = ">=1.0.1"
 django-filter = ">=23.5"
 django-sql-middleware = ">=0.0.7"
 django-storages = ">=1.10.1"
-djangorestframework = ">=3.14"
+djangorestframework = ">=3.14,<3.15"
 drf-yasg = ">=1.21.4"
 environs = ">=8.0.0"
 mozilla-django-oidc = ">=4.0.0"
@@ -40,12 +44,15 @@ psycopg2-binary = ">=2.8.5"
 pyyaml = ">=6.0.1"
 requests = ">=2.24.0"
 urllib3= ">=1.26.18"
-# xhtml2pdf = ">=0.2.5"
+xhtml2pdf = ">=0.2.15"
 
 
 [tool.poetry.group.dev.dependencies]
 ruff = ">=0.0"
 autoread-dotenv = ">=1.0.2"
+django-extensions = ">=3.2.3"
+pylint = ">=3.1.0"
+pylint-django = ">=2.5.5"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
@@ -53,6 +60,7 @@ ipython = ">=8.18"
 
 [tool.poetry.group.testing.dependencies]
 coverage = { extras = ["toml"], version = ">=6.2" }
+factory-boy = ">=3.3.0"
 hypothesis = ">=6.72"
 # nox = ">=2022.11"
 # nox-poetry = ">=1.0"
@@ -66,6 +74,44 @@ pytest-mock = ">=3.6"
 pytest-xdist = ">=3.2"
 tox = ">=4.0"
 
+[tool.poetry.group.typing.dependencies]
+django-stubs = ">=4.2.7"
+mypy = ">=1.9"
+
+[tool.pylint.format]
+max-line-length = 120
+good-names = [
+    # "foo", # dummy variable
+    # "i",   # counter in loop
+    # "ok",  # status
+]
+
+[tool.pylint.linters]
+max-line-length = 120
+good-names = [
+    # "foo", # dummy variable
+    # "i",   # counter in loop
+    # "ok",  # status
+]
+ignored-modules = []
+ignore-paths=[
+    "src/.*/migrations/",
+    "scouts_wwdb_api/.*/migrations/",
+]
+
+[tool.pylint.messages_control]
+disable = [
+    "C0115",  # missing-class-docstring
+    "C0116",  # missing-function-docstring
+    # "E1101",  # no-member
+    "R0903",  # too-few-public-methods
+    "W0223",  # abstract-method
+    "W1203",  # logging-fstring-interpolation
+]
+
+[tool.pylint.typecheck]
+generated-members= ["save"] #REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
+
 
 [tool.pytest.ini_options]
 # cache_dir = "var/cache/pytest"  # unfortunately relative to $PWD, use PYTEST_CACHE_DIR instead
@@ -77,11 +123,12 @@ testpaths = ["tests"]
 # the junit-report is used to report coverage in gitlab
 addopts = "--color=yes --junit-xml='var/coverage/pytest.xml'"
 DJANGO_SETTINGS_MODULE = "scouts_wwdb_api.settings"
-pythonpath = [".", "scouts_wwdb_api"]
+#pythonpath = [".", "scouts_wwdb_api"]
 
 
 [tool.ruff]
 # ruff searches for settings in the target-dir and up
 # https://docs.astral.sh/ruff/configuration
 cache-dir = "var/cache/ruff"
+exclude = ["**/migrations/*.py"]
 line-length = 120

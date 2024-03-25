@@ -1,16 +1,14 @@
-from datetime import timedelta
+"""apps.workshops.models.workshop."""
+import datetime as dt
 
-from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from apps.base.models import AuditTimestampMixin, BaseModel, CreatedByMixin, DisabledFieldModelMixin
-
-from ..managers import WorkshopManager
-from .enums.scouts_team import ScoutsTeam
-from .enums.workshop_status_type import WorkshopStatusType
-from .theme import Theme
+from apps.workshops.managers import WorkshopManager
+from apps.workshops.models.enums.scouts_team import ScoutsTeam
+from apps.workshops.models.enums.workshop_status_type import WorkshopStatusType
+from apps.workshops.models.theme import Theme
 
 
 class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, BaseModel):
@@ -18,7 +16,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
     objects = WorkshopManager()
 
     title = models.CharField(max_length=200)
-    duration = models.DurationField(default=timedelta())
+    duration = models.DurationField(default=dt.timedelta())
     themes = models.ManyToManyField(Theme, related_name="workshops")
     description = models.TextField()
     short_description = models.TextField(max_length=500, blank=True)
@@ -51,7 +49,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
             raise ValidationError("A published workshop needs a published at date")
 
     def calculate_duration(self):
-        duration = timedelta()
+        duration = dt.timedelta()
         for building_block in self.building_blocks.all():
             duration += building_block.duration
         self.duration = duration

@@ -1,7 +1,10 @@
-from rest_framework import pagination
+"""scouts_wwdb_api.pagination."""
+import rest_framework.pagination
 
 
-class ScoutsPageNumberPagination(pagination.PageNumberPagination):
+class ScoutsPageNumberPagination(rest_framework.pagination.PageNumberPagination):
+    """ScoutsPageNumberPagination."""
+
     page_size = 10
     max_page_size = 1000
     page_query_param = "page"

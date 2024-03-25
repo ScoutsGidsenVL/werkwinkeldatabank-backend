@@ -1,4 +1,4 @@
-from django.urls import include, path
+"""apps.workshops.urls."""
 from rest_framework import routers
 
 from .api.views.building_block_template_viewset import BuildingBlockTemplateViewSet

@@ -1,14 +1,15 @@
+"""apps.serializer_extensions.serializers."""
 import copy
 import inspect
-from pprint import pprint
 
 from drf_yasg import openapi
 from rest_framework import serializers
 from rest_framework.fields import empty
 
 
-# Overwrite DurationField to give it correct swagger configuration
 class DurationField(serializers.DurationField):
+    """ "Overwrite DurationField to give it correct swagger configuration"""
+
     class Meta:
         swagger_schema_fields = {
             "type": openapi.TYPE_STRING,
@@ -16,8 +17,9 @@ class DurationField(serializers.DurationField):
         }
 
 
-# Custom field that only parses value if you have the required permission
 class PermissionRequiredField(serializers.Field):
+    """Custom field that only parses value if you have the required permission."""
+
     field = None
     permission = None
 
@@ -32,20 +34,24 @@ class PermissionRequiredField(serializers.Field):
     def to_internal_value(self, data):
         request = self.context.get("request")
         if not request:
-            raise Exception(
+            raise Exception(   # pylint: disable=broad-exception-raised
                 "Make sure request has been given to the context of the serializer,"
                 "otherwise PermissionRequiredField won't work"
             )
+
         # If have permission just act as if you are the given field with data
         if request.user.has_perm(self.permission):
             return self.field.run_validation(data)
+
         # Else act as if no value given
         return self.field.run_validation(empty)
 
 
-# Create serializer field that can switch between a create and a delete depending on id given
-# Usefull for nested models in input serializers
 class SerializerSwitchField(serializers.Field):
+    """Create serializer field that can switch between a create and a delete depending on id given
+    Usefull for nested models in input serializers
+    """
+
     create_serializer = None
     update_serializer = None
 
@@ -72,5 +78,4 @@ class SerializerSwitchField(serializers.Field):
     def to_internal_value(self, data):
         if data.get("id", None):
             return self.update_serializer.run_validation(data)
-        else:
-            return self.create_serializer.run_validation(data)
+        return self.create_serializer.run_validation(data)

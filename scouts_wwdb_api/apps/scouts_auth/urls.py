@@ -1,6 +1,7 @@
+"""apps.scouts_auth.urls."""
 from django.urls import path
 
-from .api.views import CurrentUserView
+from apps.scouts_auth.api.views import CurrentUserView
 
 urlpatterns = [
     path("me/", CurrentUserView.as_view()),

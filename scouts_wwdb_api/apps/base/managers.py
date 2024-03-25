@@ -1,3 +1,5 @@
+"""apps.base.managers."""
+
 from django.db import models
 
 

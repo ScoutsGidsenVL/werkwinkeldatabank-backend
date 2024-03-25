@@ -1,3 +1,4 @@
+"""apps.workshops.api.serializers.theme_serializers."""
 from rest_framework import serializers
 
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin

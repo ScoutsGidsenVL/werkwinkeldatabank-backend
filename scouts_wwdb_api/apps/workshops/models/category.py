@@ -1,8 +1,8 @@
+"""apps.workshops.models.category"""
 from django.db import models
 
 from apps.base.models import BaseModel, DisabledFieldModelMixin
-
-from ..managers import CategoryManager
+from apps.workshops.managers import CategoryManager
 
 
 class Category(DisabledFieldModelMixin, BaseModel):

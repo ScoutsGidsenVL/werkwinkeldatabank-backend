@@ -1,3 +1,4 @@
+"""apps.workshops.models.theme."""
 from django.db import models
 
 from apps.base.models import BaseModel, DisabledFieldModelMixin

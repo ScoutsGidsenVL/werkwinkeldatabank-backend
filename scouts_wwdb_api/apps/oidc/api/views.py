@@ -1,3 +1,4 @@
+"""apps.oidc.api.views."""
 import logging
 
 from requests.exceptions import HTTPError
@@ -22,11 +23,10 @@ class AuthCodeView(views.APIView):
         try:
             tokens = get_tokens_by_auth_code(auth_code=data.get("authCode"), redirect_uri=data.get("redirectUri"))
         except HTTPError as exc:
-            logger.error("Failed to refresh tokens: {exc}")
-            raise TokenRequestException("Failed to refresh tokens.")
+            logger.error(f"Failed to refresh tokens: {exc}")
+            raise TokenRequestException('Failed to refresh tokens.') from exc
 
         output_serializer = TokenOutputSerializer(tokens)
-
         return Response(output_serializer.data)
 
 
@@ -41,9 +41,8 @@ class RefreshView(views.APIView):
         try:
             tokens = get_tokens_by_refresh_token(refresh_token=data.get("refreshToken"))
         except HTTPError as exc:
-            logger.error("Failed to refresh tokens: {exc}")
-            raise TokenRequestException("Failed to refresh tokens.")
+            logger.error(f"Failed to refresh tokens: {exc}")
+            raise TokenRequestException("Failed to refresh tokens.") from exc
 
         output_serializer = TokenOutputSerializer(tokens)
-
         return Response(output_serializer.data)

@@ -22,7 +22,6 @@ def add_empty_building_block_template(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("workshops", "0014_auto_20201005_1240"),
     ]

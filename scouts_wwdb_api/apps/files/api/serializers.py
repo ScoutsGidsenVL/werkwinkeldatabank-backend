@@ -1,7 +1,8 @@
+"""apps.files.api.serializers."""
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
-from ..models import CKEditorFile
+from apps.files.models import CKEditorFile
 
 
 class UploadFileInputSerializer(serializers.Serializer):
@@ -14,7 +15,6 @@ class UploadFileOutputSerializer(serializers.Serializer):
 
 
 class FileDetailOutputSerializer(serializers.ModelSerializer):
-
     name = serializers.SerializerMethodField()
     size = serializers.SerializerMethodField()
 
@@ -28,15 +28,13 @@ class FileDetailOutputSerializer(serializers.ModelSerializer):
         )
 
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
-    def get_name(self, CKEditorFile):
-        if CKEditorFile.file.name:
-            return CKEditorFile.file.name
-        else:
-            return None
+    def get_name(self, ckeditor_file):
+        if ckeditor_file.file.name:
+            return ckeditor_file.file.name
+        return None
 
     @swagger_serializer_method(serializer_or_field=serializers.CharField)
-    def get_size(self, CKEditorFile):
-        if CKEditorFile.file.size:
-            return CKEditorFile.file.size
-        else:
-            return None
+    def get_size(self, ckeditor_file):
+        if ckeditor_file.file.size:
+            return ckeditor_file.file.size
+        return None

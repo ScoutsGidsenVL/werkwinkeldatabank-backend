@@ -1,4 +1,4 @@
-from pprint import pprint
+"""apps.base.services.disabled_field_service."""
 
 
 def update_is_disabled_field(*, instance, **fields):
