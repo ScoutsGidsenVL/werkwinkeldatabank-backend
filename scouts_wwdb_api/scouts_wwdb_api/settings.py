@@ -104,8 +104,11 @@ INSTALLED_APPS = [  # order alphabetically
     "mozilla_django_oidc",
     "rest_framework",
     "storages",
-    "django_extensions",
+    # "django_extensions",
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append("django_extensions")
 
 MIDDLEWARE = [  # actual ordering matters for middleware
     "django.middleware.security.SecurityMiddleware",
