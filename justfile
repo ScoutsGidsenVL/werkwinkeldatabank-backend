@@ -124,3 +124,9 @@ url-swagger:
 # open the redoc-api in browser
 url-redoc:
     @ xdg-open "http://127.0.0.1:8000/redoc/"
+
+
+# switch to staging-branch and git pull to update
+update-staging:
+    git co staging
+    git pull
