@@ -1,0 +1,13 @@
+"""apps.scouts_auth.apps."""
+from django.apps import AppConfig
+from django.db.models.signals import post_migrate
+
+
+class AuthConfig(AppConfig):
+    name = "apps.scouts_auth"
+
+    def ready(self):
+        # Need to import here because importing above will lead to AppRegistryNotReady exception
+        from apps.scouts_auth.signals import populate_groups  # pylint: disable=import-outside-toplevel
+
+        post_migrate.connect(populate_groups, sender=self)

@@ -1,0 +1,21 @@
+<p>Beste,</p>
+<p>Er werd een werkwinkel ingestuurd voor publicatie in de werkwinkeldatabank. Hieronder vind je de link om hem goed te
+    keuren.</p>
+
+<ul>
+    <li>Titel: {{ workshop.title }}</li>
+    <li>
+        <span>Thema(s):</span>
+        {% for theme in workshop.themes.all %}
+        <span style="margin-right: 1em;">{{ theme.title }}</span>
+        {% endfor %}
+    </li>
+    <li>ingezonden door: {{ workshop.created_by.first_name }}</li>
+</ul>
+
+<a href="{{base_url}}/#/werkwinkels/{{workshop.id}}">{{base_url}}/#/werkwinkels/{{workshop.id}}</a>
+
+
+<p>Bedankt!</p>
+
+<p>Deze mail werd verzonden door de werkwinkeldatabank van Scouts en Gidsen Vlaanderen vzw.</p>

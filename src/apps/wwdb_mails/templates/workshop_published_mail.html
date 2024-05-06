@@ -1,0 +1,19 @@
+<p>Beste,</p>
+
+<p>Er is een nieuwe werkwinkel gepubliceerd in de werkwinkeldatabank. Hieronder vind je de link om hem te bekijken</p>
+
+<ul>
+    <li>Titel: {{ workshop.title }}</li>
+    <li>
+        <span>Thema(s):</span>
+        {% for theme in workshop.themes.all %}
+        <span style="margin-right: 1em;">{{ theme.title }}</span>
+        {% endfor %}
+    </li>
+</ul>
+
+<a href="{{base_url}}/#/werkwinkels/{{workshop.id}}">{{base_url}}/#/werkwinkels/{{workshop.id}}</a>
+
+<p>Bedankt!</p>
+
+<p>Deze mail werd verzonden door de werkwinkeldatabank van Scouts en Gidsen Vlaanderen vzw.</p>

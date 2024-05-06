@@ -21,8 +21,8 @@ homepage = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 repository = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
 keywords = ["django", "scouts", "werkwinkel"]
 packages = [
-    { include = "apps", from = "scouts_wwdb_api" },
-    { include = "scouts_wwdb_api", from = "scouts_wwdb_api" },
+    { include = "apps", from = "src" },
+    { include = "scouts_wwdb_api", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -62,8 +62,6 @@ ipython = ">=8.18"
 coverage = { extras = ["toml"], version = ">=6.2" }
 factory-boy = ">=3.3.0"
 hypothesis = ">=6.72"
-# nox = ">=2022.11"
-# nox-poetry = ">=1.0"
 pytest = ">=7.0"
 pytest-clarity = ">=1.0"
 pytest-codecov = ">=0.5"
@@ -96,7 +94,6 @@ good-names = [
 ignored-modules = []
 ignore-paths=[
     "src/.*/migrations/",
-    "scouts_wwdb_api/.*/migrations/",
 ]
 
 [tool.pylint.messages_control]
@@ -114,7 +111,7 @@ generated-members= ["save"] #REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",sa
 
 
 [tool.pytest.ini_options]
-# cache_dir = "var/cache/pytest"  # unfortunately relative to $PWD, use PYTEST_CACHE_DIR instead
+cache_dir = "var/cache/pytest"  
 log_cli = false                   # enable to show log-output
 log_cli_level = "NOTSET"
 filterwarnings = []
