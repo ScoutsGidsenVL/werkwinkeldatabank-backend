@@ -34,6 +34,9 @@ _archive/
 # distribution / packaging
 /dist/
 
+# ipython generated files
+etc/ipython/profile_default/db/
+
 # .env can contain secrets
 /.env
 

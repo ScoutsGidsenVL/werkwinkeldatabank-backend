@@ -71,6 +71,14 @@ poetry-install:
 poetry-lock:
     poetry lock
 
+# show packages
+poetry-show:
+    poetry show
+
+# show outdated packages
+poetry-show-outdated:
+    poetry show --outdated
+
 # export poetry-defined requirements to a pip-installable requirements-file
 [linux]
 poetry-export-requirements: poetry-lock
@@ -130,3 +138,16 @@ url-redoc:
 update-staging:
     git co staging
     git pull
+
+
+# lint python-code with isort + black
+lint: isort black
+
+
+# run black
+black:
+    black src/**/*.py
+
+# run isort
+isort:
+    isort src/**/*.py
