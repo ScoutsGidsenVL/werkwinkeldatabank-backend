@@ -1,1 +1,0 @@
-"""apps.filter_extensions."""

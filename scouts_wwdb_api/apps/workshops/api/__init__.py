@@ -1,1 +1,0 @@
-"""apps.workshops.api.views."""
