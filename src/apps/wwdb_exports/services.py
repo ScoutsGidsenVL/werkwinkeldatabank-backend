@@ -29,12 +29,10 @@ def link_callback(uri, rel):
         file_id = uri.rpartition("/api/files/download/")[2].strip("\\ /")
 
         logger.info(f"Retrieving CKEditorFile instance with id {file_id}")
-        ck_file = CKEditorFile.objects.get(pk=file_id)  # pylint: disable=no-member
-        if not ck_file:
-            raise Exception(
-                f"Unable to retrieve CKEditorFile with id {file_id}"
-            )  # pylint: disable=broad-exception-raised
-            # raise ObjectDoesNotExist(f"CKEditorFile with id {file_id} does not exist")
+        try:
+            ck_file = CKEditorFile.objects.get(pk=file_id)
+        except CKEditorFile.ObjectDoesNotExist as exc:
+            raise ValueError(f"Unable to retrieve CKEditorFile with id: {file_id}") from exc
 
         uri = ck_file.file.url
 

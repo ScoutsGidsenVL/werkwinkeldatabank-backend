@@ -107,7 +107,12 @@ disable = [
 ]
 
 [tool.pylint.typecheck]
-generated-members= ["save"] #REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
+# REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
+generated-members= [
+    "save", 
+    "objects",  # Class 'CKEditorFile' has no 'objects' member (no-member)
+    "ObjectDoesNotExist",
+]  
 
 
 [tool.pytest.ini_options]
