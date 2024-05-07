@@ -124,7 +124,7 @@ markers = ["unit", "integration"]
 # pythonpath = [".", "scouts_wwdb_api"]
 testpaths = ["tests"]
 # the junit-report is used to report coverage in gitlab
-addopts = "--color=yes --junit-xml='var/coverage/pytest.xml'"
+addopts = "--color=yes --junit-xml='${BASE_DIR}/var/coverage/pytest.xml'"
 django_debug_mode = "keep"
 DJANGO_SETTINGS_MODULE = "scouts_wwdb_api.settings"
 
