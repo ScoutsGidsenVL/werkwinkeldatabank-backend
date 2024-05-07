@@ -1,3 +1,4 @@
+"""apps.workshops.api.exceptions."""
 from rest_framework.exceptions import APIException
 
 from ..exceptions import InvalidWorkflowTransitionException
@@ -10,4 +11,4 @@ class InvalidWorkflowTransitionAPIException(APIException):
 
     def __init__(self, exception: InvalidWorkflowTransitionException):
         detail = str(exception)
-        return super().__init__(detail)
+        super().__init__(detail)

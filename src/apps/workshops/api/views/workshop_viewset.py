@@ -1,3 +1,4 @@
+"""apps.workshops.api.views.workshop_viewset."""
 from functools import partial
 
 from django.core.exceptions import PermissionDenied

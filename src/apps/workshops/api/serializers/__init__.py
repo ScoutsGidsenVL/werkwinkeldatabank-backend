@@ -1,1 +1,1 @@
-"""apps.workshops.api."""
+"""apps.workshops.api.serializers."""
