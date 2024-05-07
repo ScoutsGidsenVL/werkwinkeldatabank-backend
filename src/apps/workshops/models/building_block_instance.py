@@ -1,3 +1,5 @@
+"""apps.workshops.models.building_block_instance."""
+
 import datetime as dt
 
 from django.core.exceptions import ValidationError

@@ -1,3 +1,4 @@
+"""apps.workshops.api.views.enum_views.workshop_status_type_viewset."""
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response

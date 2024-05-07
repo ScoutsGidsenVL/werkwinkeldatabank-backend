@@ -6,4 +6,4 @@ class InvalidWorkflowTransitionException(Exception):
         message = f"Invalid workflow transition from status {from_status} to status {to_status}"
         if extra:
             message += f": {extra}"
-        return super().__init__(message)
+        super().__init__(message)

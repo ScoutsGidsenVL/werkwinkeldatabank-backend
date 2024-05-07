@@ -1,4 +1,4 @@
-"""apps.workshops.models.history"""
+"""apps.workshops.models.history."""
 from django.core.exceptions import ValidationError
 from django.db import models
 

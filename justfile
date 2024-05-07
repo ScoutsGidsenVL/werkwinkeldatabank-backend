@@ -118,8 +118,8 @@ django-collectstatic-noinput:
     bin/django-admin collectstatic --noinput
 
 # run django-admin to run the development server
-django-runserver:
-    bin/django-admin runserver
+django-runserver address="127.0.0.1:8000":
+    bin/django-admin runserver {{address}}
 
 # open the django-admin in browser
 url-admin:

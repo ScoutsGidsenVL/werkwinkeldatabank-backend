@@ -27,7 +27,6 @@ import django.db as db
 import django.db.models as models
 
 import apps.base.models as base_models
+import apps.files.models as files_models
 import apps.scouts_auth.models as scouts_auth_models
 import apps.workshops.models as workshops_models
-
-

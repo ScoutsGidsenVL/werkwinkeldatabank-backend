@@ -1,3 +1,4 @@
+"""apps.workshops.api.views.building_block_template_viewset."""
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema

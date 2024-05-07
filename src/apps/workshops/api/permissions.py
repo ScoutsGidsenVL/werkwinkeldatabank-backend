@@ -1,3 +1,4 @@
+"""apps.workshops.api.permissions."""
 from rest_framework import permissions
 
 

@@ -1,4 +1,4 @@
-"""apps.workshops.models.category"""
+"""apps.workshops.models.category."""
 from django.db import models
 
 from apps.base.models import BaseModel, DisabledFieldModelMixin

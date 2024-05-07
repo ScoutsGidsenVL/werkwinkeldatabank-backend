@@ -107,20 +107,26 @@ disable = [
 ]
 
 [tool.pylint.typecheck]
-generated-members= ["save"] #REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
+# REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
+generated-members= [
+    "save", 
+    "objects",  # Class 'CKEditorFile' has no 'objects' member (no-member)
+    "ObjectDoesNotExist",
+]  
 
 
 [tool.pytest.ini_options]
-cache_dir = "var/cache/pytest"  
+cache_dir = "var/cache/pytest"
 log_cli = false                   # enable to show log-output
 log_cli_level = "NOTSET"
 filterwarnings = []
 markers = ["unit", "integration"]
+# pythonpath = [".", "scouts_wwdb_api"]
 testpaths = ["tests"]
 # the junit-report is used to report coverage in gitlab
-addopts = "--color=yes --junit-xml='var/coverage/pytest.xml'"
+addopts = "--color=yes --junit-xml='${BASE_DIR}/var/coverage/pytest.xml'"
+django_debug_mode = "keep"
 DJANGO_SETTINGS_MODULE = "scouts_wwdb_api.settings"
-#pythonpath = [".", "scouts_wwdb_api"]
 
 
 [tool.ruff]
