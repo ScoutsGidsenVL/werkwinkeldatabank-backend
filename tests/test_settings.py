@@ -22,4 +22,3 @@ def test_settings():
 @pytest.mark.urls("scouts_wwdb_api.urls")
 def test_swagger_url(client):
     assert b"Scouts WWDB API" in client.get("/swagger/").content
-    assert b"Scouts WWDB API" in client.get("/swagger/").content
