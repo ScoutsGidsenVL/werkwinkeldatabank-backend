@@ -185,7 +185,7 @@ TIME_ZONE = "Europe/Brussels"
 
 USE_I18N = True
 
-USE_L10N = True
+# USE_L10N = True
 
 USE_TZ = True
 
@@ -245,8 +245,11 @@ OIDC_RP_CLIENT_ID = env.str("OIDC_RP_CLIENT_ID")
 OIDC_RP_CLIENT_SECRET = env.str("OIDC_RP_CLIENT_SECRET")
 
 # Storages/S3
-
-DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+STORAGES = {
+    # "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+    # "staticfiles": {"BACKEND": "custom.core.storage.GzipManifestStaticfilesStorage"},
+}
 
 AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY")
 AWS_SECRET_ACCESS_KEY = env.str("S3_ACCESS_SECRET")
