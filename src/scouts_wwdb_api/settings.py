@@ -246,9 +246,11 @@ OIDC_RP_CLIENT_SECRET = env.str("OIDC_RP_CLIENT_SECRET")
 
 # Storages/S3
 STORAGES = {
-    # "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
-    "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
-    # "staticfiles": {"BACKEND": "custom.core.storage.GzipManifestStaticfilesStorage"},
+    "default": {
+        # "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+    "staticfiles": {        
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY")
