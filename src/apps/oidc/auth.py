@@ -7,6 +7,8 @@ from mozilla_django_oidc.contrib.drf import OIDCAuthentication
 from requests.exceptions import HTTPError
 from rest_framework import exceptions
 
+import urllib
+
 
 class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
     def update_user(self, user, claims):
@@ -31,10 +33,19 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
         return user
 
     def map_user_with_claims(self, user, claims):
-        if settings.OIDC_OP_USER_ENDPOINT.startswith("https://groepsadmin.scoutsengidsenvlaanderen.be"):
+        # if settings.OIDC_OP_USER_ENDPOINT.startswith("https://groepsadmin.scoutsengidsenvlaanderen.be"):
+        #     return self.map_user_with_groepsadmin_claims(user, claims)
+        # return self.map_user_with_userinfo_claims(user, claims)
+
+        # Parse the user endpoint URL
+        parsed_url = urllib.parse.urlparse(settings.OIDC_OP_USER_ENDPOINT)
+
+        # Safely compare the domain to the expected value
+        if parsed_url.scheme == "https" and parsed_url.netloc == "groepsadmin.scoutsengidsenvlaanderen.be":
             return self.map_user_with_groepsadmin_claims(user, claims)
 
         return self.map_user_with_userinfo_claims(user, claims)
+
 
     def map_user_with_userinfo_claims(self, user, claims):
         user.first_name = claims.get("given_name", user.first_name)
