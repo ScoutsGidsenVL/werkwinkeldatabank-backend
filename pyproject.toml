@@ -26,14 +26,14 @@ exclude_lines = [
 ]
 # fail_under = 100
 include = ["src/*"]
-omit = ["*/migrations/*"]
+omit = ["manage.py", "*/migrations/*"]
 # show_missing = true
 
 [tool.coverage.run]
 branch = true
 data_file = "var/coverage/coverage.db"
 source = ["apps", "scouts_wwdb_api"]
-omit = ["*/migrations/*"]
+omit = ["manage.py", "*/migrations/*"]
 
 
 [tool.poetry]
