@@ -15,21 +15,22 @@ class WorkshopQuerySet(DisabledFieldQuerySetMixin, CreatedByQuerySetMixin, model
         # If no user only return published
         if user.is_anonymous:
             return self.published()
-        else:
-            if user.has_perm("workshops.view_all_workshop"):
-                return self.filter()
-            elif user.has_perm("workshops.view_publication_requested_workshop"):
-                return self.filter(
-                    Q(
-                        workshop_status_type__in=(
-                            WorkshopStatusType.PUBLISHED,
-                            WorkshopStatusType.PUBLICATION_REQUESTED,
-                        )
+
+        if user.has_perm("workshops.view_all_workshop"):
+            return self.filter()
+
+        if user.has_perm("workshops.view_publication_requested_workshop"):
+            return self.filter(
+                Q(
+                    workshop_status_type__in=(
+                        WorkshopStatusType.PUBLISHED,
+                        WorkshopStatusType.PUBLICATION_REQUESTED,
                     )
-                    | Q(created_by=user)
                 )
-            else:
-                return self.filter(Q(workshop_status_type=WorkshopStatusType.PUBLISHED) | Q(created_by=user))
+                | Q(created_by=user)
+            )
+
+        return self.filter(Q(workshop_status_type=WorkshopStatusType.PUBLISHED) | Q(created_by=user))
 
     def published(self):
         return self.filter(workshop_status_type=WorkshopStatusType.PUBLISHED)
