@@ -13,7 +13,7 @@
 
 # load environment variables from .env file
 set dotenv-filename := ".env"
-set dotenv-load       := true
+set dotenv-load := true
 
 
 # Help target

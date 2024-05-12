@@ -49,10 +49,12 @@ xhtml2pdf = ">=0.2.15"
 
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.0"
 autoread-dotenv = ">=1.0.2"
+black = ">=24.4.2"
+isort = ">=5.13.2"
 pylint = ">=3.1.0"
 pylint-django = ">=2.5.5"
+ruff = ">=0.0"
 
 [tool.poetry.group.ipython.dependencies]
 ipdb = ">=0.13"
@@ -109,10 +111,10 @@ disable = [
 [tool.pylint.typecheck]
 # REQUEST,acl_users,aq_parent,"[a-zA-Z]+_set{1,2}",save,delete
 generated-members= [
-    "save", 
+    "save",
     "objects",  # Class 'CKEditorFile' has no 'objects' member (no-member)
     "ObjectDoesNotExist",
-]  
+]
 
 
 [tool.pytest.ini_options]
