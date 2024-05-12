@@ -93,7 +93,7 @@ pytest:
 
 # run pytest with coverage
 pytest-coverage:
-    bin/pytest tests --color=yes --cov=tsc_sphinx --cov-report term-missing --cov-report html --cov-report xml --junit-xml='var/cache/coverage/pytest.xml'
+    bin/pytest tests --color=yes --cov=apps --cov=scouts_wwdb_api --cov-report term-missing --cov-report html --cov-report xml --junit-xml='var/cache/coverage/pytest.xml'
 
 alias pytest-cov := pytest-coverage
 
