@@ -24,5 +24,5 @@ models = it.chain(
 for model in models:
     try:
         django.contrib.admin.site.register(model)
-    except django.contrib.admin.sites.AlreadyRegistered:
+    except django.contrib.admin.sites.AlreadyRegistered:  # pragma: no cover
         pass
