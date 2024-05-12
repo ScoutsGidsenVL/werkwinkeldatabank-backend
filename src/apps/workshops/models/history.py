@@ -1,11 +1,12 @@
 """apps.workshops.models.history."""
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
 from apps.base.models import AuditTimestampMixin, BaseModel
 
-from .building_block_template import BuildingBlockTemplate
-from .workshop import Workshop
+from apps.workshops.models.building_block_template import BuildingBlockTemplate
+from apps.workshops.models.workshop import Workshop
 
 
 class History(AuditTimestampMixin, BaseModel):

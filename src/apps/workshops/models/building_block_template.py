@@ -1,4 +1,5 @@
 """apps.workshops.models.building_block_template."""
+
 import datetime as dt
 
 from django.core.exceptions import ValidationError
@@ -7,10 +8,10 @@ from django.db import models
 
 from apps.base.models import AuditTimestampMixin, BaseModel, CreatedByMixin, DisabledFieldModelMixin
 
-from ..managers import BuildingBlockTemplateManager
-from .category import Category
-from .enums import BuildingBlockStatus, BuildingBlockType
-from .theme import Theme
+from apps.workshops.managers import BuildingBlockTemplateManager
+from apps.workshops.models.category import Category
+from apps.workshops.models.enums import BuildingBlockStatus, BuildingBlockType
+from apps.workshops.models.theme import Theme
 
 
 # This model represents a template for a building block that can be used by scouts admins to manage some predefined templates

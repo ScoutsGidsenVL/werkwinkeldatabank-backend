@@ -1,5 +1,6 @@
 """apps.workshops.managers."""
-from .building_block_template_managers import BuildingBlockTemplateManager
-from .category_managers import CategoryManager
-from .theme_managers import ThemeManager
-from .workshop_managers import WorkshopManager
+
+from apps.workshops.managers.building_block_template_managers import BuildingBlockTemplateManager
+from apps.workshops.managers.category_managers import CategoryManager
+from apps.workshops.managers.theme_managers import ThemeManager
+from apps.workshops.managers.workshop_managers import WorkshopManager

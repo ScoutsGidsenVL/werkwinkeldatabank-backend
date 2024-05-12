@@ -1,4 +1,5 @@
 """apps.admin."""
+
 import django
 
 import apps.workshops.models as workshops_models

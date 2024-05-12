@@ -1,9 +1,9 @@
 """apps.workshops.models.theme."""
+
 from django.db import models
 
 from apps.base.models import BaseModel, DisabledFieldModelMixin
-
-from ..managers import ThemeManager
+from apps.workshops.managers import ThemeManager
 
 
 class Theme(DisabledFieldModelMixin, BaseModel):

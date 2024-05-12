@@ -7,12 +7,11 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from apps.base.models import BaseModel
-
-from ..models.category import Category
-from ..models.theme import Theme
-from .building_block_template import BuildingBlockTemplate
-from .enums.building_block_type import BuildingBlockType
-from .workshop import Workshop
+from apps.workshops.models.category import Category
+from apps.workshops.models.theme import Theme
+from apps.workshops.models.building_block_template import BuildingBlockTemplate
+from apps.workshops.models.enums.building_block_type import BuildingBlockType
+from apps.workshops.models.workshop import Workshop
 
 
 # This model represents the actual instance of a building block and can overwrite many of the fields of the template

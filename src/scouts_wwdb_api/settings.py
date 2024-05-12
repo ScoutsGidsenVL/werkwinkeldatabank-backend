@@ -15,12 +15,12 @@ import logging
 import logging.config
 import os
 
-from environs import Env
+import environs
 
 # Get a pre-config logger
 logger = logging.getLogger(__name__)
 
-env = Env()
+env = environs.Env()
 env.read_env()
 
 LOGGING_CONFIG = None
@@ -248,9 +248,9 @@ OIDC_RP_CLIENT_SECRET = env.str("OIDC_RP_CLIENT_SECRET")
 STORAGES = {
     "default": {
         # "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
-    "staticfiles": {        
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"
+    },
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY")

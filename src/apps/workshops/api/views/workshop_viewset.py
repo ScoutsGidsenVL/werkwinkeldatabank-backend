@@ -1,23 +1,26 @@
+# pylint: disable=unused-argument
 """apps.workshops.api.views.workshop_viewset."""
-from functools import partial
 
-from django.core.exceptions import PermissionDenied
+# from functools import partial
+
+# from django.core.exceptions import PermissionDenied
 from django.db.models import F
-from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import filters, permissions, serializers, status, viewsets
+from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
-from rest_framework.exceptions import APIException
+
+# from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 
 from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
 from apps.wwdb_exports.services import generate_workshop_pdf_response
 
-from ...exceptions import InvalidWorkflowTransitionException
-from ...models import Workshop
-from ...models.enums.workshop_status_type import WorkshopStatusType
-from ...services.workshop_service import (
+from apps.workshops.exceptions import InvalidWorkflowTransitionException
+from apps.workshops.models import Workshop
+
+# from apps.workshops.models.enums.workshop_status_type import WorkshopStatusType
+from apps.workshops.services.workshop_service import (
     workshop_add_history,
     workshop_create,
     workshop_publish,
@@ -25,11 +28,11 @@ from ...services.workshop_service import (
     workshop_unpublish,
     workshop_update,
 )
-from ..exceptions import InvalidWorkflowTransitionAPIException
-from ..filters.workshop_filter import WorkshopFilter
-from ..permissions import WorkshopChangePermission
-from ..serializers.history_serializers import HistoryOutputSerializer
-from ..serializers.workshop_serializers import (
+from apps.workshops.api.exceptions import InvalidWorkflowTransitionAPIException
+from apps.workshops.api.filters.workshop_filter import WorkshopFilter
+from apps.workshops.api.permissions import WorkshopChangePermission
+from apps.workshops.api.serializers.history_serializers import HistoryOutputSerializer
+from apps.workshops.api.serializers.workshop_serializers import (
     WorkshopCreateInputSerializer,
     WorkshopDetailOutputSerializer,
     WorkshopListOutputSerializer,
@@ -107,9 +110,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         if page is not None:
             serializer = WorkshopListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
-            return Response(serializer.data)
+
+        serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
+        return Response(serializer.data)
 
     @swagger_auto_schema(
         request_body=WorkshopUpdateInputSerializer, responses={status.HTTP_200_OK: WorkshopDetailOutputSerializer}
@@ -162,9 +165,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         if page is not None:
             serializer = WorkshopListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
-            return Response(serializer.data)
+
+        serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
+        return Response(serializer.data)
 
     @action(detail=False, methods=["get"])
     def my_workshops(self, request):
@@ -176,9 +179,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         if page is not None:
             serializer = WorkshopListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
-            return Response(serializer.data)
+
+        serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
+        return Response(serializer.data)
 
     @action(detail=False, methods=["get"])
     def publication_requested_workshops(self, request):
@@ -190,9 +193,9 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         if page is not None:
             serializer = WorkshopListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
-            return Response(serializer.data)
+
+        serializer = WorkshopListOutputSerializer(workshops, many=True, context={"request": request})
+        return Response(serializer.data)
 
     @swagger_auto_schema(
         responses={status.HTTP_200_OK: HistoryOutputSerializer},
@@ -203,7 +206,6 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         history = workshop.historic_data.all().order_by("-created_at")
 
         output_serializer = HistoryOutputSerializer(history, many=True)
-
         return Response(output_serializer.data)
 
     @action(detail=True, methods=["get"])

@@ -1,7 +1,8 @@
 """apps.workshops.api.exceptions."""
+
 from rest_framework.exceptions import APIException
 
-from ..exceptions import InvalidWorkflowTransitionException
+from apps.workshops.exceptions import InvalidWorkflowTransitionException
 
 
 class InvalidWorkflowTransitionAPIException(APIException):

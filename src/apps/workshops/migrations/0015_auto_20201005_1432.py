@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from django.db import migrations, models
 
-from ..models.enums.building_block_type import BuildingBlockType
+from apps.workshops.models.enums.building_block_type import BuildingBlockType
 
 
 def add_empty_building_block_template(apps, schema_editor):

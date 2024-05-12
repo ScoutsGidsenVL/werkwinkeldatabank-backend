@@ -1,4 +1,5 @@
 """apps.workshops.managers.workshop_managers."""
+
 from django.db import models
 from django.db.models import Q
 

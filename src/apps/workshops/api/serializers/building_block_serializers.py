@@ -1,4 +1,5 @@
-"""apps.workshops.serializers.building_block_serializers."""
+"""apps.workshops.api.serializers.building_block_serializers."""
+
 import datetime as dt
 
 from drf_yasg.utils import swagger_serializer_method
@@ -7,13 +8,12 @@ from rest_framework import serializers
 from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, DisabledFieldUpdateInputSerializerMixin
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
 from apps.serializer_extensions.serializers import DurationField
-
-from ...helpers.enum_helper import parse_choice_to_tuple
-from ...models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme
-from ...models.enums import BuildingBlockStatus, BuildingBlockType
-from .category_serializers import CategoryDetailOutputSerializer
-from .enum_serializers import EnumOutputSerializer
-from .theme_serializers import ThemeDetailOutputSerializer
+from apps.workshops.api.serializers.category_serializers import CategoryDetailOutputSerializer
+from apps.workshops.api.serializers.enum_serializers import EnumOutputSerializer
+from apps.workshops.api.serializers.theme_serializers import ThemeDetailOutputSerializer
+from apps.workshops.helpers.enum_helper import parse_choice_to_tuple
+from apps.workshops.models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme
+from apps.workshops.models.enums import BuildingBlockStatus, BuildingBlockType
 
 # Output
 
@@ -133,15 +133,15 @@ def get_theme_category_by_type_errors(type, theme, category):
     errors = []
     if type == BuildingBlockType.THEMATIC:
         if not theme:
-            errors.append("A building block of type %s needs a theme" % BuildingBlockType.THEMATIC.label)
+            errors.append(f"A building block of type {BuildingBlockType.THEMATIC.label} needs a theme")
         if category:
-            errors.append("A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label)
+            errors.append(f"A building block of type {BuildingBlockType.THEMATIC.label} can't have a category")
 
     if type == BuildingBlockType.METHODIC:
         if not category:
-            errors.append("A building block of type %s needs a category" % BuildingBlockType.METHODIC.label)
+            errors.append(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
         if theme:
-            errors.append("A building block of type %s can't have a theme" % BuildingBlockType.METHODIC.label)
+            errors.append(f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme")
     return errors
 
 

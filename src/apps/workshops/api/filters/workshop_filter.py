@@ -1,10 +1,11 @@
+"""apps.workshops.api.filters.workshop_filter."""
+
 import django_filters
 
 from apps.base.filters import ActiveFilterMixin
 from apps.filter_extensions.filters import MultipleUUIDFilter
-
-from ...models import Workshop
-from ...models.enums import WorkshopStatusType
+from apps.workshops.models import Workshop
+from apps.workshops.models.enums import WorkshopStatusType
 
 
 class WorkshopFilter(ActiveFilterMixin, django_filters.FilterSet):
@@ -16,11 +17,10 @@ class WorkshopFilter(ActiveFilterMixin, django_filters.FilterSet):
     status = django_filters.MultipleChoiceFilter(choices=WorkshopStatusType.choices, field_name="workshop_status_type")
     created_by = MultipleUUIDFilter()
 
-    def is_sensitive_filter(self, queryset, name, value):
+    def is_sensitive_filter(self, queryset, name, value):  # pylint: disable=unused-argument
         if value:
             return queryset.filter(building_blocks__template__is_sensitive=True).distinct()
-        else:
-            return queryset.exclude(building_blocks__template__is_sensitive=True).distinct()
+        return queryset.exclude(building_blocks__template__is_sensitive=True).distinct()
 
     class Meta:
         model = Workshop
