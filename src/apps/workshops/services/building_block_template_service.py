@@ -12,7 +12,7 @@ from apps.workshops.models.enums import BuildingBlockStatus
 from apps.workshops.services.history_service import history_create
 
 
-def building_block_template_create(
+def building_block_template_create(  # pylint: disable=too-many-arguments
     *,
     title: str,
     description: str,
@@ -75,8 +75,10 @@ def building_block_template_request_publication(*, template: BuildingBlockTempla
     template.status = new_status
     try:
         template.full_clean()
-    except ValidationError as error:
-        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    except ValidationError as exc:
+        raise InvalidWorkflowTransitionException(
+            from_status=template.status, to_status=new_status, extra=str(exc)
+        ) from exc
     template.save()
     return template
 
@@ -89,8 +91,10 @@ def building_block_template_publish(*, template: BuildingBlockTemplate) -> Build
     template.status = new_status
     try:
         template.full_clean()
-    except ValidationError as error:
-        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    except ValidationError as exc:
+        raise InvalidWorkflowTransitionException(
+            from_status=template.status, to_status=new_status, extra=str(exc)
+        ) from exc
     template.save()
     return template
 
@@ -103,8 +107,10 @@ def building_block_template_unpublish(*, template: BuildingBlockTemplate) -> Bui
     template.status = new_status
     try:
         template.full_clean()
-    except ValidationError as error:
-        raise InvalidWorkflowTransitionException(from_status=template.status, to_status=new_status, extra=str(error))
+    except ValidationError as exc:
+        raise InvalidWorkflowTransitionException(
+            from_status=template.status, to_status=new_status, extra=str(exc)
+        ) from exc
     template.save()
     return template
 

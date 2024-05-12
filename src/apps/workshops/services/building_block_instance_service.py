@@ -5,7 +5,7 @@ import datetime as dt
 from apps.workshops.models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme, Workshop
 
 
-def building_block_instance_create(
+def building_block_instance_create(  # pylint: disable=too-many-arguments
     *,
     title: str = "",
     description: str = "",
@@ -38,7 +38,9 @@ def building_block_instance_create(
     return instance
 
 
-def building_block_instance_update(*, existing_instance: BuildingBlockInstance, **fields) -> BuildingBlockInstance:
+def building_block_instance_update(  #  pylint: disable=protected-access
+    *, existing_instance: BuildingBlockInstance, **fields
+) -> BuildingBlockInstance:
     existing_instance.title = fields.get("title", existing_instance._title)
     existing_instance.description = fields.get("description", existing_instance._description)
     existing_instance.duration = fields.get("duration", existing_instance._duration)

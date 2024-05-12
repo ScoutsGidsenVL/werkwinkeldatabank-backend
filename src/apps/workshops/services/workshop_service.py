@@ -19,7 +19,7 @@ from apps.wwdb_mails.services import send_template_mail
 
 # Make atomic so database changes can be rolled back if error occurs
 @transaction.atomic
-def workshop_create(
+def workshop_create(  # pylint: disable=too-many-arguments
     *,
     title: str,
     themes: list,
@@ -41,17 +41,18 @@ def workshop_create(
         approving_team=approving_team,
         is_disabled=is_disabled,
     )
-    workshop.themes.set(themes)
-    workshop.files.set(files)
+    workshop.themes.set(themes)  # pylint: disable=no-member
+    workshop.files.set(files)  # pylint: disable=no-member
     workshop.save()
 
     for index, building_block_data in enumerate(building_blocks):
-        building_block = building_block_instance_create(**building_block_data, order=index, workshop=workshop)
+        _ = building_block_instance_create(**building_block_data, order=index, workshop=workshop)
 
     workshop.calculate_duration()
 
-    # We have to validate workshop after save because workshop needs to be saved before we can add building blocks to it
-    # But because this is an atomic transaction if this fails now after save there will still not be any data in the database
+    # We have to validate workshop after save because workshop needs to be saved
+    # before we can add building blocks to it. But because this is an atomic transaction
+    # if this fails now after save there will still not be any data in the database
     workshop.full_clean()
     # save again to save duration
     workshop.save()
@@ -101,16 +102,11 @@ def workshop_update(*, existing_workshop: Workshop, **fields) -> Workshop:
 
     existing_workshop.full_clean()
     existing_workshop.save()
-
     return existing_workshop
 
 
 def get_base_url():
-    base_url = base_url = settings.BASE_URL
-
-    if base_url.endswith("/"):
-        base_url[:-1]
-
+    base_url = settings.BASE_URL.rstrip("/")
     return base_url
 
 
@@ -122,10 +118,10 @@ def workshop_request_publication(*, workshop: Workshop) -> Workshop:
     workshop.workshop_status_type = new_status
     try:
         workshop.full_clean()
-    except ValidationError as error:
+    except ValidationError as exc:
         raise InvalidWorkflowTransitionException(
-            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
-        )
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(exc)
+        ) from exc
 
     send_template_mail(
         template="workshop_publication_requested", title=workshop.title, workshop=workshop, base_url=get_base_url()
@@ -143,10 +139,10 @@ def workshop_publish(*, workshop: Workshop) -> Workshop:
     workshop.published_at = timezone.now()
     try:
         workshop.full_clean()
-    except ValidationError as error:
+    except ValidationError as exc:
         raise InvalidWorkflowTransitionException(
-            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
-        )
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(exc)
+        ) from exc
 
     send_template_mail(template="workshop_published", title=workshop.title, workshop=workshop, base_url=get_base_url())
     workshop.save()
@@ -162,10 +158,10 @@ def workshop_unpublish(*, workshop: Workshop) -> Workshop:
     workshop.published_at = None
     try:
         workshop.full_clean()
-    except ValidationError as error:
+    except ValidationError as exc:
         raise InvalidWorkflowTransitionException(
-            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(error)
-        )
+            from_status=workshop.workshop_status_type, to_status=new_status, extra=str(exc)
+        ) from exc
     workshop.save()
     return workshop
 

@@ -1,4 +1,5 @@
 # pylint: disable=no-member
+# pylint: disable=R0801
 """apps.workshops.models.building_block_instance."""
 
 import datetime as dt
