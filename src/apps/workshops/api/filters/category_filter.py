@@ -3,7 +3,6 @@
 import django_filters
 
 from apps.base.filters import ActiveFilterMixin
-
 from apps.workshops.models import Category
 
 

@@ -1,4 +1,5 @@
 """apps.workshops.models."""
+
 from apps.workshops.models.building_block_instance import BuildingBlockInstance
 from apps.workshops.models.building_block_template import BuildingBlockTemplate
 from apps.workshops.models.category import Category

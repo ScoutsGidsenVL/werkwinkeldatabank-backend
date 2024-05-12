@@ -1,4 +1,5 @@
 """apps.workshops.management.commands.addemptybuildingblock."""
+
 import datetime as dt
 
 from django.core.management.base import BaseCommand

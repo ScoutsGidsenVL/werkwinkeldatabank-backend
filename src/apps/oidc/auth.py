@@ -1,4 +1,5 @@
 """apps.oidc.auth."""
+
 import urllib
 
 from django.conf import settings
@@ -45,7 +46,6 @@ class InuitsOIDCAuthenticationBackend(OIDCAuthenticationBackend):
             return self.map_user_with_groepsadmin_claims(user, claims)
 
         return self.map_user_with_userinfo_claims(user, claims)
-
 
     def map_user_with_userinfo_claims(self, user, claims):
         user.first_name = claims.get("given_name", user.first_name)

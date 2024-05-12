@@ -1,4 +1,5 @@
 """apps.oidc.exceptions."""
+
 import requests
 import rest_framework.exceptions as drf_exceptions
 

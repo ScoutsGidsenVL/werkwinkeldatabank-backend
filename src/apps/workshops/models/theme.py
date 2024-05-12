@@ -7,15 +7,12 @@ from apps.workshops.managers import ThemeManager
 
 
 class Theme(DisabledFieldModelMixin, BaseModel):
-    # Overwrite manager
-    objects = ThemeManager()
-
+    objects = ThemeManager()  # Overwrite manager
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
 
     # Related Many field
-    #
     # workshops (Workshop)
 
     def __str__(self):
-        return self.title
+        return str(self.title)

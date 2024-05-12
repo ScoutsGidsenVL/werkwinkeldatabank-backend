@@ -7,9 +7,6 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 
 from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions
-
-from apps.workshops.models import Theme
-from apps.workshops.services.theme_service import theme_create, theme_update
 from apps.workshops.api.filters.theme_filter import ThemeFilter
 from apps.workshops.api.serializers.theme_serializers import (
     ThemeCreateInputSerializer,
@@ -17,6 +14,8 @@ from apps.workshops.api.serializers.theme_serializers import (
     ThemeListOutputSerializer,
     ThemeUpdateInputSerializer,
 )
+from apps.workshops.models import Theme
+from apps.workshops.services.theme_service import theme_create, theme_update
 
 
 class ThemeViewSet(viewsets.GenericViewSet):

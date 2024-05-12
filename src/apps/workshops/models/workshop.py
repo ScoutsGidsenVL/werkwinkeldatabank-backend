@@ -1,4 +1,6 @@
+# pylint: disable=no-member
 """apps.workshops.models.workshop."""
+
 import datetime as dt
 
 from django.core.exceptions import ValidationError
@@ -36,7 +38,7 @@ class Workshop(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, Bas
     # files (CKEditorFile)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def clean(self):
         if len(self.building_blocks.all()) < 1:

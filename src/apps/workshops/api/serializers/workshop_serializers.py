@@ -1,3 +1,4 @@
+# pylint: disable=broad-exception-raised
 """apps.workshops.api.serializers.workshop_serializers."""
 
 from drf_yasg.utils import swagger_serializer_method
@@ -64,8 +65,8 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             raise Exception("Make sure request has been given to the context of the serializer")
         return request.user == obj.created_by
 
-    def to_representation(self, value):
-        result = super().to_representation(value)
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
         request = self.context.get("request")
         if not request:
             raise Exception("Make sure request has been given to the context of the serializer")
@@ -144,7 +145,8 @@ class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, ser
             block_id = building_block.get("id", None)
             if block_id and block_id not in current_block_ids:
                 raise serializers.ValidationError(
-                    f'Invalid id given "{block_id}", only building blocks that have already been added to the workshop can be updated'
+                    f'Invalid id given "{block_id}", \
+                    only building blocks that have already been added to the workshop can be updated.'
                 )
 
         return value

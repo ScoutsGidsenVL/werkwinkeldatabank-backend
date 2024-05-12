@@ -1,3 +1,4 @@
+# pylint: disable=broad-exception-raised
 """apps.workshops.api.serializers.building_block_serializers."""
 
 import datetime as dt
@@ -54,8 +55,8 @@ class BuildingBlockTemplateDetailOutputSerializer(serializers.ModelSerializer):
     def get_status(self, obj):
         return EnumOutputSerializer(parse_choice_to_tuple(BuildingBlockStatus(obj.status))).data
 
-    def to_representation(self, value):
-        result = super().to_representation(value)
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
         request = self.context.get("request")
         if not request:
             raise Exception("Make sure request has been given to the context of the serializer")
@@ -129,15 +130,15 @@ class BuildingBlockInstanceNestedOutputSerializer(serializers.ModelSerializer):
 # Input
 
 
-def get_theme_category_by_type_errors(type, theme, category):
+def get_theme_category_by_type_errors(type_, theme, category):
     errors = []
-    if type == BuildingBlockType.THEMATIC:
+    if type_ == BuildingBlockType.THEMATIC:
         if not theme:
             errors.append(f"A building block of type {BuildingBlockType.THEMATIC.label} needs a theme")
         if category:
             errors.append(f"A building block of type {BuildingBlockType.THEMATIC.label} can't have a category")
 
-    if type == BuildingBlockType.METHODIC:
+    if type_ == BuildingBlockType.METHODIC:
         if not category:
             errors.append(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
         if theme:
@@ -157,13 +158,13 @@ class BuildingBlockTemplateCreateInputSerializer(DisabledFieldCreateInputSeriali
     building_block_necessities = serializers.CharField(required=False, allow_blank=True)
     is_sensitive = serializers.BooleanField(required=False)
 
-    def validate(self, data):
+    def validate(self, attrs):
         errors = get_theme_category_by_type_errors(
-            data.get("building_block_type"), data.get("theme"), data.get("category")
+            attrs.get("building_block_type"), attrs.get("theme"), attrs.get("category")
         )
         if errors:
             raise serializers.ValidationError(errors)
-        return data
+        return attrs
 
 
 class BuildingBlockTemplateUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, serializers.Serializer):
@@ -177,15 +178,15 @@ class BuildingBlockTemplateUpdateInputSerializer(DisabledFieldUpdateInputSeriali
     building_block_necessities = serializers.CharField(required=False, allow_blank=True)
     is_sensitive = serializers.BooleanField(required=False)
 
-    def validate(self, data):
+    def validate(self, attrs):
         errors = get_theme_category_by_type_errors(
-            data.get("building_block_type", self.instance.building_block_type),
-            data.get("theme", self.instance.theme),
-            data.get("category", self.instance.category),
+            attrs.get("building_block_type", self.instance.building_block_type),
+            attrs.get("theme", self.instance.theme),
+            attrs.get("category", self.instance.category),
         )
         if errors:
             raise serializers.ValidationError(errors)
-        return data
+        return attrs
 
 
 ## Instance
@@ -200,22 +201,22 @@ class BuildingBlockInstanceNestedCreateInputSerializer(serializers.Serializer):
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
     building_block_necessities = serializers.CharField(required=False)
 
-    def validate(self, data):
+    def validate(self, attrs):
         # If linked template values false then make certain fields required again
-        if not data.get("linked_template_values", False):
-            for field_name, field in self.fields.items():
+        if not attrs.get("linked_template_values", False):
+            for field_name, _ in self.fields.items():
                 required_fields = ["title", "description", "duration"]
-                if field_name in required_fields and data.get(field_name, None) is None:
+                if field_name in required_fields and attrs.get(field_name, None) is None:
                     raise serializers.ValidationError({field_name: ["This field is required."]})
-        template = data.get("template")
+        template = attrs.get("template")
         errors = get_theme_category_by_type_errors(
             template.building_block_type,
-            data.get("theme", template.theme if data.get("linked_template_values") else None),
-            data.get("category", template.category if data.get("linked_template_values") else None),
+            attrs.get("theme", template.theme if attrs.get("linked_template_values") else None),
+            attrs.get("category", template.category if attrs.get("linked_template_values") else None),
         )
         if errors:
             raise serializers.ValidationError(errors)
-        return data
+        return attrs
 
 
 class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
@@ -229,20 +230,22 @@ class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
     theme = serializers.PrimaryKeyRelatedField(queryset=Theme.objects.all(), required=False, allow_null=True)
     building_block_necessities = serializers.CharField(required=False)
 
-    def validate(self, data):
+    def validate(self, attrs):
         # Calculate instance from root serializer
-        self.instance = self.root.instance.building_blocks.get(pk=data.get("id"))
+        self.instance = self.root.instance.building_blocks.get(pk=attrs.get("id"))
 
         if not self.instance:
             raise Exception("Cant update building block that isnt already related to workshop")
         # Set the linked_template_values boolean of instance to get correct properties for validation
-        self.instance.linked_template_values = data.get("linked_template_values", self.instance.linked_template_values)
+        self.instance.linked_template_values = attrs.get(
+            "linked_template_values", self.instance.linked_template_values
+        )
 
         errors = get_theme_category_by_type_errors(
-            data.get("template", self.instance.template).building_block_type,
-            data.get("theme", self.instance.theme),
-            data.get("category", self.instance.category),
+            attrs.get("template", self.instance.template).building_block_type,
+            attrs.get("theme", self.instance.theme),
+            attrs.get("category", self.instance.category),
         )
         if errors:
             raise serializers.ValidationError(errors)
-        return data
+        return attrs

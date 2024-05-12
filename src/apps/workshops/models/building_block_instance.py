@@ -1,3 +1,4 @@
+# pylint: disable=no-member
 """apps.workshops.models.building_block_instance."""
 
 import datetime as dt
@@ -7,10 +8,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from apps.base.models import BaseModel
-from apps.workshops.models.category import Category
-from apps.workshops.models.theme import Theme
 from apps.workshops.models.building_block_template import BuildingBlockTemplate
+from apps.workshops.models.category import Category
 from apps.workshops.models.enums.building_block_type import BuildingBlockType
+from apps.workshops.models.theme import Theme
 from apps.workshops.models.workshop import Workshop
 
 
@@ -131,18 +132,16 @@ class BuildingBlockInstance(BaseModel):
     def clean(self):
         if self.building_block_type == BuildingBlockType.THEMATIC:
             if not self.theme:
-                raise ValidationError("A building block of type %s needs a theme" % BuildingBlockType.THEMATIC.label)
+                raise ValidationError("A building block of type {BuildingBlockType.THEMATIC.label} needs a theme")
             if self.category:
                 raise ValidationError(
-                    "A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label
+                    f"A building block of type { BuildingBlockType.THEMATIC.label} can't have a category"
                 )
 
         if self.building_block_type == BuildingBlockType.METHODIC:
             if not self.category:
-                raise ValidationError(
-                    "A building block of type %s needs a category" % BuildingBlockType.METHODIC.label
-                )
+                raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
             if self.theme:
                 raise ValidationError(
-                    "A building block of type %s can't have a theme" % BuildingBlockType.METHODIC.label
+                    f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme"
                 )

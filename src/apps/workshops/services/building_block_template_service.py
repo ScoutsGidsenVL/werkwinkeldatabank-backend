@@ -1,4 +1,5 @@
 """apps.workshops.services.building_block_template_service."""
+
 import datetime as dt
 
 from django.conf import settings

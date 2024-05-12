@@ -5,7 +5,6 @@ from django.db.models import Q
 
 from apps.base.filters import ActiveFilterMixin
 from apps.filter_extensions.filters import MultipleUUIDFilter
-
 from apps.workshops.models import BuildingBlockTemplate
 from apps.workshops.models.enums import BuildingBlockStatus, BuildingBlockType
 

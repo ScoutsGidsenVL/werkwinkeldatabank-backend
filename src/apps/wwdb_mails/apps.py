@@ -1,4 +1,5 @@
 """apps.wwdb_mails.apps."""
+
 from django.apps import AppConfig
 
 

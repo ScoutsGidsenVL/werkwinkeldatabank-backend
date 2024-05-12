@@ -1,4 +1,5 @@
 """apps.scouts_auth.signals."""
+
 import logging
 import os
 
@@ -8,6 +9,7 @@ from django.contrib.auth.models import Group, Permission
 from django.core.exceptions import ObjectDoesNotExist
 
 logger = logging.getLogger(__name__)
+
 
 def _add_permission_by_name(group, permission_name):
     try:

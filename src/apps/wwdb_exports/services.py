@@ -1,17 +1,18 @@
 """apps.wwdb_exports.services."""
+
 import logging
 import os
 
+import xhtml2pdf.pisa
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
 
-# from django.core.exceptions import ObjectDoesNotExist
-
-import xhtml2pdf.pisa
-
 from apps.files.models import CKEditorFile
 from apps.workshops.models import Workshop
+
+# from django.core.exceptions import ObjectDoesNotExist
+
 
 logger = logging.getLogger(__name__)
 

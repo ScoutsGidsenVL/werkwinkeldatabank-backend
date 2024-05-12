@@ -1,4 +1,5 @@
 """apps.oidc.urls."""
+
 from django.urls import path
 
 from apps.oidc.api.views import AuthCodeView, RefreshView

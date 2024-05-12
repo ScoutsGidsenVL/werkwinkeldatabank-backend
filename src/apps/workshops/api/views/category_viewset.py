@@ -7,8 +7,6 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 
 from apps.scouts_auth.permissions import ExtendedDjangoModelPermissions
-from apps.workshops.models import Category
-from apps.workshops.services.category_service import category_create, category_update
 from apps.workshops.api.filters.category_filter import CategoryFilter
 from apps.workshops.api.serializers.category_serializers import (
     CategoryCreateInputSerializer,
@@ -16,6 +14,8 @@ from apps.workshops.api.serializers.category_serializers import (
     CategoryListOutputSerializer,
     CategoryUpdateInputSerializer,
 )
+from apps.workshops.models import Category
+from apps.workshops.services.category_service import category_create, category_update
 
 
 class CategoryViewSet(viewsets.GenericViewSet):

@@ -6,12 +6,9 @@ from requests.exceptions import HTTPError
 from rest_framework import permissions, views
 from rest_framework.response import Response
 
-from apps.oidc.api.serializers import (AuthCodeInputSerializer,
-                                       RefreshInputSerializer,
-                                       TokenOutputSerializer)
+from apps.oidc.api.serializers import AuthCodeInputSerializer, RefreshInputSerializer, TokenOutputSerializer
 from apps.oidc.exceptions import TokenRequestException
-from apps.oidc.services.token_request_service import (
-    get_tokens_by_auth_code, get_tokens_by_refresh_token)
+from apps.oidc.services.token_request_service import get_tokens_by_auth_code, get_tokens_by_refresh_token
 
 logger = logging.getLogger(__name__)
 

@@ -4,7 +4,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from apps.base.models import AuditTimestampMixin, BaseModel
-
 from apps.workshops.models.building_block_template import BuildingBlockTemplate
 from apps.workshops.models.workshop import Workshop
 

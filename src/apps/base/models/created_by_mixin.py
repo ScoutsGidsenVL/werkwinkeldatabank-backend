@@ -1,4 +1,5 @@
 """apps.base.models.created_by_mixin."""
+
 from django.conf import settings
 from django.db import models
 

@@ -1,4 +1,5 @@
 """apps.workshops.models.enums.building_block_status."""
+
 from django.db import models
 
 

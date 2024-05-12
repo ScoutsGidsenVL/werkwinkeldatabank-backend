@@ -146,8 +146,8 @@ lint: isort black
 
 # run black
 black:
-    black src/**/*.py
+    bin/black src/**/*.py
 
 # run isort
 isort:
-    isort src/**/*.py
+    bin/isort src/**/*.py

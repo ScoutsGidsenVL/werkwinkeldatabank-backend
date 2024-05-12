@@ -1,4 +1,5 @@
 """apps.workshops.services.building_block_instance_service."""
+
 import datetime as dt
 
 from apps.workshops.models import BuildingBlockInstance, BuildingBlockTemplate, Category, Theme, Workshop

@@ -19,12 +19,18 @@ print(f"Executing {__file__}")
 import django
 from django.conf import settings
 
+# settings = django.conf.settings
+
 # see https://docs.djangoproject.com/en/4.2/topics/settings/#calling-django-setup-is-required-for-standalone-django-usage
 django.setup()
 
 # Now this script or any imported module can use any part of Django it needs.
 import django.db as db
 import django.db.models as models
+import django.db.models as django_db_models
+import django.contrib.auth.models as django_contrib_auth_models
+
+# import from django.contrib.auth.models import Group
 
 import apps.base.models as base_models
 import apps.files.models as files_models

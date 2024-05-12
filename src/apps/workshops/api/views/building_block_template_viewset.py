@@ -8,17 +8,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
-
-from apps.workshops.exceptions import InvalidWorkflowTransitionException
-from apps.workshops.models import BuildingBlockTemplate
-from apps.workshops.services.building_block_template_service import (
-    building_block_template_add_history,
-    building_block_template_create,
-    building_block_template_publish,
-    building_block_template_request_publication,
-    building_block_template_unpublish,
-    building_block_template_update,
-)
 from apps.workshops.api.exceptions import InvalidWorkflowTransitionAPIException
 from apps.workshops.api.filters.building_block_template_filter import BuildingBlockTemplateFilter
 from apps.workshops.api.permissions import BuildingBlockTemplateChangePermission
@@ -29,6 +18,16 @@ from apps.workshops.api.serializers.building_block_serializers import (
     BuildingBlockTemplateUpdateInputSerializer,
 )
 from apps.workshops.api.serializers.history_serializers import HistoryOutputSerializer
+from apps.workshops.exceptions import InvalidWorkflowTransitionException
+from apps.workshops.models import BuildingBlockTemplate
+from apps.workshops.services.building_block_template_service import (
+    building_block_template_add_history,
+    building_block_template_create,
+    building_block_template_publish,
+    building_block_template_request_publication,
+    building_block_template_unpublish,
+    building_block_template_update,
+)
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):

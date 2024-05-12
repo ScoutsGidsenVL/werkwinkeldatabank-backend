@@ -1,4 +1,5 @@
 """apps.files.api.views."""
+
 import logging
 
 from django.core.exceptions import ValidationError
@@ -9,9 +10,9 @@ from rest_framework import permissions, serializers, status, views
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 
+from apps.files.api.serializers import UploadFileInputSerializer, UploadFileOutputSerializer
 from apps.files.models import CKEditorFile
 from apps.files.services.file_service import store_ckeditor_file
-from apps.files.api.serializers import UploadFileInputSerializer, UploadFileOutputSerializer
 
 logger = logging.getLogger(__name__)
 
