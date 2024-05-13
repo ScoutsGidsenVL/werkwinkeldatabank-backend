@@ -13,7 +13,7 @@
 
 # load environment variables from .env file
 set dotenv-filename := ".env"
-set dotenv-load       := true
+set dotenv-load := true
 
 
 # Help target
@@ -93,7 +93,7 @@ pytest:
 
 # run pytest with coverage
 pytest-coverage:
-    bin/pytest tests --color=yes --cov=tsc_sphinx --cov-report term-missing --cov-report html --cov-report xml --junit-xml='var/cache/coverage/pytest.xml'
+    bin/pytest tests --color=yes --cov=apps --cov=scouts_wwdb_api --cov-report term-missing --cov-report html --cov-report xml --junit-xml='var/cache/coverage/pytest.xml'
 
 alias pytest-cov := pytest-coverage
 
@@ -146,8 +146,8 @@ lint: isort black
 
 # run black
 black:
-    black src/**/*.py
+    bin/black src/**/*.py
 
 # run isort
 isort:
-    isort src/**/*.py
+    bin/isort src/**/*.py

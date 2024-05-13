@@ -1,23 +1,24 @@
 """apps.serializer_extensions.serializers."""
+
 import copy
 import inspect
 
-from drf_yasg import openapi
-from rest_framework import serializers
-from rest_framework.fields import empty
+import drf_yasg.openapi
+import rest_framework
+import rest_framework.serializers as drf_serializers
 
 
-class DurationField(serializers.DurationField):
+class DurationField(drf_serializers.DurationField):
     """ "Overwrite DurationField to give it correct swagger configuration"""
 
     class Meta:
         swagger_schema_fields = {
-            "type": openapi.TYPE_STRING,
+            "type": drf_yasg.openapi.TYPE_STRING,
             "format": "[DD] [HH:[MM:]]ss[.uuuuuu]",
         }
 
 
-class PermissionRequiredField(serializers.Field):
+class PermissionRequiredField(drf_serializers.Field):
     """Custom field that only parses value if you have the required permission."""
 
     field = None
@@ -34,7 +35,7 @@ class PermissionRequiredField(serializers.Field):
     def to_internal_value(self, data):
         request = self.context.get("request")
         if not request:
-            raise Exception(   # pylint: disable=broad-exception-raised
+            raise Exception(  # pylint: disable=broad-exception-raised
                 "Make sure request has been given to the context of the serializer,"
                 "otherwise PermissionRequiredField won't work"
             )
@@ -44,10 +45,10 @@ class PermissionRequiredField(serializers.Field):
             return self.field.run_validation(data)
 
         # Else act as if no value given
-        return self.field.run_validation(empty)
+        return self.field.run_validation(rest_framework.fields.empty)
 
 
-class SerializerSwitchField(serializers.Field):
+class SerializerSwitchField(drf_serializers.Field):
     """Create serializer field that can switch between a create and a delete depending on id given
     Usefull for nested models in input serializers
     """
@@ -57,7 +58,7 @@ class SerializerSwitchField(serializers.Field):
 
     class Meta:
         swagger_schema_fields = {
-            "type": openapi.TYPE_OBJECT,
+            "type": drf_yasg.openapi.TYPE_OBJECT,
             "description": (
                 "Exact documentation not available, look at corresponding POST for this model to see possible fields."
                 "If you want to update an existing entity make sure to also give id as field in this object"

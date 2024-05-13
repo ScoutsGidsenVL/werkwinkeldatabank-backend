@@ -1,4 +1,5 @@
 """apps.workshops.management.commands.addemptybuildingblock."""
+
 import datetime as dt
 
 from django.core.management.base import BaseCommand
@@ -16,7 +17,9 @@ class Command(BaseCommand):
         template = BuildingBlockTemplate.objects.get_empty_default()
 
         if template:
-            self.stdout.write(self.style.SUCCESS("Empty building block template already existis"))
+            self.stdout.write(
+                self.style.SUCCESS("Empty building block template already existis")  # pylint: disable=no-member
+            )
             return
 
         template = BuildingBlockTemplate(
@@ -28,4 +31,4 @@ class Command(BaseCommand):
             last_edited=timezone.now(),
         )
         template.save()
-        self.stdout.write(self.style.SUCCESS("Empty building block template created"))
+        self.stdout.write(self.style.SUCCESS("Empty building block template created"))  # pylint: disable=no-member

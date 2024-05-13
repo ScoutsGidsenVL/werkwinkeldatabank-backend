@@ -1,10 +1,12 @@
+# pylint: disable=unused-argument
 """apps.workshops.api.views.enum_views.building_block_type_viewset."""
+
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 
-from ....models.enums.building_block_type import BuildingBlockType
-from ...serializers.enum_serializers import EnumOutputSerializer
+from apps.workshops.api.serializers.enum_serializers import EnumOutputSerializer
+from apps.workshops.models.enums.building_block_type import BuildingBlockType
 
 
 class BuildingBlockTypeViewSet(viewsets.ViewSet):

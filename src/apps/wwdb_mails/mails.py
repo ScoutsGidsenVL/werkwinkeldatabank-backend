@@ -1,4 +1,5 @@
 """apps.wwdb_mails.mails."""
+
 mails = {
     "workshop_publication_requested": {
         "subject": "Werkwinkel verstuurd voor publicatie",

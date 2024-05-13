@@ -1,4 +1,6 @@
+# pylint: disable=broad-exception-raised
 """apps.workshops.api.serializers.workshop_serializers."""
+
 from drf_yasg.utils import swagger_serializer_method
 from rest_framework import serializers
 
@@ -6,7 +8,7 @@ from apps.base.serializers import DisabledFieldCreateInputSerializerMixin, Disab
 from apps.files.api.serializers import FileDetailOutputSerializer
 from apps.files.models import CKEditorFile
 from apps.scouts_auth.api.serializers import UserNestedOutputSerializer
-from apps.serializer_extensions.serializers import DurationField, PermissionRequiredField, SerializerSwitchField
+from apps.serializer_extensions.serializers import DurationField, SerializerSwitchField
 from apps.workshops.api.serializers.building_block_serializers import (
     BuildingBlockInstanceNestedCreateInputSerializer,
     BuildingBlockInstanceNestedOutputSerializer,
@@ -55,8 +57,7 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
     def get_approving_team(self, obj):
         if obj.approving_team:
             return EnumOutputSerializer(parse_choice_to_tuple(ScoutsTeam(obj.approving_team))).data
-        else:
-            return None
+        return None
 
     def get_is_mine(self, obj):
         request = self.context.get("request")
@@ -64,8 +65,8 @@ class WorkshopDetailOutputSerializer(serializers.ModelSerializer):
             raise Exception("Make sure request has been given to the context of the serializer")
         return request.user == obj.created_by
 
-    def to_representation(self, value):
-        result = super().to_representation(value)
+    def to_representation(self, instance):
+        result = super().to_representation(instance)
         request = self.context.get("request")
         if not request:
             raise Exception("Make sure request has been given to the context of the serializer")
@@ -144,9 +145,8 @@ class WorkshopUpdateInputSerializer(DisabledFieldUpdateInputSerializerMixin, ser
             block_id = building_block.get("id", None)
             if block_id and block_id not in current_block_ids:
                 raise serializers.ValidationError(
-                    'Invalid id given "{}", only building blocks that have already been added to the workshop can be updated'.format(
-                        block_id
-                    )
+                    f'Invalid id given "{block_id}", \
+                    only building blocks that have already been added to the workshop can be updated.'
                 )
 
         return value

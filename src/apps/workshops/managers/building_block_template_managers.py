@@ -1,4 +1,5 @@
 """apps.workshops.building_block_template_managers."""
+
 from django.db import models
 from django.db.models import Q
 
@@ -17,21 +18,22 @@ class BuildingBlockTemplateQuerySet(DisabledFieldQuerySetMixin, models.QuerySet)
         # If no user only return published
         if user.is_anonymous:
             return self.published()
-        else:
-            if user.has_perm("workshops.view_all_buildingblocktemplate"):
-                return self.filter()
-            elif user.has_perm("workshops.view_publication_requested_buildingblocktemplate"):
-                return self.filter(
-                    Q(
-                        status__in=(
-                            BuildingBlockStatus.PUBLISHED,
-                            BuildingBlockStatus.PUBLICATION_REQUESTED,
-                        )
+
+        if user.has_perm("workshops.view_all_buildingblocktemplate"):
+            return self.filter()
+
+        if user.has_perm("workshops.view_publication_requested_buildingblocktemplate"):
+            return self.filter(
+                Q(
+                    status__in=(
+                        BuildingBlockStatus.PUBLISHED,
+                        BuildingBlockStatus.PUBLICATION_REQUESTED,
                     )
-                    | Q(created_by=user)
                 )
-            else:
-                return self.filter(Q(status=BuildingBlockStatus.PUBLISHED) | Q(created_by=user))
+                | Q(created_by=user)
+            )
+
+        return self.filter(Q(status=BuildingBlockStatus.PUBLISHED) | Q(created_by=user))
 
     def published(self):
         return self.filter(status=BuildingBlockStatus.PUBLISHED)

@@ -1,4 +1,5 @@
 """scouts_wwdb_api.pagination."""
+
 import rest_framework.pagination
 
 

@@ -1,8 +1,9 @@
+"""apps.workshops.api.filters.theme_filter."""
+
 import django_filters
 
 from apps.base.filters import ActiveFilterMixin
-
-from ...models import Theme
+from apps.workshops.models import Theme
 
 
 class ThemeFilter(ActiveFilterMixin, django_filters.FilterSet):

@@ -1,4 +1,5 @@
 """apps.workshops.models.building_block_template."""
+
 import datetime as dt
 
 from django.core.exceptions import ValidationError
@@ -6,14 +7,14 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from apps.base.models import AuditTimestampMixin, BaseModel, CreatedByMixin, DisabledFieldModelMixin
+from apps.workshops.managers import BuildingBlockTemplateManager
+from apps.workshops.models.category import Category
+from apps.workshops.models.enums import BuildingBlockStatus, BuildingBlockType
+from apps.workshops.models.theme import Theme
 
-from ..managers import BuildingBlockTemplateManager
-from .category import Category
-from .enums import BuildingBlockStatus, BuildingBlockType
-from .theme import Theme
 
-
-# This model represents a template for a building block that can be used by scouts admins to manage some predefined templates
+# This model represents a template for a building block that can be used
+# by scouts admins to manage some predefined templates
 # These are not actual building blocks and cant be connected directly to a workshop
 class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, CreatedByMixin, BaseModel):
     # Overwrite manager
@@ -59,23 +60,21 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
         ]
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     def clean(self):
         if self.building_block_type == BuildingBlockType.THEMATIC:
             if not self.theme:
-                raise ValidationError("A building block of type %s needs a theme" % BuildingBlockType.THEMATIC.label)
+                raise ValidationError(f"A building block of type {BuildingBlockType.THEMATIC.label} needs a theme")
             if self.category:
                 raise ValidationError(
-                    "A building block of type %s can't have a category" % BuildingBlockType.THEMATIC.label
+                    f"A building block of type {BuildingBlockType.THEMATIC.label} can't have a category"
                 )
 
         if self.building_block_type == BuildingBlockType.METHODIC:
             if not self.category:
-                raise ValidationError(
-                    "A building block of type %s needs a category" % BuildingBlockType.METHODIC.label
-                )
+                raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
             if self.theme:
                 raise ValidationError(
-                    "A building block of type %s can't have a theme" % BuildingBlockType.METHODIC.label
+                    f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme"
                 )

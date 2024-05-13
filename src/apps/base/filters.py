@@ -1,4 +1,5 @@
 """apps.base.filters."""
+
 import django_filters
 
 

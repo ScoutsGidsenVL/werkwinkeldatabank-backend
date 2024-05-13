@@ -1,11 +1,12 @@
+"""apps.workshops.api.filters.building_block_template_filter."""
+
 import django_filters
 from django.db.models import Q
 
 from apps.base.filters import ActiveFilterMixin
 from apps.filter_extensions.filters import MultipleUUIDFilter
-
-from ...models import BuildingBlockTemplate
-from ...models.enums import BuildingBlockStatus, BuildingBlockType
+from apps.workshops.models import BuildingBlockTemplate
+from apps.workshops.models.enums import BuildingBlockStatus, BuildingBlockType
 
 
 class BuildingBlockTemplateFilter(ActiveFilterMixin, django_filters.FilterSet):
@@ -22,5 +23,5 @@ class BuildingBlockTemplateFilter(ActiveFilterMixin, django_filters.FilterSet):
         model = BuildingBlockTemplate
         fields = []
 
-    def filter_by_term(self, queryset, name, value):
+    def filter_by_term(self, queryset, name, value):  # pylint: disable=unused-argument
         return queryset.filter(Q(title__icontains=value) | Q(description__icontains=value))

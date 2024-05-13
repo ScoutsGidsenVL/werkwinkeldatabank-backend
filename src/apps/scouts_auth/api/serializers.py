@@ -1,4 +1,5 @@
 """apps.scouts_auth.api.serializers."""
+
 from rest_framework import serializers
 
 from apps.scouts_auth.models import User

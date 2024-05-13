@@ -1,4 +1,5 @@
 """apps.files.file_service."""
+
 from django.core.files.base import File
 
 from apps.files.models import CKEditorFile

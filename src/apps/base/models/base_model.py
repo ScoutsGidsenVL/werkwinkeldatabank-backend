@@ -1,4 +1,5 @@
 """apps.base.models.base_model."""
+
 import uuid
 
 from django.db import models

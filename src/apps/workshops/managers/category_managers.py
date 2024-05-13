@@ -1,4 +1,5 @@
 """apps.workshops.managers.category_managers."""
+
 from django.db import models
 
 from apps.base.managers import DisabledFieldQuerySetMixin

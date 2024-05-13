@@ -1,5 +1,6 @@
+# pylint: disable=unused-argument
 """apps.workshops.api.views.building_block_template_viewset."""
-from django.shortcuts import get_object_or_404
+
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import filters, permissions, status, viewsets
@@ -7,10 +8,19 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from apps.scouts_auth.permissions import CustomDjangoPermission, ExtendedDjangoModelPermissions
-
-from ...exceptions import InvalidWorkflowTransitionException
-from ...models import BuildingBlockTemplate
-from ...services.building_block_template_service import (
+from apps.workshops.api.exceptions import InvalidWorkflowTransitionAPIException
+from apps.workshops.api.filters.building_block_template_filter import BuildingBlockTemplateFilter
+from apps.workshops.api.permissions import BuildingBlockTemplateChangePermission
+from apps.workshops.api.serializers.building_block_serializers import (
+    BuildingBlockTemplateCreateInputSerializer,
+    BuildingBlockTemplateDetailOutputSerializer,
+    BuildingBlockTemplateListOutputSerializer,
+    BuildingBlockTemplateUpdateInputSerializer,
+)
+from apps.workshops.api.serializers.history_serializers import HistoryOutputSerializer
+from apps.workshops.exceptions import InvalidWorkflowTransitionException
+from apps.workshops.models import BuildingBlockTemplate
+from apps.workshops.services.building_block_template_service import (
     building_block_template_add_history,
     building_block_template_create,
     building_block_template_publish,
@@ -18,16 +28,6 @@ from ...services.building_block_template_service import (
     building_block_template_unpublish,
     building_block_template_update,
 )
-from ..exceptions import InvalidWorkflowTransitionAPIException
-from ..filters.building_block_template_filter import BuildingBlockTemplateFilter
-from ..permissions import BuildingBlockTemplateChangePermission
-from ..serializers.building_block_serializers import (
-    BuildingBlockTemplateCreateInputSerializer,
-    BuildingBlockTemplateDetailOutputSerializer,
-    BuildingBlockTemplateListOutputSerializer,
-    BuildingBlockTemplateUpdateInputSerializer,
-)
-from ..serializers.history_serializers import HistoryOutputSerializer
 
 
 class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
@@ -84,12 +84,10 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         input_serializer.is_valid(raise_exception=True)
 
         created_template = building_block_template_create(**input_serializer.validated_data, created_by=request.user)
-
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(created_template, context={"request": request})
 
         # Save data json in history to get easy history
         building_block_template_add_history(data=output_serializer.data, template=created_template)
-
         return Response(output_serializer.data, status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(responses={status.HTTP_200_OK: BuildingBlockTemplateListOutputSerializer})
@@ -100,9 +98,9 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         if page is not None:
             serializer = BuildingBlockTemplateListOutputSerializer(page, many=True, context={"request": request})
             return self.get_paginated_response(serializer.data)
-        else:
-            serializer = BuildingBlockTemplateListOutputSerializer(results, many=True, context={"request": request})
-            return Response(serializer.data)
+
+        serializer = BuildingBlockTemplateListOutputSerializer(results, many=True, context={"request": request})
+        return Response(serializer.data)
 
     @swagger_auto_schema(
         request_body=BuildingBlockTemplateUpdateInputSerializer,
@@ -117,7 +115,6 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         serializer.is_valid(raise_exception=True)
 
         updated_template = building_block_template_update(existing_template=template, **serializer.validated_data)
-
         output_serializer = BuildingBlockTemplateDetailOutputSerializer(updated_template, context={"request": request})
         # Save data json in history to get easy history
         building_block_template_add_history(data=output_serializer.data, template=updated_template)

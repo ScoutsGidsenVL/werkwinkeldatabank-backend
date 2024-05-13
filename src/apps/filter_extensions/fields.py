@@ -1,4 +1,5 @@
 """apps.filter_extensions.fields"""
+
 import django_filters
 
 

@@ -1,4 +1,5 @@
 """apps.workshops.services.theme_service."""
+
 from apps.base.services.disabled_field_service import update_is_disabled_field
 from apps.workshops.models import Theme
 

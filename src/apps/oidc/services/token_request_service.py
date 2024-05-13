@@ -1,4 +1,5 @@
 """apps.oidc.services.token_request_service."""
+
 import requests
 from django.conf import settings
 

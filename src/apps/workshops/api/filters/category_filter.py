@@ -1,8 +1,9 @@
+"""apps.workshops.api.filters.category_filter."""
+
 import django_filters
 
 from apps.base.filters import ActiveFilterMixin
-
-from ...models import Category
+from apps.workshops.models import Category
 
 
 class CategoryFilter(ActiveFilterMixin, django_filters.FilterSet):

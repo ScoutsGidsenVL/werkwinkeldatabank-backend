@@ -1,4 +1,5 @@
 """apps.scouts_auth.permissions."""
+
 from rest_framework import permissions
 
 

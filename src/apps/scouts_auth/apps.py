@@ -1,4 +1,5 @@
 """apps.scouts_auth.apps."""
+
 from django.apps import AppConfig
 from django.db.models.signals import post_migrate
 

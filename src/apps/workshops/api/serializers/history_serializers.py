@@ -1,4 +1,5 @@
 """apps.workshops.api.serializers.history_serializers."""
+
 from rest_framework import serializers
 
 from apps.workshops.models import History

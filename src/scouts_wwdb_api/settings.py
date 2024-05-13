@@ -15,12 +15,12 @@ import logging
 import logging.config
 import os
 
-from environs import Env
+import environs
 
 # Get a pre-config logger
 logger = logging.getLogger(__name__)
 
-env = Env()
+env = environs.Env()
 env.read_env()
 
 LOGGING_CONFIG = None
@@ -107,8 +107,8 @@ INSTALLED_APPS = [  # order alphabetically
     # "django_extensions",
 ]
 
-if DEBUG:
-    INSTALLED_APPS.append("django_extensions")
+
+
 
 MIDDLEWARE = [  # actual ordering matters for middleware
     "django.middleware.security.SecurityMiddleware",
@@ -120,6 +120,13 @@ MIDDLEWARE = [  # actual ordering matters for middleware
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append("django_extensions")
+    INSTALLED_APPS.append("debug_toolbar")
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
+
+
 
 ROOT_URLCONF = "scouts_wwdb_api.urls"
 
@@ -248,9 +255,9 @@ OIDC_RP_CLIENT_SECRET = env.str("OIDC_RP_CLIENT_SECRET")
 STORAGES = {
     "default": {
         # "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
-    "staticfiles": {        
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage"
+    },
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
 
 AWS_ACCESS_KEY_ID = env.str("S3_ACCESS_KEY")
@@ -261,3 +268,21 @@ AWS_S3_ENDPOINT_URL = env.str("S3_ENDPOINT_URL")
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_SIGNATURE_VERSION = "s3v4"
+
+
+
+# testing localhost - wvh
+# SESSION_ENGINE ="django.contrib.sessions.backends.db"
+# SESSION_COOKIE_SECURE=False
+# CSRF_COOKIE_SECURE=False
+# SESSION_COOKIE_DOMAIN = None
+
+
+# if DEBUG:
+#     AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     ]
+
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]

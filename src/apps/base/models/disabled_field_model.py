@@ -1,4 +1,5 @@
 """apps.base.models.disabled_field_model."""
+
 from django.db import models
 
 

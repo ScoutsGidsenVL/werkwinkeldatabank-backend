@@ -1,4 +1,5 @@
 """apps.workshops.apps"""
+
 from django.apps import AppConfig
 
 

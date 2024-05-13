@@ -1,4 +1,5 @@
 """apps.workshops.api.serializers."""
+
 from rest_framework import serializers
 
 
@@ -11,9 +12,9 @@ class EnumOutputSerializer(serializers.Serializer):
         # Set id equal to value to make it easier for clients
         return self.get_value(obj)
 
-    def get_value(self, obj):
+    def get_value(self, dictionary):
         # Value of enum is 0 of tuple
-        return obj[0]
+        return dictionary[0]
 
     def get_label(self, obj):
         # Label of enum is 1 of tuple
