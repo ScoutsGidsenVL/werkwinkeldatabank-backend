@@ -1,4 +1,4 @@
-"""apps.admin.
+"""apps.workshops.admin.
 
 see https://codinggear.org/how-to-register-model-in-django-admin/
 
