@@ -32,13 +32,15 @@ import django.db.models as django_db_models
 import django.contrib.auth.models as django_contrib_auth_models
 import django.contrib.auth.models as djc_auth_models
 
-
 import apps.base.models as base_models
 import apps.files.models as files_models
 import apps.scouts_auth.models as scouts_auth_models
 import apps.workshops.models as workshops_models
 
+import rest_framework.test
 
+test_client = django.test.Client()
+api_client = rest_framework.test.APIClient()
 
 def login():
     """Log in with superuser-credentials.
