@@ -6,7 +6,8 @@
 
 def test_asgi():
     import django
-    from scouts_wwdb_api.asgi import  application
+
+    from scouts_wwdb_api.asgi import application
 
     assert application is not None
     assert isinstance(application, django.core.handlers.asgi.ASGIHandler)

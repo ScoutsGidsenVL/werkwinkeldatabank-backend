@@ -6,11 +6,8 @@
 
 def test_wsgi():
     import django
-    from scouts_wwdb_api.wsgi import  application
+
+    from scouts_wwdb_api.wsgi import application
 
     assert application is not None
     assert isinstance(application, django.core.handlers.wsgi.WSGIHandler)
-
-
-
-
