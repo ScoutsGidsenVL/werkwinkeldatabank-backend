@@ -572,9 +572,9 @@ pyhanko-certvalidator==0.26.5 ; python_version >= "3.9" and python_version < "3.
 pyhanko==0.25.3 ; python_version >= "3.9" and python_version < "3.10" \
     --hash=sha256:d66ec499f057191df100f322c2fd22949057a9b0d981f4e75bc077c1a817497f \
     --hash=sha256:e879fd44e20f4b7726e75c62e8c7b0c41ea41f8fa5bda626bc7d206ae3d30dec
-pyopenssl==24.3.0 ; python_version >= "3.9" and python_version < "3.10" \
-    --hash=sha256:49f7a019577d834746bc55c5fce6ecbcec0f2b4ec5ce1cf43a9a173b8138bb36 \
-    --hash=sha256:e474f5a473cd7f92221cc04976e48f4d11502804657a08a989fb3be5514c904a
+pyopenssl==25.0.0 ; python_version >= "3.9" and python_version < "3.10" \
+    --hash=sha256:424c247065e46e76a37411b9ab1782541c23bb658bf003772c3405fbaa128e90 \
+    --hash=sha256:cd2cef799efa3936bb08e8ccb9433a575722b9dd986023f1cabc4ae64e9dac16
 pypdf==5.1.0 ; python_version >= "3.9" and python_version < "3.10" \
     --hash=sha256:3bd4f503f4ebc58bae40d81e81a9176c400cbbac2ba2d877367595fb524dfdfc \
     --hash=sha256:425a129abb1614183fd1aca6982f650b47f8026867c0ce7c4b9f281c443d2740
