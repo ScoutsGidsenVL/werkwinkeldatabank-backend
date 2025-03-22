@@ -49,12 +49,10 @@ class BuildingBlockTemplateViewSet(viewsets.GenericViewSet):
         if self.action == "partial_update":
             current_permissions.append(BuildingBlockTemplateChangePermission())
         if self.action == "request_publication":
-            current_permissions.extend(
-                [
-                    CustomDjangoPermission("workshops.request_publication_buildingblocktemplate"),
-                    BuildingBlockTemplateChangePermission(),
-                ]
-            )
+            current_permissions.extend([
+                CustomDjangoPermission("workshops.request_publication_buildingblocktemplate"),
+                BuildingBlockTemplateChangePermission(),
+            ])
         if self.action == "publish":
             current_permissions.append(CustomDjangoPermission("workshops.publish_buildingblocktemplate"))
         if self.action == "unpublish":
