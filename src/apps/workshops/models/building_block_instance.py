@@ -136,13 +136,11 @@ class BuildingBlockInstance(BaseModel):
                 raise ValidationError("A building block of type {BuildingBlockType.THEMATIC.label} needs a theme")
             if self.category:
                 raise ValidationError(
-                    f"A building block of type { BuildingBlockType.THEMATIC.label} can't have a category"
+                    f"A building block of type {BuildingBlockType.THEMATIC.label} can't have a category"
                 )
 
         if self.building_block_type == BuildingBlockType.METHODIC:
             if not self.category:
                 raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
             if self.theme:
-                raise ValidationError(
-                    f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme"
-                )
+                raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme")

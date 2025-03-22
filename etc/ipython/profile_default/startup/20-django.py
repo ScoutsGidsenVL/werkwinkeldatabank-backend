@@ -14,6 +14,7 @@ so you can control the execution order of files with a prefix, e.g.::
 return-statements are not allowed.
 
 """
+
 print(f"Executing {__file__}")
 
 import os
@@ -42,6 +43,7 @@ import rest_framework.test
 test_client = django.test.Client()
 api_client = rest_framework.test.APIClient()
 
+
 def login():
     """Log in with superuser-credentials.
 
@@ -50,9 +52,10 @@ def login():
 
     """
     from django.contrib.auth import authenticate
-    superuser_username = os.getenv('DJANGO_SUPERUSER_USERNAME', "")
-    superuser_email = os.getenv('DJANGO_SUPERUSER_EMAIL', "")
-    superuser_password = os.getenv('DJANGO_SUPERUSER_PASSWORD', "")
+
+    superuser_username = os.getenv("DJANGO_SUPERUSER_USERNAME", "")
+    superuser_email = os.getenv("DJANGO_SUPERUSER_EMAIL", "")
+    superuser_password = os.getenv("DJANGO_SUPERUSER_PASSWORD", "")
 
     su = authenticate(username=superuser_username, password=superuser_password)
     assert su is not None

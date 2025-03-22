@@ -108,8 +108,6 @@ INSTALLED_APPS = [  # order alphabetically
 ]
 
 
-
-
 MIDDLEWARE = [  # actual ordering matters for middleware
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -125,7 +123,6 @@ if DEBUG:
     INSTALLED_APPS.append("django_extensions")
     INSTALLED_APPS.append("debug_toolbar")
     MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
-
 
 
 ROOT_URLCONF = "scouts_wwdb_api.urls"
@@ -268,7 +265,6 @@ AWS_S3_ENDPOINT_URL = env.str("S3_ENDPOINT_URL")
 AWS_DEFAULT_ACL = None
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_SIGNATURE_VERSION = "s3v4"
-
 
 
 # testing localhost - wvh
