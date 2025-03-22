@@ -7,7 +7,6 @@ import django
 
 
 def test_urls(client, client_superuser):
-
     resp = client.get("/admin/")
     assert resp.status_code == 302
     assert resp.url == "/admin/login/?next=/admin/"

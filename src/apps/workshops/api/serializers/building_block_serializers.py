@@ -237,9 +237,7 @@ class BuildingBlockInstanceNestedUpdateInputSerializer(serializers.Serializer):
         if not self.instance:
             raise Exception("Cant update building block that isnt already related to workshop")
         # Set the linked_template_values boolean of instance to get correct properties for validation
-        self.instance.linked_template_values = attrs.get(
-            "linked_template_values", self.instance.linked_template_values
-        )
+        self.instance.linked_template_values = attrs.get("linked_template_values", self.instance.linked_template_values)
 
         errors = get_theme_category_by_type_errors(
             attrs.get("template", self.instance.template).building_block_type,

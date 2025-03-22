@@ -75,6 +75,4 @@ class BuildingBlockTemplate(DisabledFieldModelMixin, AuditTimestampMixin, Create
             if not self.category:
                 raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} needs a category")
             if self.theme:
-                raise ValidationError(
-                    f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme"
-                )
+                raise ValidationError(f"A building block of type {BuildingBlockType.METHODIC.label} can't have a theme")

@@ -61,9 +61,10 @@ class WorkshopViewSet(viewsets.GenericViewSet):
         if self.action == "partial_update":
             current_permissions.append(WorkshopChangePermission())
         if self.action == "request_publication":
-            current_permissions.extend(
-                [CustomDjangoPermission("workshops.request_publication_workshop"), WorkshopChangePermission()]
-            )
+            current_permissions.extend([
+                CustomDjangoPermission("workshops.request_publication_workshop"),
+                WorkshopChangePermission(),
+            ])
         if self.action == "publish":
             current_permissions.append(CustomDjangoPermission("workshops.publish_workshop"))
         if self.action == "unpublish":

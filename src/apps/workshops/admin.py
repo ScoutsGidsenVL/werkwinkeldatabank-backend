@@ -3,7 +3,8 @@
 see https://codinggear.org/how-to-register-model-in-django-admin/
 
 """
-import itertools as it 
+
+import itertools as it
 
 import django
 
