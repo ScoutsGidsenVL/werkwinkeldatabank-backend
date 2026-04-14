@@ -40,6 +40,9 @@ etc/ipython/profile_default/db/
 # .env can contain secrets
 /.env
 
+# IDE
+/.idea
+
 # exclude toplevel var-directory with generated files
 /var/
 
