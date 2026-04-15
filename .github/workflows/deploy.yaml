@@ -7,7 +7,6 @@ on:
     branches:
       - production
       - staging
-      - dev
 
 permissions:
   contents: write
@@ -33,4 +32,4 @@ jobs:
           envs: BRANCH_NAME
           script: |
             echo "Branch: $BRANCH_NAME"
-            sudo -u ansible /opt/deploy-wwdb.sh backend ${BRANCH_NAME}
+            sudo -u ansible /opt/deploy-github-wwdb.sh backend ${BRANCH_NAME}
