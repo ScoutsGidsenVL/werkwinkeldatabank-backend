@@ -151,7 +151,8 @@ WSGI_APPLICATION = "scouts_wwdb_api.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        # PostgreSQL 13 is end-of-life, tijdelijke backend tot de upgrade naar 14+
+        "ENGINE": "scouts_wwdb_api.postgresql13_eol",
         "NAME": env.str("DBNAME"),
         "USER": env.str("DBUSER"),
         "PASSWORD": env.str("DBPASSWORD"),
