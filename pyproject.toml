@@ -1,6 +1,49 @@
-[build-system]
-requires = ["poetry-core>=1.4.0"]
-build-backend = "poetry.core.masonry.api"
+[project]
+name = "werkwinkeldatabank-backend"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "boto3>=1.34.39",
+    "django>=5.2,<6.0",
+    "django-cors-headers>=3.0",
+    "dj-email-url>=1.0.1",
+    "django-debug-toolbar>=4.3.0",
+    "django-extensions>=3.2.3",
+    "django-filter>=23.5",
+    "django-sql-middleware>=0.0.7",
+    "django-storages>=1.10.1",
+    "djangorestframework>=3.14",
+    "drf-yasg>=1.21.4",
+    "environs>=8.0.0",
+    "gunicorn>=26,<27",
+    "marshmallow>=3.26.2,<4",
+    "mozilla-django-oidc>=4.0.0",
+    "packaging>=23.2",
+    "psycopg2-binary>=2.8.5",
+    "pypdf>=6.21.4,<7",
+    "pyyaml>=6.0.1",
+    "requests>=2.24.0",
+    "urllib3>=1.26.18",
+    "xhtml2pdf>=0.2.15",
+]
+
+[dependency-groups]
+# tools voor ontwikkeling en CI; Ansible installeert met --no-dev
+dev = [
+    "pytest>=7.0",
+    "pytest-django>=4.5.2",
+    "pytest-cov>=3.0",
+    "coverage[toml]>=6.2",
+    "black>=24.4.2",
+    "isort>=5.13.2",
+    "ruff>=0.0",
+    "pylint>=3.1.0",
+    "pylint-django>=2.5.5",
+]
+
+[tool.uv]
+# applicatie, geen pakket: uv bouwt of installeert het project zelf niet
+package = false
 
 
 [tool.black]
@@ -45,78 +88,6 @@ skip_glob = '^((?!py$).)*$'   # isort all Python files
 # profile = "black"
 # force_single_line = true
 # lines_after_imports = 2
-
-[tool.poetry]
-name = "scouts_wwdb_api"
-version = "0.1.0"
-description = "A werkwinkeldatabank api"
-authors = ["Jonas Elst <jonas.elst@inuits.eu>"]
-maintainers = [
-    "Tinus Van Langendonck <tvl@scoutsengidsenvlaanderen.be>",
-    "Wouter Vanden Hove <wouter@libranet.eu>",
-    ]
-homepage = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
-repository = "https://github.com/ScoutsGidsenVL/werkwinkel-backend"
-keywords = ["django", "scouts", "werkwinkel"]
-packages = [
-    { include = "apps", from = "src" },
-    { include = "scouts_wwdb_api", from = "src" },
-]
-
-[tool.poetry.dependencies]
-python = ">=3.11,<3.12"
-boto3 = ">=1.34.39"
-django = ">=5.2,<6.0"
-django-cors-headers = ">=3.0"
-dj-email-url = ">=1.0.1"
-django-debug-toolbar = ">=4.3.0"
-django-extensions = ">=3.2.3"
-django-filter = ">=23.5"
-django-sql-middleware = ">=0.0.7"
-django-storages = ">=1.10.1"
-djangorestframework = ">=3.14"
-drf-yasg = ">=1.21.4"
-environs = ">=8.0.0"
-marshmallow = ">=3.26.2,<4"
-mozilla-django-oidc = ">=4.0.0"
-packaging = ">=23.2"
-psycopg2-binary = ">=2.8.5"
-pypdf = ">=6.21.4,<7"
-pyyaml = ">=6.0.1"
-requests = ">=2.24.0"
-urllib3= ">=1.26.18"
-xhtml2pdf = ">=0.2.15"
-
-
-[tool.poetry.group.dev.dependencies]
-autoread-dotenv = ">=1.0.2"
-black = ">=24.4.2"
-isort = ">=5.13.2"
-pylint = ">=3.1.0"
-pylint-django = ">=2.5.5"
-ruff = ">=0.0"
-
-[tool.poetry.group.ipython.dependencies]
-ipdb = ">=0.13"
-ipython = ">=8.18"
-
-[tool.poetry.group.testing.dependencies]
-coverage = { extras = ["toml"], version = ">=6.2" }
-factory-boy = ">=3.3.0"
-hypothesis = ">=6.72"
-pytest = ">=7.0"
-pytest-clarity = ">=1.0"
-pytest-codecov = ">=0.5"
-pytest-cov = ">=3.0"
-pytest-click = ">=1.1"
-pytest-django = ">=4.5.2"
-pytest-mock = ">=3.6"
-pytest-xdist = ">=3.2"
-tox = ">=4.0"
-
-[tool.poetry.group.typing.dependencies]
-django-stubs = ">=5.2,<6.0"
-mypy = ">=1.9"
 
 [tool.pylint.format]
 max-line-length = 120
