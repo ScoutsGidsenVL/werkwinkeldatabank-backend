@@ -467,15 +467,15 @@ wheels = [
 
 [[package]]
 name = "django-debug-toolbar"
-version = "5.1.0"
+version = "8.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
     { name = "sqlparse" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5b/6b/41281bf3f9939713010f24f46a033a74cf90599f52f09aaa8b0b118692b7/django_debug_toolbar-5.1.0.tar.gz", hash = "sha256:8a3b9da4aeab8d384a366e20304bd939a451f0242523c5b7b402248ad474eed2", size = 294567, upload-time = "2025-03-20T16:17:08.496Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4f/3d/aa093a841f32837311538e7952f5548b1a9c605a5aba5395163fbc54ac59/django_debug_toolbar-8.0.0.tar.gz", hash = "sha256:cae32d3e441e608f39f3f1ca6b3f028c38d5d04d74c98d8ab96d46022dee3163", size = 1239141, upload-time = "2026-09-01T18:27:56.934Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/62/ce/39831ce0a946979fdf19c32e6dcd1754a70e3280815aa7a377f61d5e021c/django_debug_toolbar-5.1.0-py3-none-any.whl", hash = "sha256:c0591e338ee9603bdfce5aebf8d18ca7341fdbb69595e2b0b34869be5857180e", size = 261531, upload-time = "2025-03-20T16:17:05.812Z" },
+    { url = "https://files.pythonhosted.org/packages/22/bd/ffd3f171940c58cca7971d1e5b81d6ab67b85a9569fe9d9fe13f7fbd1c99/django_debug_toolbar-8.0.0-py3-none-any.whl", hash = "sha256:329dfd6e1c26d9b4501a5cc69294c8bb734206ccb1bd36e96afc4d14128b630a", size = 437877, upload-time = "2026-09-01T18:27:55.018Z" },
 ]
 
 [[package]]
@@ -1713,7 +1713,7 @@ requires-dist = [
     { name = "dj-email-url", specifier = ">=1.0.1" },
     { name = "django", specifier = ">=5.2,<6.0" },
     { name = "django-cors-headers", specifier = ">=4.9.0" },
-    { name = "django-debug-toolbar", specifier = ">=4.3.0" },
+    { name = "django-debug-toolbar", specifier = ">=8.0.0" },
     { name = "django-extensions", specifier = ">=3.2.3" },
     { name = "django-filter", specifier = ">=23.5" },
     { name = "django-sql-middleware", specifier = ">=0.0.7" },
