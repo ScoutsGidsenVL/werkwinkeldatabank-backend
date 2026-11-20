@@ -1,0 +1,76 @@
+name: Controle
+
+# Geen concurrency: een aangeroepen workflow deelt github.workflow met de aanroeper
+# en zou zichzelf blokkeren.
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        # PostgreSQL 13 zoals de engine scouts_wwdb_api.postgresql13_eol
+        image: postgres:13
+        env:
+          POSTGRES_DB: wwdb
+          POSTGRES_USER: wwdb
+          POSTGRES_PASSWORD: dummy
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # enkel dummywaarden, geen secrets
+      SECRET_KEY: dummy
+      ALLOWED_HOSTS: localhost
+      BASE_URL: http://localhost:8000
+      DBNAME: wwdb
+      DBUSER: wwdb
+      DBPASSWORD: dummy
+      DBHOST: localhost
+      DBPORT: "5432"
+      STATICFILES_EXPORT_WWDB: /tmp/wwdb/static-export
+      STATIC_ROOT: /tmp/wwdb/static
+      EMAIL_URL: console://
+      EMAIL_SENDER: noreply@example.com
+      EMAIL_RECIPIENTS: noreply@example.com
+      CORS_ORIGIN_WHITELIST: http://localhost:8080
+      OIDC_OP_JWKS_ENDPOINT: http://localhost/jwks
+      OIDC_OP_AUTHORIZATION_ENDPOINT: http://localhost/auth
+      OIDC_OP_TOKEN_ENDPOINT: http://localhost/token
+      OIDC_OP_USER_ENDPOINT: http://localhost/userinfo
+      OIDC_RP_CLIENT_ID: dummy
+      OIDC_RP_CLIENT_SECRET: dummy
+      S3_ACCESS_KEY: dummy
+      S3_ACCESS_SECRET: dummy
+      S3_STORAGE_BUCKET_NAME: dummy
+      S3_ENDPOINT_URL: http://localhost:9000
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          # de Python-versie van de server
+          python-version: "3.11"
+      - name: uv.lock komt overeen met pyproject.toml
+        run: |
+          if ! uv lock --check; then
+            echo "::error::uv.lock is niet bijgewerkt. Draai \`uv lock\` en commit uv.lock."
+            exit 1
+          fi
+      - name: Installeren
+        run: uv sync --locked
+      - name: Django check
+        run: uv run --no-sync python src/manage.py check
+      - name: Tests
+        env:
+          # test_settings verwacht DEBUG aan, en apps.* moet importeerbaar zijn uit src
+          DEBUG: "True"
+          PYTHONPATH: src
+        run: uv run --no-sync pytest
