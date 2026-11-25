@@ -3,7 +3,7 @@ name = "werkwinkeldatabank-backend"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
-    "boto3>=1.44.3",
+    "boto3>=1.44.7",
     "django>=5.2,<6.0",
     "django-cors-headers>=4.9.0",
     "dj-email-url>=1.0.1",
@@ -30,14 +30,14 @@ dependencies = [
 [dependency-groups]
 # tools voor ontwikkeling en CI; Ansible installeert met --no-dev
 dev = [
-    "pytest>=9.0.3",
+    "pytest>=9.2.0",
     "pytest-django>=4.5.2",
     "pytest-cov>=3.0",
     "coverage[toml]>=6.2",
     "black>=24.4.2",
     "isort>=9.0.2",
-    "ruff>=0.17.5",
-    "pylint>=4.0.9",
+    "ruff>=0.17.6",
+    "pylint>=4.1.4",
     "pylint-django>=2.8.0",
 ]
 
